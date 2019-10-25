@@ -17,12 +17,16 @@ public class ClientSubPollThread extends Thread {
         msgEPartition temp;
 
         while (true) {
+
+            temp = null;
+
             synchronized (queue) {
-                if (!queue.isEmpty()) {
+                if (!queue.isEmpty())
                     temp = queue.poll();
-                    //System.out.println(temp);
-                }
             }
+
+            if(temp != null)
+                System.out.println(temp);
         }
     }
 }
