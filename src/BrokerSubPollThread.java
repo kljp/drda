@@ -35,8 +35,8 @@ public class BrokerSubPollThread extends Thread {
                 synchronized (pubQueue) {
                     if (!pubQueue.isEmpty()) {
                         temp = pubQueue.poll();
-                        //System.out.println(temp);
-                        temp.writeTo(dataOutputStream);
+//                        System.out.println(temp);
+                        temp.writeDelimitedTo(dataOutputStream);
                     }
                 }
             }

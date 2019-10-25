@@ -10,13 +10,12 @@ import java.util.Queue;
 public class LoadBalancerMain {
 
     public static HashMap<String, Integer> PortList;
+    public static HashMap<String, Queue<msgEPartition>> subQueues = new HashMap<String, Queue<msgEPartition>>();
+    public static HashMap<String, Queue<msgEPartition>> pubQueues = new HashMap<String, Queue<msgEPartition>>();
+    public static HashMap<Integer, String> IPMap = new HashMap<Integer, String>();
 
     public static void main(String[] args) {
 
-        HashMap<String, Queue<msgEPartition>> subQueues = new HashMap<String, Queue<msgEPartition>>();
-        HashMap<String, Queue<msgEPartition>> pubQueues = new HashMap<String, Queue<msgEPartition>>();
-        HashMap<Integer, String> IPMap = new HashMap<Integer, String>();
-        HashMap<String, Integer> PortList;
         SubspaceAllocator subspaceAllocator = new SubspaceAllocator();
         AttributeOrderSorter attributeOrderSorter = new AttributeOrderSorter(new AttributeOrder());
         ReplicationGenerator replicationGenerator = new ReplicationGenerator();

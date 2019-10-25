@@ -4,20 +4,21 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Queue;
 
-public class LoadBalancerRecvThread extends Thread {
+public class LoadBalancerPubRecvThread extends Thread {
 
-    private Socket socket = null;
+    private Socket socket;
     private HashMap<String, Queue<msgEPartition>> queues;
     private HashMap<Integer, String> IPMap;
     private SubspaceAllocator subspaceAllocator;
     private AttributeOrderSorter attributeOrderSorter;
     private ReplicationGenerator replicationGenerator;
 
-    public LoadBalancerRecvThread(Socket socket, HashMap<String, Queue<msgEPartition>> queues, HashMap<Integer, String> IPMap,
-                                  SubspaceAllocator subspaceAllocator, AttributeOrderSorter attributeOrderSorter, ReplicationGenerator replicationGenerator) {
+    public LoadBalancerPubRecvThread(Socket socket, HashMap<String, Queue<msgEPartition>> queues, HashMap<Integer, String> IPMap,
+                                     SubspaceAllocator subspaceAllocator, AttributeOrderSorter attributeOrderSorter, ReplicationGenerator replicationGenerator) {
 
         this.socket = socket;
         this.queues = queues;
@@ -32,36 +33,37 @@ public class LoadBalancerRecvThread extends Thread {
 
         msgEPartition temp;
         String tempStr;
-        DataInputStream dataInputStream = null;
+        DataInputStream dataInputStream;
         InetSocketAddress remoteSocketAddress;
         String remoteHostName;
         msgEPartition[] messages;
+        int count = 0;
 
         try {
             dataInputStream = new DataInputStream(socket.getInputStream());
+            count = dataInputStream.readInt();
 
-            while (true) {
+            for (int i = 0; i < count; i++) {
 
-                temp = msgEPartition.parseFrom(dataInputStream);
-
+                temp = msgEPartition.parseDelimitedFrom(dataInputStream);
                 remoteSocketAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
                 remoteHostName = remoteSocketAddress.getAddress().getHostAddress();
                 temp = attributeOrderSorter.sortAttributeOrder(temp);
                 temp = subspaceAllocator.allocateSubspace(temp);
                 temp = replicationGenerator.setIPAddress(temp, remoteHostName);
-                messages = replicationGenerator.generateReplicates(temp);
+//                System.out.println(temp);
 
-                for (int i = 0; i < messages.length; i++) {
+                tempStr = IPMap.get(MurmurHash.hash32(temp.getSubspace((int) Math.random() % temp.getSubspaceList().size())) % IPMap.size());
 
-                    tempStr = IPMap.get(MurmurHash.hash32(messages[i].getSubspaceForward()) % IPMap.size());
+                synchronized (queues.get(tempStr)) {
+                    queues.get(tempStr).add(temp);
 
-                    synchronized (queues.get(tempStr)) {
-                        queues.get(tempStr).add(messages[i]);
-                    }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 }

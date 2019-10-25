@@ -13,12 +13,11 @@ public class BrokerMain {
 
     public static ArrayList<String> IPList;
     public static HashMap<String, Integer> PortList;
+    public static Queue<msgEPartition> pubQueue = new LinkedList<msgEPartition>();
+    public static Queue<msgEPartition> subQueue = new LinkedList<msgEPartition>();
+    public static ArrayList<msgEPartition> subscriptions = new ArrayList<msgEPartition>();
 
     public static void main(String[] args) {
-
-        Queue<msgEPartition> pubQueue = new LinkedList<msgEPartition>();
-        Queue<msgEPartition> subQueue = new LinkedList<msgEPartition>();
-        ArrayList<msgEPartition> subscriptions = new ArrayList<msgEPartition>();
 
         IPList = null;
         PortList = null;

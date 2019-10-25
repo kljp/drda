@@ -42,8 +42,8 @@ public class LoadBalancerPollThread extends Thread {
                 synchronized (queues.get(remoteHostName)) {
                     if (!queues.get(remoteHostName).isEmpty()) {
                         temp = queues.get(remoteHostName).poll();
-                        //System.out.println(temp);
-                        temp.writeTo(dataOutputStream);
+//                        System.out.println(temp);
+                        temp.writeDelimitedTo(dataOutputStream);
                     }
                 }
 

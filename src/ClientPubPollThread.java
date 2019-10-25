@@ -11,12 +11,14 @@ public class ClientPubPollThread extends Thread {
     private String LB_IP;
     private int LB_PORT;
     private Queue<msgEPartition> queue;
+    private int count;
 
-    public ClientPubPollThread(String SERVER_IP, int SERVER_PORT, Queue<msgEPartition> queue) {
+    public ClientPubPollThread(String SERVER_IP, int SERVER_PORT, Queue<msgEPartition> queue, int count) {
 
         this.LB_IP = SERVER_IP;
         this.LB_PORT = SERVER_PORT;
         this.queue = queue;
+        this.count = count;
     }
 
     @Override
@@ -24,6 +26,7 @@ public class ClientPubPollThread extends Thread {
 
         Socket socket;
         msgEPartition temp;
+        int curCount = 0;
 
         socket = new Socket();
 
@@ -31,12 +34,21 @@ public class ClientPubPollThread extends Thread {
             socket.connect(new InetSocketAddress(LB_IP, LB_PORT));
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
+            dataOutputStream.writeInt(count);
+            dataOutputStream.flush();
+
             while (true) {
                 synchronized (queue) {
                     if (!queue.isEmpty()) {
                         temp = queue.poll();
-                        //System.out.println(temp);
-                        temp.writeTo(dataOutputStream);
+//                        System.out.println(temp);
+                        temp.writeDelimitedTo(dataOutputStream);
+                        dataOutputStream.flush();
+                        curCount++;
+
+                        if(curCount == count)
+                            break;
+
                     }
                 }
             }

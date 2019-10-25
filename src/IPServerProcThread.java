@@ -86,8 +86,8 @@ public class IPServerProcThread extends Thread{
         try {
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
             dataOutputStream.writeUTF(temp);
-            dataOutputStream.flush();
-            dataOutputStream.close();
+//            dataOutputStream.flush();
+//            dataOutputStream.close();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectOutputStream.writeObject(PortList);
             objectOutputStream.flush();

@@ -34,7 +34,8 @@ public class BrokerSubRecvThread extends Thread{
 
             while (true) {
 
-                temp = msgEPartition.parseFrom(dataInputStream);
+                temp = msgEPartition.parseDelimitedFrom(dataInputStream);
+//                System.out.println(temp);
 
                 synchronized (queue) {
                     queue.add(temp);

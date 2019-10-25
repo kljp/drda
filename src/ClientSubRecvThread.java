@@ -29,7 +29,7 @@ public class ClientSubRecvThread extends Thread{
 
             while (true) {
 
-                temp = msgEPartition.parseFrom(dataInputStream);
+                temp = msgEPartition.parseDelimitedFrom(dataInputStream);
 
                 synchronized (queue) {
                     queue.add(temp);

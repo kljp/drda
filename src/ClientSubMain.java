@@ -35,7 +35,7 @@ public class ClientSubMain {
         try {
             socket.connect(new InetSocketAddress(LB_IP, LB_PORT));
             DataOutputStream dataOutputStream= new DataOutputStream(socket.getOutputStream());
-            message.writeTo(dataOutputStream);
+            message.writeDelimitedTo(dataOutputStream);
             dataOutputStream.flush();
             dataOutputStream.close();
         } catch (IOException e) {
@@ -60,7 +60,7 @@ public class ClientSubMain {
 
             while (true) {
                 Socket subSocket = serverSocket.accept();
-                new ClientSubRecvThread(socket, queue).start();
+                new ClientSubRecvThread(subSocket, queue).start();
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -5,11 +5,13 @@ import java.util.HashMap;
 
 public class IPServerMain {
 
+    public static ArrayList<String> IPList = new ArrayList<String>(); // The list of load balancers
+    public static HashMap<String, Integer> PortList = new HashMap<String, Integer>();
+    public static HashMap<String, Integer> IPSPortList = new HashMap<String, Integer>();
+
     public static void main(String[] args) {
 
-        ArrayList<String> IPList = new ArrayList<String>(); // The list of load balancers
-        HashMap<String, Integer> PortList = new HashMap<String, Integer>();
-        HashMap<String, Integer> IPSPortList = new HashMap<String, Integer>();
+
 
         PortList.put("LB_SUB_PORT", 5002); // Convention: (Server_Client_Port, PORT)
         PortList.put("LB_PUB_PORT", 5003);

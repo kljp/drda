@@ -53,9 +53,9 @@ public class LoadBalancerConnThread extends Thread {
                 if (clientType.equals("client")) {
 
                     if (msgType.equals("subscription"))
-                        new LoadBalancerRecvThread(socket, queues, IPMap, subspaceAllocator, attributeOrderSorter, replicationGenerator).start(); // each branch will be modified whether the incoming message is subscription or not.
+                        new LoadBalancerSubRecvThread(socket, queues, IPMap, subspaceAllocator, attributeOrderSorter, replicationGenerator).start(); // each branch will be modified whether the incoming message is subscription or not.
                     else
-                        new LoadBalancerRecvThread(socket, queues, IPMap, subspaceAllocator, attributeOrderSorter, replicationGenerator).start();
+                        new LoadBalancerPubRecvThread(socket, queues, IPMap, subspaceAllocator, attributeOrderSorter, replicationGenerator).start();
                 } else {
                     if(msgType.equals("subscription"))
                         new LoadBalancerPollThread(socket, queues, IPMap).start();

@@ -15,19 +15,20 @@ public class ClientPubMain {
     private static int LB_PORT;
     private static final String msgType = "Publication";
     public static HashMap<String, Integer> PortList;
+    public static Queue<msgEPartition> queue = new LinkedList<msgEPartition>();
 
     public static void main(String[] args) {
 
         getIPAddress();
         LB_PORT = PortList.get("LB_PUB_PORT");
 
-        Queue<msgEPartition> queue = new LinkedList<msgEPartition>();
-        new ClientPubPollThread(LB_IP, LB_PORT, queue).start();
-
         MessageWrapper messageWrapper;
         msgEPartition message;
+        int count = GlobalState.PUB_COUNT;
 
-        for (int i = 0; i < 100; i++) { // Publish i messages
+        new ClientPubPollThread(LB_IP, LB_PORT, queue, count).start();
+
+        for (int i = 0; i < count; i++) { // Publish i messages - only works when count is 1
 
             messageWrapper = new MessageWrapper(msgType, new RangeGenerator().randomValueGenerator());
             message = messageWrapper.buildMsgEPartition();
