@@ -1,0 +1,78 @@
+import com.EPartition.EPartitionMessageSchema.msgEPartition;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.Queue;
+
+public class LoadBalancerConnThread extends Thread {
+
+    private int LB_PORT;
+    private String clientType;
+    private String msgType;
+    private HashMap<String, Queue<msgEPartition>> queues;
+    private HashMap<Integer, String> IPMap;
+    private SubspaceAllocator subspaceAllocator;
+    private AttributeOrderSorter attributeOrderSorter;
+    private ReplicationGenerator replicationGenerator;
+
+    public LoadBalancerConnThread(int LB_PORT, String clientType, String msgType, HashMap<String, Queue<msgEPartition>> queues, HashMap<Integer, String> IPMap) {  // for brokers
+
+        this.LB_PORT = LB_PORT;
+        this.clientType = clientType;
+        this.msgType = msgType;
+        this.queues = queues;
+        this.IPMap = IPMap;
+    }
+
+    public LoadBalancerConnThread(int LB_PORT, String clientType, String msgType, HashMap<String, Queue<msgEPartition>> queues, HashMap<Integer, String> IPMap, // for clients
+                                  SubspaceAllocator subspaceAllocator, AttributeOrderSorter attributeOrderSorter, ReplicationGenerator replicationGenerator) {
+
+        this.LB_PORT = LB_PORT;
+        this.clientType = clientType;
+        this.msgType = msgType;
+        this.queues = queues;
+        this.IPMap = IPMap;
+        this.subspaceAllocator = subspaceAllocator;
+        this.attributeOrderSorter = attributeOrderSorter;
+        this.replicationGenerator = replicationGenerator;
+    }
+
+    @Override
+    public void run() {
+
+        ServerSocket serverSocket = null;
+
+        try {
+            serverSocket = new ServerSocket(LB_PORT);
+
+            while (true) {
+                Socket socket = serverSocket.accept();
+
+                if (clientType.equals("client")) {
+
+                    if (msgType.equals("subscription"))
+                        new LoadBalancerRecvThread(socket, queues, IPMap, subspaceAllocator, attributeOrderSorter, replicationGenerator).start(); // each branch will be modified whether the incoming message is subscription or not.
+                    else
+                        new LoadBalancerRecvThread(socket, queues, IPMap, subspaceAllocator, attributeOrderSorter, replicationGenerator).start();
+                } else {
+                    if(msgType.equals("subscription"))
+                        new LoadBalancerPollThread(socket, queues, IPMap).start();
+                    else
+                        new LoadBalancerPollThread(socket, queues, IPMap).start();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (serverSocket != null && !serverSocket.isClosed()) {
+                    serverSocket.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
