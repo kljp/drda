@@ -11,11 +11,11 @@ import java.util.Queue;
 
 public class BrokerMain {
 
-    public static ArrayList<String> IPList;
-    public static HashMap<String, Integer> PortList;
-    public static Queue<msgEPartition> pubQueue = new LinkedList<msgEPartition>();
-    public static Queue<msgEPartition> subQueue = new LinkedList<msgEPartition>();
-    public static ArrayList<msgEPartition> subscriptions = new ArrayList<msgEPartition>();
+    private static ArrayList<String> IPList;
+    private static HashMap<String, Integer> PortList;
+    private static Queue<msgEPartition> pubQueue = new LinkedList<msgEPartition>();
+    private static Queue<msgEPartition> subQueue = new LinkedList<msgEPartition>();
+    private static ArrayList<msgEPartition> subscriptions = new ArrayList<msgEPartition>();
 
     public static void main(String[] args) {
 
@@ -30,7 +30,7 @@ public class BrokerMain {
         }
     }
 
-    public static void getAddressList(){
+    private static void getAddressList(){
 
         Socket socket = new Socket();
         try {

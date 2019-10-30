@@ -50,9 +50,14 @@ public class LoadBalancerSubRecvThread extends Thread {
 
             messages = replicationGenerator.generateReplicates(temp);
 
+            if(messages.length > 1)
+                messages = replicationGenerator.preventDuplicates(messages, IPMap);
+
             for (int i = 0; i < messages.length; i++) {
 
-                tempStr = IPMap.get(MurmurHash.hash32(messages[i].getSubspaceForward()) % IPMap.size());
+                synchronized (IPMap){
+                    tempStr = IPMap.get(MurmurHash.hash32(messages[i].getSubspaceForward()) % IPMap.size());
+                }
 
                 synchronized (queues.get(tempStr)) {
                     queues.get(tempStr).add(messages[i]);

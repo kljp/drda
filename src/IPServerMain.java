@@ -5,15 +5,14 @@ import java.util.HashMap;
 
 public class IPServerMain {
 
-    public static ArrayList<String> IPList = new ArrayList<String>(); // The list of load balancers
-    public static HashMap<String, Integer> PortList = new HashMap<String, Integer>();
-    public static HashMap<String, Integer> IPSPortList = new HashMap<String, Integer>();
+    private static ArrayList<String> IPList = new ArrayList<String>(); // The list of load balancers
+    private static HashMap<String, Integer> PortList = new HashMap<String, Integer>();
+    private static HashMap<String, Integer> IPSPortList = new HashMap<String, Integer>();
 
     public static void main(String[] args) {
 
-
-
-        PortList.put("LB_SUB_PORT", 5002); // Convention: (Server_Client_Port, PORT)
+        PortList.put("LB_LB_PORT", 5001); // Convention: (Server_Client_Port, PORT)
+        PortList.put("LB_SUB_PORT", 5002);
         PortList.put("LB_PUB_PORT", 5003);
         PortList.put("LB_BROKER_PUB_PORT", 5004);
         PortList.put("LB_BROKER_SUB_PORT", 5005);

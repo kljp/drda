@@ -51,7 +51,6 @@ public class BrokerPubRecvThread extends Thread{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 }

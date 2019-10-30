@@ -1,7 +1,6 @@
 import com.EPartition.EPartitionMessageSchema.msgEPartition;
 
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -52,7 +51,6 @@ public class BrokerSubRecvThread extends Thread{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 }

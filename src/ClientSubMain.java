@@ -17,7 +17,7 @@ public class ClientSubMain {
     private static int LB_PORT;
     private static int SUB_PORT;
     private static final String msgType = "Subscription";
-    public static HashMap<String, Integer> PortList;
+    private static HashMap<String, Integer> PortList;
 
     public static void main(String[] args) {
 
@@ -75,7 +75,7 @@ public class ClientSubMain {
         }
     }
 
-    public static void getIPAddress(){
+    private static void getIPAddress(){
 
         Socket socket = new Socket();
 

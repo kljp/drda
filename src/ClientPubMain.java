@@ -14,8 +14,8 @@ public class ClientPubMain {
     private static String LB_IP;
     private static int LB_PORT;
     private static final String msgType = "Publication";
-    public static HashMap<String, Integer> PortList;
-    public static Queue<msgEPartition> queue = new LinkedList<msgEPartition>();
+    private static HashMap<String, Integer> PortList;
+    private static Queue<msgEPartition> queue = new LinkedList<msgEPartition>();
 
     public static void main(String[] args) {
 
@@ -28,7 +28,7 @@ public class ClientPubMain {
 
         new ClientPubPollThread(LB_IP, LB_PORT, queue, count).start();
 
-        for (int i = 0; i < count; i++) { // Publish i messages - only works when count is 1
+        for (int i = 0; i < count; i++) { // Publish i messages
 
             messageWrapper = new MessageWrapper(msgType, new RangeGenerator().randomValueGenerator());
             message = messageWrapper.buildMsgEPartition();
@@ -39,7 +39,7 @@ public class ClientPubMain {
         }
     }
 
-    public static void getIPAddress(){
+    private static void getIPAddress(){
 
         Socket socket = new Socket();
 

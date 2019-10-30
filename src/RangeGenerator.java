@@ -43,7 +43,9 @@ public class RangeGenerator {
 //                        continue;
 //                }
 
-                if (lowerbounds[i] <= upperbounds[i] && (upperbounds[i] - lowerbounds[i]) < 20) { // (GlobalState.maximumBounds[i] - GlobalState.minimumBounds[i]) / GlobalState.NumberOfSegmentsPerDimension
+                if (lowerbounds[i] <= upperbounds[i]
+                        && (upperbounds[i] - lowerbounds[i]) > GlobalState.UnderThresholdOfRange
+                        && (upperbounds[i] - lowerbounds[i]) < GlobalState.OverThresholdOfRange) { // (GlobalState.maximumBounds[i] - GlobalState.minimumBounds[i]) / GlobalState.NumberOfSegmentsPerDimension
                     lowerbounds[i] = Math.round(lowerbounds[i] * 100) / 100.0;
                     upperbounds[i] = Math.round(upperbounds[i] * 100) / 100.0;
                     break;

@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Queue;
 
@@ -53,7 +52,9 @@ public class LoadBalancerPubRecvThread extends Thread {
                 temp = replicationGenerator.setIPAddress(temp, remoteHostName);
 //                System.out.println(temp);
 
-                tempStr = IPMap.get(MurmurHash.hash32(temp.getSubspace((int) Math.random() % temp.getSubspaceList().size())) % IPMap.size());
+                synchronized (IPMap){
+                    tempStr = IPMap.get(MurmurHash.hash32(temp.getSubspace((int) Math.random() % temp.getSubspaceList().size())) % IPMap.size());
+                }
 
                 synchronized (queues.get(tempStr)) {
                     queues.get(tempStr).add(temp);

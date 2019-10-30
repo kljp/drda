@@ -1,3 +1,5 @@
+import javax.xml.crypto.Data;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -34,26 +36,69 @@ public class IPServerProcThread extends Thread{
             IPServerClientProc();
     }
 
-    public void IPServerLBProc(){
+    private void IPServerLBProc(){
 
         InetSocketAddress remoteSocketAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
         String remoteHostName = remoteSocketAddress.getAddress().getHostAddress();
-
-        synchronized (IPList){
-            IPList.add(remoteHostName);
-        }
+        int LBIdentifier = 0;
 
         try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            objectOutputStream.writeObject(PortList);
-            objectOutputStream.flush();
-            objectOutputStream.close();
+            DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+            String connType = dataInputStream.readUTF();
+
+            if(connType.equals("conn")){
+
+                synchronized (IPList){
+
+                    LBIdentifier = IPList.size();
+                    IPList.add(remoteHostName);
+                }
+
+                try {
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                    objectOutputStream.writeObject(PortList);
+                    objectOutputStream.flush();
+//            objectOutputStream.close();
+
+                    DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+                    dataOutputStream.writeInt(LBIdentifier);
+                    dataOutputStream.flush();
+
+                    if(LBIdentifier == 0)
+                        dataOutputStream.writeUTF(remoteHostName);
+                    else
+                        dataOutputStream.writeUTF(IPList.get(0));
+
+                    dataOutputStream.flush();
+                    dataOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            else if(connType.equals("elect")){
+
+                int curMaster = dataInputStream.readInt();
+                String LBMaster;
+                synchronized (IPList){
+
+                    LBMaster = IPList.get(curMaster);
+                }
+
+                DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+                dataOutputStream.writeUTF(LBMaster);
+                dataOutputStream.flush();
+                dataOutputStream.close();
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 
-    public void IPServerBrokerProc(){
+    private void IPServerBrokerProc(){
 
         ArrayList<String> temp;
 
@@ -73,7 +118,7 @@ public class IPServerProcThread extends Thread{
         }
     }
 
-    public void IPServerClientProc(){
+    private void IPServerClientProc(){
 
         String temp;
         InetSocketAddress remoteSocketAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
