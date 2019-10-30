@@ -35,6 +35,8 @@ public class LoadBalancerPollThread extends Thread {
         double[] lowerbounds = new double[GlobalState.NumberOfDimensions];
         double[] upperbounds = new double[GlobalState.NumberOfDimensions];
         int countExit;
+        int checkExit;
+        msgEPartition.Builder messageBuilder;
 
         synchronized (queues){
             if (!queues.containsKey(remoteHostName))
@@ -78,28 +80,52 @@ public class LoadBalancerPollThread extends Thread {
 
                             synchronized (loadStatus){
 
-                                for (int i = 0; i < loadStatus.get(remoteHostName).size(); i++) {
+                                if(temp.getTimestamp() == 0.0){
 
-                                    countExit = 0;
+                                    messageBuilder = msgEPartition.newBuilder();
+                                    messageBuilder.mergeFrom(temp);
+                                    messageBuilder.setTimestamp(System.currentTimeMillis());
+                                    temp = messageBuilder.build();
+                                    checkExit = 0;
+                                }
 
-                                    for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
+                                else{
 
-                                        if(temp.getPub().getSinglePoint(j) >= loadStatus.get(remoteHostName).get(i).getNthLowerBound(j)
-                                                && temp.getPub().getSinglePoint(j) <= loadStatus.get(remoteHostName).get(i).getNthUpperBound(j)){
-                                            countExit++;
+                                    if((System.currentTimeMillis() - temp.getTimestamp()) / 1000.0 > GlobalState.PeriodOfRetention)
+                                        checkExit = 1;
+                                    else
+                                        checkExit = 0;
+                                }
+
+                                if(checkExit == 0){
+
+                                    for (int i = 0; i < loadStatus.get(remoteHostName).size(); i++) {
+
+                                        countExit = 0;
+
+                                        for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
+
+                                            if(temp.getPub().getSinglePoint(j) >= loadStatus.get(remoteHostName).get(i).getNthLowerBound(j)
+                                                    && temp.getPub().getSinglePoint(j) <= loadStatus.get(remoteHostName).get(i).getNthUpperBound(j)){
+                                                countExit++;
+                                            }
+
+                                            else
+                                                break;
                                         }
 
-                                        else
+                                        if(countExit == GlobalState.NumberOfDimensions){
+
+                                            loadStatus.get(remoteHostName).get(i).setPubCount(loadStatus.get(remoteHostName).get(i).getPubCount() + 1);
+                                            temp.writeDelimitedTo(dataOutputStream);
+                                            checkExit = 1;
                                             break;
-                                    }
-
-                                    if(countExit == GlobalState.NumberOfDimensions){
-
-                                        loadStatus.get(remoteHostName).get(i).setPubCount(loadStatus.get(remoteHostName).get(i).getPubCount() + 1);
-                                        temp.writeDelimitedTo(dataOutputStream);
-                                        break;
+                                        }
                                     }
                                 }
+
+                                if(checkExit == 0)
+                                    queues.get(remoteHostName).add(temp);
                             }
                         }
                     }

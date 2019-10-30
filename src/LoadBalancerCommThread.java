@@ -1,11 +1,13 @@
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class LoadBalancerCommThread extends Thread {
 
@@ -15,6 +17,8 @@ public class LoadBalancerCommThread extends Thread {
     private int curMaster;
     private static ArrayList<Integer> wakeThread = new ArrayList<Integer>();
     private HashMap<String, ArrayList<PubCountObject>> loadStatus;
+    private static HashMap<String, LoadStatusObject> lsoMap = new HashMap<String, LoadStatusObject>();
+    private static double repDeg = GlobalState.REP_DEG_INIT;
 
     public LoadBalancerCommThread(int LBIdentifier, String LBMaster, int LB_PORT, HashMap<String, ArrayList<PubCountObject>> loadStatus) {
 
@@ -36,7 +40,7 @@ public class LoadBalancerCommThread extends Thread {
 
         if (LBIdentifier == curMaster) { // Only Master LB comes in.
 
-            new LoadBalancerMasterNotfThread(wakeThread).start();
+            new LoadBalancerMasterNotfThread(wakeThread, lsoMap, repDeg).start();
 
             try {
                 ServerSocket serverSocket = new ServerSocket(LB_PORT);
@@ -48,7 +52,7 @@ public class LoadBalancerCommThread extends Thread {
                         wakeThread.add(0);
                     }
 
-                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1).start();
+                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, lsoMap, repDeg).start();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -83,14 +87,45 @@ public class LoadBalancerCommThread extends Thread {
                 // In while loop, wait for request (by dataInputStream.readUTF())
                 // Then, receive request as string from the worker thread of master LB
                 DataInputStream dataInputStream = new DataInputStream(cliSocket.getInputStream());
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(cliSocket.getOutputStream());
                 String tempStr;
+                String key;
+                Iterator<String> keys;
+                ArrayList<LoadStatusObject> lsos;
+                LoadStatusObject lso;
 
                 while(true){
 
                     tempStr = dataInputStream.readUTF();
 
                     if(tempStr.equals("reduce")){
-                        // send ingredients of drda to the worker thread of master LB
+
+                        lsos = new ArrayList<LoadStatusObject>();
+
+                        synchronized (loadStatus){
+
+                            if(!loadStatus.isEmpty()){
+
+                                keys = loadStatus.keySet().iterator();
+
+                                while(keys.hasNext()){
+
+                                    key = keys.next();
+                                    lso = new LoadStatusObject(key);
+                                    lso.setNumSubscriptions(loadStatus.get(key).size());
+                                    lso.setAccessCount(0);
+
+                                    for (int i = 0; i < loadStatus.get(key).size(); i++)
+                                        lso.setAccessCount(lso.getAccessCount() + loadStatus.get(key).get(i).getPubCount());
+
+                                    lsos.add(lso);
+                                }
+                            }
+                        }
+
+                        objectOutputStream.writeObject(lsos);
+                        objectOutputStream.flush();
+                        repDeg = dataInputStream.readDouble();
                     }
                 }
             } catch (IOException e) {

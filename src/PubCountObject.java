@@ -3,6 +3,7 @@ public class PubCountObject {
     private double[] lowerbounds = new double[GlobalState.NumberOfDimensions];
     private double[] upperbounds = new double[GlobalState.NumberOfDimensions];
     private int pubCount;
+    private double timestamp;
 
     public PubCountObject(double[] lowerbounds, double[] upperbounds){
 
@@ -11,6 +12,7 @@ public class PubCountObject {
             this.lowerbounds[i] = lowerbounds[i];
             this.upperbounds[i] = upperbounds[i];
             this.pubCount = 0;
+            this.timestamp = 0.0;
         }
     }
 
@@ -32,5 +34,15 @@ public class PubCountObject {
     public double getNthUpperBound(int n){
 
         return this.upperbounds[n];
+    }
+
+    public void setTimestamp(int timestamp){
+
+        this.timestamp = timestamp;
+    }
+
+    public double getTimestamp(){
+
+        return this.timestamp;
     }
 }

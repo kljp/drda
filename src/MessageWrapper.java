@@ -26,6 +26,7 @@ public class MessageWrapper {
         msgEPartition.Builder message = msgEPartition.newBuilder();
         message.setIPAddress("MyIP");
         message.setPayload("MyPayload");
+        message.setTimestamp(0.0);
 
         for (int i = 0; i < GlobalState.NumberOfDimensions; i++)
             message.addAttribute(GlobalState.attributes2[i]);
