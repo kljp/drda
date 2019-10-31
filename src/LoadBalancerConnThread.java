@@ -17,16 +17,14 @@ public class LoadBalancerConnThread extends Thread {
     private SubspaceAllocator subspaceAllocator;
     private AttributeOrderSorter attributeOrderSorter;
     private ReplicationGenerator replicationGenerator;
-    private HashMap<String, ArrayList<PubCountObject>> loadStatus;
 
-    public LoadBalancerConnThread(int LB_PORT, String clientType, String msgType, HashMap<String, Queue<msgEPartition>> queues, HashMap<Integer, String> IPMap, HashMap<String, ArrayList<PubCountObject>> loadStatus) {  // for brokers
+    public LoadBalancerConnThread(int LB_PORT, String clientType, String msgType, HashMap<String, Queue<msgEPartition>> queues, HashMap<Integer, String> IPMap) {  // for brokers
 
         this.LB_PORT = LB_PORT;
         this.clientType = clientType;
         this.msgType = msgType;
         this.queues = queues;
         this.IPMap = IPMap;
-        this.loadStatus = loadStatus;
     }
 
     public LoadBalancerConnThread(int LB_PORT, String clientType, String msgType, HashMap<String, Queue<msgEPartition>> queues, HashMap<Integer, String> IPMap, // for clients
@@ -61,9 +59,9 @@ public class LoadBalancerConnThread extends Thread {
                         new LoadBalancerPubRecvThread(socket, queues, IPMap, subspaceAllocator, attributeOrderSorter, replicationGenerator).start();
                 } else {
                     if(msgType.equals("Subscription"))
-                        new LoadBalancerPollThread(socket, queues, IPMap, loadStatus).start();
+                        new LoadBalancerPollThread(socket, queues, IPMap).start();
                     else
-                        new LoadBalancerPollThread(socket, queues, IPMap, loadStatus).start();
+                        new LoadBalancerPollThread(socket, queues, IPMap).start();
                 }
             }
         } catch (IOException e) {

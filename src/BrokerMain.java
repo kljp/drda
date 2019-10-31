@@ -15,7 +15,7 @@ public class BrokerMain {
     private static HashMap<String, Integer> PortList;
     private static Queue<msgEPartition> pubQueue = new LinkedList<msgEPartition>();
     private static Queue<msgEPartition> subQueue = new LinkedList<msgEPartition>();
-    private static ArrayList<msgEPartition> subscriptions = new ArrayList<msgEPartition>();
+    private static ArrayList<PubCountObject> subscriptions = new ArrayList<PubCountObject>();
 
     public static void main(String[] args) {
 

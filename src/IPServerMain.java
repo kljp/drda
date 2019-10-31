@@ -17,6 +17,7 @@ public class IPServerMain {
         PortList.put("LB_BROKER_PUB_PORT", 5004);
         PortList.put("LB_BROKER_SUB_PORT", 5005);
         PortList.put("SUB_BROKER_PORT", 5006);
+        PortList.put("BROKER_LB_SYNC_PORT", 5010);
 
         IPSPortList.put("IPS_LB_PORT", 5007); // Convention: (Server_Client_Port, PORT)
         IPSPortList.put("IPS_BROKER_PORT", 5008);

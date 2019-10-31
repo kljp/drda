@@ -1,8 +1,5 @@
 import javax.xml.crypto.Data;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -16,7 +13,7 @@ public class IPServerProcThread extends Thread{
     private int IPS_PORT;
     private Socket socket;
 
-    public IPServerProcThread(ArrayList<String> IPList,HashMap<String, Integer> PortList, HashMap<String, Integer> IPSPortList, int IPS_PORT, Socket socket){
+    public IPServerProcThread(ArrayList<String> IPList, HashMap<String, Integer> PortList, HashMap<String, Integer> IPSPortList, int IPS_PORT, Socket socket){
 
         this.IPList = IPList;
         this.PortList = PortList;

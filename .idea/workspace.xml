@@ -2,16 +2,51 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1f4df35-4f8c-4679-84ab-99c365dbdc81" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/kljp.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/kljp.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EPartitionMessageSchema.proto" beforeDir="false" afterPath="$PROJECT_DIR$/src/EPartitionMessageSchema.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/BrokerMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/BrokerMain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/BrokerSubConnThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/BrokerSubConnThread.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/BrokerSubPollThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/BrokerSubPollThread.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/BrokerSubRecvThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/BrokerSubRecvThread.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/ClientSubMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/ClientSubMain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/EPartitionMessageSchema.proto" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/EPartitionMessageSchema.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/GlobalState.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/GlobalState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/LoadBalancerCommThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/LoadBalancerCommThread.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/LoadBalancerMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/LoadBalancerMain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/LoadBalancerMasterNotfThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/LoadBalancerMasterNotfThread.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/LoadBalancerMasterWorkThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/LoadBalancerMasterWorkThread.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/LoadBalancerPollThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/LoadBalancerPollThread.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/MessageWrapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/MessageWrapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/PubCountObject.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/PubCountObject.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Builder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Publication$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Publication$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Publication$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Publication$Builder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Publication.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Publication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Subscription$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Subscription$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Subscription$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Subscription$Builder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Subscription.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Subscription.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Unsubscription$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Unsubscription$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Unsubscription$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Unsubscription$Builder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Unsubscription.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition$Unsubscription.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartition.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartitionOrBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema$msgEPartitionOrBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/drda/com/EPartition/EPartitionMessageSchema.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BrokerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BrokerMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BrokerSubConnThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BrokerSubConnThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BrokerSubPollThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BrokerSubPollThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BrokerSubRecvThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BrokerSubRecvThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GlobalState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GlobalState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IPServerConnThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IPServerConnThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IPServerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IPServerMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IPServerProcThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/IPServerProcThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LoadBalancerCommThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoadBalancerCommThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LoadBalancerConnThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoadBalancerConnThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LoadBalancerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoadBalancerMain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LoadBalancerMasterNotfThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoadBalancerMasterNotfThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LoadBalancerMasterWorkThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoadBalancerMasterWorkThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LoadBalancerPollThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoadBalancerPollThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MessageWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MessageWrapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PubCountObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PubCountObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/EPartition/EPartitionMessageSchema.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/EPartition/EPartitionMessageSchema.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,24 +60,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/LoadBalancerCommThread.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/LoadBalancerPollThread.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
-              <caret line="121" column="33" lean-forward="true" selection-start-line="121" selection-start-column="33" selection-end-line="121" selection-end-column="33" />
+            <state relative-caret-position="419">
+              <caret line="37" column="46" selection-start-line="37" selection-start-column="46" selection-end-line="37" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#681#707#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/GlobalState.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="14" column="11" lean-forward="true" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -50,30 +75,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/LoadBalancerMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="22" column="44" lean-forward="true" selection-start-line="22" selection-start-column="44" selection-end-line="22" selection-end-column="44" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#728#763#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LoadStatusObject.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="2" column="29" lean-forward="true" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/LoadBalancerPollThread.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1430">
-              <caret line="83" lean-forward="true" selection-start-line="83" selection-end-line="83" />
+            <state relative-caret-position="342">
+              <caret line="29" column="25" selection-start-line="29" selection-start-column="25" selection-end-line="29" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -82,10 +85,76 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/PubCountObject.java">
+        <entry file="file://$PROJECT_DIR$/src/IPServerConnThread.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="13" column="30" lean-forward="true" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
+            <state relative-caret-position="442">
+              <caret line="29" column="30" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/IPServerProcThread.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="533">
+              <caret line="88" column="13" selection-start-line="88" selection-start-column="13" selection-end-line="88" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/IPServerMain.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="190">
+              <caret line="16" column="49" lean-forward="true" selection-start-line="16" selection-start-column="49" selection-end-line="16" selection-end-column="49" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#201#209#0" expanded="true" />
+                <element signature="e#309#326#0" expanded="true" />
+                <element signature="e#399#416#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/LoadBalancerSyncThread.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="404">
+              <caret line="25" column="61" lean-forward="true" selection-start-line="25" selection-start-column="61" selection-end-line="25" selection-end-column="61" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/LoadBalancerCommThread.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="423">
+              <caret line="111" column="91" lean-forward="true" selection-start-line="111" selection-start-column="91" selection-end-line="111" selection-end-column="91" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ClientPubMain.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="143">
+              <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -93,8 +162,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/LoadBalancerMasterNotfThread.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="35" column="47" lean-forward="true" selection-start-line="35" selection-start-column="47" selection-end-line="35" selection-end-column="47" />
+            <state relative-caret-position="609">
+              <caret line="62" column="34" lean-forward="true" selection-start-line="62" selection-start-column="34" selection-end-line="62" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -105,8 +174,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/LoadBalancerMasterWorkThread.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
-              <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
+            <state relative-caret-position="133">
+              <caret line="52" column="55" lean-forward="true" selection-start-line="52" selection-start-column="55" selection-end-line="52" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -129,8 +198,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/BrokerPubConnectThread.java" />
-        <option value="$PROJECT_DIR$/src/BrokerPubReceiveThread.java" />
         <option value="$PROJECT_DIR$/src/BrokerSubConnectThread.java" />
         <option value="$PROJECT_DIR$/src/BrokerSubReceiveThread.java" />
         <option value="$PROJECT_DIR$/src/IPServer.java" />
@@ -144,42 +211,44 @@
         <option value="$PROJECT_DIR$/src/IPServerBrokerConnThread.java" />
         <option value="$PROJECT_DIR$/src/IPServerClientConnThread.java" />
         <option value="$PROJECT_DIR$/src/IPServerLBConnThread.java" />
-        <option value="$PROJECT_DIR$/src/IPServerConnThread.java" />
         <option value="$PROJECT_DIR$/src/cli.java" />
         <option value="$PROJECT_DIR$/src/ser.java" />
         <option value="$PROJECT_DIR$/src/qwe.java" />
         <option value="$PROJECT_DIR$/src/AttributeOrderSorter.java" />
         <option value="$PROJECT_DIR$/src/LoadBalancerRecvThread.java" />
-        <option value="$PROJECT_DIR$/src/BrokerSubConnThread.java" />
         <option value="$PROJECT_DIR$/src/ClientPubPollThread.java" />
         <option value="$PROJECT_DIR$/src/BrokerPubRecvThread.java" />
-        <option value="$PROJECT_DIR$/src/BrokerSubRecvThread.java" />
         <option value="$PROJECT_DIR$/src/LoadBalancerPubRecvThread.java" />
         <option value="$PROJECT_DIR$/src/LoadBalancerElectThread.java" />
         <option value="$PROJECT_DIR$/src/ClientSubRecvThread.java" />
         <option value="$PROJECT_DIR$/src/ReplicationGenerator.java" />
         <option value="$PROJECT_DIR$/src/LoadBalancerSubRecvThread.java" />
         <option value="$PROJECT_DIR$/src/LoadBalancerMasterThread.java" />
-        <option value="$PROJECT_DIR$/src/BrokerMain.java" />
         <option value="$PROJECT_DIR$/src/ClientPubMain.java" />
-        <option value="$PROJECT_DIR$/src/IPServerMain.java" />
-        <option value="$PROJECT_DIR$/src/IPServerProcThread.java" />
         <option value="$PROJECT_DIR$/src/LoadBalancerMasterNotifyThread.java" />
-        <option value="$PROJECT_DIR$/src/BrokerSubPollThread.java" />
-        <option value="$PROJECT_DIR$/src/LoadBalancerMain.java" />
-        <option value="$PROJECT_DIR$/src/LoadBalancerConnThread.java" />
         <option value="$PROJECT_DIR$/src/RangeGenerator.java" />
         <option value="$PROJECT_DIR$/src/ClientSubMain.java" />
         <option value="$PROJECT_DIR$/src/ClientSubPollThread.java" />
-        <option value="$PROJECT_DIR$/src/PubCountObject.java" />
         <option value="$PROJECT_DIR$/src/EPartitionMessageSchema.proto" />
         <option value="$PROJECT_DIR$/src/MessageWrapper.java" />
-        <option value="$PROJECT_DIR$/src/LoadBalancerPollThread.java" />
         <option value="$PROJECT_DIR$/src/LoadStatusObject.java" />
-        <option value="$PROJECT_DIR$/src/LoadBalancerMasterNotfThread.java" />
-        <option value="$PROJECT_DIR$/src/LoadBalancerMasterWorkThread.java" />
+        <option value="$PROJECT_DIR$/src/PubCountObject.java" />
+        <option value="$PROJECT_DIR$/src/BrokerMain.java" />
+        <option value="$PROJECT_DIR$/src/BrokerSubRecvThread.java" />
+        <option value="$PROJECT_DIR$/src/BrokerSubConnThread.java" />
+        <option value="$PROJECT_DIR$/src/BrokerSubPollThread.java" />
+        <option value="$PROJECT_DIR$/src/LoadBalancerPollThread.java" />
+        <option value="$PROJECT_DIR$/src/LoadBalancerConnThread.java" />
+        <option value="$PROJECT_DIR$/src/LoadBalancerComm2Thread.java" />
+        <option value="$PROJECT_DIR$/src/IPServerConnThread.java" />
+        <option value="$PROJECT_DIR$/src/IPServerProcThread.java" />
         <option value="$PROJECT_DIR$/src/GlobalState.java" />
+        <option value="$PROJECT_DIR$/src/LoadBalancerMasterNotfThread.java" />
+        <option value="$PROJECT_DIR$/src/IPServerMain.java" />
+        <option value="$PROJECT_DIR$/src/LoadBalancerMain.java" />
+        <option value="$PROJECT_DIR$/src/LoadBalancerSyncThread.java" />
         <option value="$PROJECT_DIR$/src/LoadBalancerCommThread.java" />
+        <option value="$PROJECT_DIR$/src/LoadBalancerMasterWorkThread.java" />
       </list>
     </option>
   </component>
@@ -344,8 +413,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Message.java" />
-    <entry file="file://$PROJECT_DIR$/src/BrokerPubPollThread.java" />
     <entry file="file://$PROJECT_DIR$/src/IPServerClientProcThread.java" />
     <entry file="file://$PROJECT_DIR$/src/IPServerBrokerProcThread.java" />
     <entry file="file://$PROJECT_DIR$/src/IPServerBrokerConnThread.java" />
@@ -462,53 +529,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/BrokerMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="22" column="24" lean-forward="true" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ClientPubMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="39" column="5" lean-forward="true" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ClientSubRecvThread.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
           <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/IPServerConnThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="29" column="96" lean-forward="true" selection-start-line="29" selection-start-column="96" selection-end-line="29" selection-end-column="96" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/IPServerMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-14">
-          <caret line="9" column="11" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#396#413#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -523,70 +549,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/BrokerPubRecvThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="466">
-          <caret line="43" column="33" lean-forward="true" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/BrokerPubConnThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/BrokerSubRecvThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="17" column="31" lean-forward="true" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/BrokerSubConnThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="53" column="34" lean-forward="true" selection-start-line="53" selection-start-column="34" selection-end-line="53" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/BrokerSubPollThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="34" column="41" selection-start-line="34" selection-start-column="41" selection-end-line="34" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/LoadBalancerSubRecvThread.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-360">
           <caret line="16" column="54" lean-forward="true" selection-start-line="16" selection-start-column="54" selection-end-line="16" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LoadBalancerConnThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="63" column="45" selection-start-line="63" selection-start-column="45" selection-end-line="63" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -630,13 +596,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/EPartitionMessageSchema.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="31" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/MessageWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -657,17 +616,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/LoadBalancerMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="22" column="44" lean-forward="true" selection-start-line="22" selection-start-column="44" selection-end-line="22" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#728#763#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/LoadStatusObject.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="38">
@@ -675,47 +623,125 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/LoadBalancerPollThread.java">
+    <entry file="file://$PROJECT_DIR$/src/BrokerPubRecvThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1430">
-          <caret line="83" lean-forward="true" selection-start-line="83" selection-end-line="83" />
+        <state relative-caret-position="28">
+          <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/BrokerPubConnThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/BrokerMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="28" column="26" lean-forward="true" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#748#764#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PubCountObject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="13" column="30" lean-forward="true" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
+        <state relative-caret-position="152">
+          <caret line="8" column="54" lean-forward="true" selection-start-line="8" selection-start-column="54" selection-end-line="8" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/EPartitionMessageSchema.proto">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="31" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/BrokerSubRecvThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="12" column="24" lean-forward="true" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/BrokerSubConnThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="514">
+          <caret line="53" column="31" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/BrokerSubPollThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="53" column="33" lean-forward="true" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LoadBalancerCommThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="18" column="102" lean-forward="true" selection-start-line="18" selection-start-column="102" selection-end-line="18" selection-end-column="102" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LoadBalancerConnThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="61" column="37" lean-forward="true" selection-start-line="61" selection-start-column="37" selection-end-line="61" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LoadBalancerPollThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="37" column="46" selection-start-line="37" selection-start-column="46" selection-end-line="37" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IPServerConnThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="29" column="30" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/IPServerProcThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="120" column="11" selection-start-line="120" selection-start-column="11" selection-end-line="120" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LoadBalancerMasterNotfThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="35" column="47" lean-forward="true" selection-start-line="35" selection-start-column="47" selection-end-line="35" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/LoadBalancerMasterWorkThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
+        <state relative-caret-position="533">
+          <caret line="88" column="13" selection-start-line="88" selection-start-column="13" selection-end-line="88" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -724,18 +750,80 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GlobalState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="11" lean-forward="true" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
+        <state relative-caret-position="461">
+          <caret line="25" column="45" selection-start-line="25" selection-start-column="45" selection-end-line="25" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LoadBalancerMasterNotfThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="609">
+          <caret line="62" column="34" lean-forward="true" selection-start-line="62" selection-start-column="34" selection-end-line="62" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/IPServerMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="16" column="49" lean-forward="true" selection-start-line="16" selection-start-column="49" selection-end-line="16" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#201#209#0" expanded="true" />
+            <element signature="e#309#326#0" expanded="true" />
+            <element signature="e#399#416#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LoadBalancerMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="29" column="25" selection-start-line="29" selection-start-column="25" selection-end-line="29" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ClientPubMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LoadBalancerSyncThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="25" column="61" lean-forward="true" selection-start-line="25" selection-start-column="61" selection-end-line="25" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/LoadBalancerMasterWorkThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="52" column="55" lean-forward="true" selection-start-line="52" selection-start-column="55" selection-end-line="52" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/LoadBalancerCommThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="121" column="33" lean-forward="true" selection-start-line="121" selection-start-column="33" selection-end-line="121" selection-end-column="33" />
+        <state relative-caret-position="423">
+          <caret line="111" column="91" lean-forward="true" selection-start-line="111" selection-start-column="91" selection-end-line="111" selection-end-column="91" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#681#707#0" expanded="true" />
           </folding>
         </state>
       </provider>

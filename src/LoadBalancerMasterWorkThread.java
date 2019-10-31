@@ -1,5 +1,6 @@
 import java.io.DataOutputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.io.IOException;
@@ -10,31 +11,28 @@ public class LoadBalancerMasterWorkThread extends Thread {
     private Socket socket;
     private ArrayList<Integer> wakeThread;
     private int threadId;
-    private HashMap<String, LoadStatusObject> lsoMap;
-    private double repDeg;
+    private ArrayList<ArrayList<String>> BrokerList;
+    private HashMap<Integer, String> IPMap;
 
-    public LoadBalancerMasterWorkThread(Socket socket, ArrayList<Integer> wakeThread, int threadId, HashMap<String, LoadStatusObject> lsoMap, double repDeg) {
+    public LoadBalancerMasterWorkThread(Socket socket, ArrayList<Integer> wakeThread, int threadId, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap) {
 
         this.socket = socket;
         this.wakeThread = wakeThread;
         this.threadId = threadId;
-        this.lsoMap = lsoMap;
-        this.repDeg = repDeg;
+        this.BrokerList = BrokerList;
+        this.IPMap = IPMap;
     }
 
     @Override
     public void run() {
 
-        int numSubscriptions;
-        int accessCount;
-        ArrayList<LoadStatusObject> lsos;
-
         DataOutputStream dataOutputStream = null;
-        ObjectInputStream objectInputStream = null;
+        ObjectOutputStream objectOutputStream = null;
+        int checkFirst = 0;
 
         try {
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            objectInputStream = new ObjectInputStream(socket.getInputStream());
+            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,43 +45,29 @@ public class LoadBalancerMasterWorkThread extends Thread {
 
                     // send request as string to the corresponding LB
                     try {
-                        dataOutputStream.writeUTF("reduce");
-                        dataOutputStream.flush();
-                        lsos = (ArrayList<LoadStatusObject>) objectInputStream.readObject();
+                        if(checkFirst == 0){ // only come in when initiated
 
-                        synchronized (lsoMap) {
+                            dataOutputStream.writeUTF("connect");
+                            dataOutputStream.flush();
+                            objectOutputStream.writeObject(BrokerList.get(threadId));
+                            objectOutputStream.flush();
 
-                            for (int i = 0; i < lsos.size(); i++) {
-
-                                if (!lsoMap.containsKey(lsos.get(i).getBROKER_IP()))
-                                    lsoMap.put(lsos.get(i).getBROKER_IP(), lsos.get(i));
-                                else {
-                                    lsoMap.get(lsos.get(i).getBROKER_IP()).setNumSubscriptions(lsoMap.get(lsos.get(i).getBROKER_IP()).getNumSubscriptions() + lsos.get(i).getNumSubscriptions());
-                                    lsoMap.get(lsos.get(i).getBROKER_IP()).setAccessCount(lsoMap.get(lsos.get(i).getBROKER_IP()).getAccessCount() + lsos.get(i).getAccessCount());
-                                }
-                            }
+                            checkFirst = 1;
                         }
+
+                        else{
+
+                            dataOutputStream.writeUTF("reduce");
+                            dataOutputStream.flush();
+
+                            //do something which is written in LoadBalancerCommThread code
+                        }
+
                     } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
 
                     wakeThread.set(threadId, 0);
-
-                    while (true) {
-                        if (wakeThread.get(threadId) == 1) {
-                            try {
-                                dataOutputStream.writeDouble(repDeg);
-                                dataOutputStream.flush();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            wakeThread.set(threadId, 0);
-                            break;
-                        }
-                    }
                 }
             }
         }

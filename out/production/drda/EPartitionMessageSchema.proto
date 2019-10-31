@@ -11,13 +11,14 @@ message msgEPartition {
     string IPAddress = 1;
     string payload = 2;
     string msgType = 3;
-    string subspaceForward = 4;
-    repeated string subspace = 5;
-    repeated string attribute = 6;
+    double timestamp = 4;
+    string subspaceForward = 5;
+    repeated string subspace = 6;
+    repeated string attribute = 7;
 
-    Subscription sub = 7;
-    Publication pub = 8;
-    Unsubscription unsub = 9;
+    Subscription sub = 8;
+    Publication pub = 9;
+    Unsubscription unsub = 10;
 
     message Subscription {
 

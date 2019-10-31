@@ -6,14 +6,14 @@ import java.util.HashMap;
 public class LoadBalancerMasterNotfThread extends Thread {
 
     private ArrayList<Integer> wakeThread;
-    private HashMap<String, LoadStatusObject> lsoMap;
-    private double repDeg;
+    private ArrayList<ArrayList<String>> BrokerList;
+    private HashMap<Integer, String> IPMap;
 
-    public LoadBalancerMasterNotfThread(ArrayList<Integer> wakeThread, HashMap<String, LoadStatusObject> lsoMap, double repDeg) {
+    public LoadBalancerMasterNotfThread(ArrayList<Integer> wakeThread, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap) {
 
         this.wakeThread = wakeThread;
-        this.lsoMap = lsoMap;
-        this.repDeg = repDeg;
+        this.BrokerList = BrokerList;
+        this.IPMap = IPMap;
     }
 
     @Override
@@ -22,6 +22,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
         double before = System.currentTimeMillis();
         double after;
         double elapsed;
+        int countExit;
+        int checkFirst = 0;
 
         while (true) {
 
@@ -30,11 +32,33 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
             if (elapsed > GlobalState.PeriodOfSync) {
 
-                wakeWorkThreads();
-                waitWorkThreads();
+                if(checkFirst == 0){
 
-                // calculate replication degree
-                repDeg = 3;
+                    BrokerList = new ArrayList<ArrayList<String>>();
+
+                    for (int i = 0; i < wakeThread.size(); i++)
+                        BrokerList.add(new ArrayList<String>());
+
+                    countExit = 0;
+
+                    for (int i = 0; i < IPMap.size(); i++) {
+
+                        if(countExit == 1)
+                            break;
+
+                        for (int j = 0; j < wakeThread.size(); j++) {
+                            if(j + i * wakeThread.size() < IPMap.size())
+                                BrokerList.get(j).add(IPMap.get(j + i * wakeThread.size()));
+                            else{
+
+                                countExit = 1;
+                                break;
+                            }
+                        }
+                    }
+
+                    checkFirst = 1;
+                }
 
                 wakeWorkThreads();
                 waitWorkThreads();

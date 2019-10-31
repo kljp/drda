@@ -10,10 +10,10 @@ public class BrokerSubConnThread extends Thread {
     private int SUB_PORT;
     private Queue<msgEPartition> subQueue;
     private Queue<msgEPartition> pubQueue;
-    private ArrayList<msgEPartition> subscriptions;
+    private ArrayList<PubCountObject> subscriptions;
     private String serverType;
 
-    public BrokerSubConnThread(String LB_IP, int LB_PORT, int SUB_PORT, Queue<msgEPartition> pubQueue, Queue<msgEPartition> subQueue, ArrayList<msgEPartition> subscriptions, String serverType) {
+    public BrokerSubConnThread(String LB_IP, int LB_PORT, int SUB_PORT, Queue<msgEPartition> pubQueue, Queue<msgEPartition> subQueue, ArrayList<PubCountObject> subscriptions, String serverType) {
 
         this.LB_IP = LB_IP;
         this.LB_PORT = LB_PORT;
@@ -45,13 +45,13 @@ public class BrokerSubConnThread extends Thread {
 
                     temp = subQueue.poll();
                     synchronized (subscriptions) {
-                        subscriptions.add(temp);
+                        subscriptions.add(new PubCountObject(temp));
                     }
 
                     // should be replaced
                     SUB_IP = temp.getIPAddress();
 
-                    new BrokerSubPollThread(SUB_IP, SUB_PORT, pubQueue).start();
+                    new BrokerSubPollThread(SUB_IP, SUB_PORT, pubQueue, subscriptions).start();
                 }
             }
         }

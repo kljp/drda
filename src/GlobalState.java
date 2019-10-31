@@ -24,6 +24,5 @@ public class GlobalState {
     public static int IPS_CLIENT_PORT = 5009;
     public static int PUB_COUNT = 10000;
     public static double PeriodOfSync = 10.0;
-    public static double PeriodOfRetention = 19.0;
     public static double REP_DEG_INIT = 3;
 }

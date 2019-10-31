@@ -12,7 +12,7 @@ public class IPServerConnThread extends Thread{
     private int IPS_PORT;
     private ServerSocket serverSocket;
 
-    public IPServerConnThread(ArrayList<String> IPList,HashMap<String, Integer> PortList, HashMap<String, Integer> IPSPortList, int IPS_PORT, ServerSocket serverSocket){
+    public IPServerConnThread(ArrayList<String> IPList, HashMap<String, Integer> PortList, HashMap<String, Integer> IPSPortList, int IPS_PORT, ServerSocket serverSocket){
 
         this.IPList = IPList;
         this.PortList = PortList;
