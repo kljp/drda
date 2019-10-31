@@ -5,6 +5,7 @@ public class PubCountObject {
     private msgEPartition subscription;
     private int pubCount;
     private double timestamp;
+    private String BROKER_IP;
 
     public PubCountObject(msgEPartition subscription){
 
@@ -36,5 +37,15 @@ public class PubCountObject {
     public double getTimestamp(){
 
         return this.timestamp;
+    }
+
+    public void setBROKER_IP(String BROKER_IP){
+
+        this.BROKER_IP = BROKER_IP;
+    }
+
+    public String getBROKER_IP(){
+
+        return this.BROKER_IP;
     }
 }

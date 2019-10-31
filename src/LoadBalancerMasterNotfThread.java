@@ -8,12 +8,16 @@ public class LoadBalancerMasterNotfThread extends Thread {
     private ArrayList<Integer> wakeThread;
     private ArrayList<ArrayList<String>> BrokerList;
     private HashMap<Integer, String> IPMap;
+    private ReplicationDegree repDeg;
+    private ArrayList<PubCountObject> pcos;
 
-    public LoadBalancerMasterNotfThread(ArrayList<Integer> wakeThread, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap) {
+    public LoadBalancerMasterNotfThread(ArrayList<Integer> wakeThread, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap, ReplicationDegree repDeg, ArrayList<PubCountObject> pcos) {
 
         this.wakeThread = wakeThread;
         this.BrokerList = BrokerList;
         this.IPMap = IPMap;
+        this.repDeg = repDeg;
+        this.pcos = pcos;
     }
 
     @Override
@@ -58,6 +62,16 @@ public class LoadBalancerMasterNotfThread extends Thread {
                     }
 
                     checkFirst = 1;
+                }
+
+                wakeWorkThreads();
+                waitWorkThreads();
+
+                // calculate replication degree using pcos ArrayList
+
+                synchronized (repDeg){ // should be replaced by actual calculated value
+                    repDeg.setRepDegDouble(GlobalState.REP_DEG_INIT);
+                    repDeg.setRepDegInt((int) GlobalState.REP_DEG_INIT);
                 }
 
                 wakeWorkThreads();

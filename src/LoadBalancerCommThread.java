@@ -4,7 +4,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class LoadBalancerCommThread extends Thread {
 
@@ -16,8 +15,13 @@ public class LoadBalancerCommThread extends Thread {
     private static ArrayList<Integer> wakeThread = new ArrayList<Integer>();
     private static ArrayList<ArrayList<String>> BrokerList;
     private HashMap<Integer, String> IPMap;
+    private static ArrayList<InitiatePollObject> checkPoll;
+    private static ArrayList<PubCountObject> sharedPcos;
+    private ReplicationDegree repDeg;
+    private static ArrayList<PubCountObject> pcos = new ArrayList<PubCountObject>();
 
-    public LoadBalancerCommThread(int LBIdentifier, String LBMaster, int LB_PORT, int BROKER_PORT, HashMap<Integer, String> IPMap) {
+
+    public LoadBalancerCommThread(int LBIdentifier, String LBMaster, int LB_PORT, int BROKER_PORT, HashMap<Integer, String> IPMap, ReplicationDegree repDeg) {
 
         this.LBIdentifier = LBIdentifier;
         this.LBMaster = LBMaster;
@@ -25,20 +29,21 @@ public class LoadBalancerCommThread extends Thread {
         this.BROKER_PORT = BROKER_PORT;
         this.curMaster = 0;
         this.IPMap = IPMap;
+        this.repDeg = repDeg;
     }
 
     @Override
     public void run() { // Crush is inevitable if some load balancers come in after curMaster is already changed. Thus, it should be modified in the future.
 
-        while(true)
+        while (true)
             electMaster(curMaster);
     }
 
-    private void electMaster(int curMaster){
+    private void electMaster(int curMaster) {
 
         if (LBIdentifier == curMaster) { // Only Master LB comes in.
 
-            new LoadBalancerMasterNotfThread(wakeThread, BrokerList, IPMap).start();
+            new LoadBalancerMasterNotfThread(wakeThread, BrokerList, IPMap, repDeg, pcos).start();
 
             try {
                 ServerSocket serverSocket = new ServerSocket(LB_PORT);
@@ -46,22 +51,24 @@ public class LoadBalancerCommThread extends Thread {
                 while (true) {
                     Socket socket = serverSocket.accept();
 
-                    synchronized (wakeThread){
+                    synchronized (wakeThread) {
                         wakeThread.add(0);
                     }
 
-                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, BrokerList, IPMap).start();
+                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, BrokerList, IPMap, repDeg, pcos).start();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-
-        else{ // LBs come in except the master.
+        } else { // LBs come in except the master.
 
             Socket cliSocket;
 
-            if(curMaster > 0){
+            synchronized (checkPoll){
+                checkPoll = new ArrayList<InitiatePollObject>();
+            }
+
+            if (curMaster > 0) {
 
                 try {
                     cliSocket = new Socket();
@@ -90,29 +97,51 @@ public class LoadBalancerCommThread extends Thread {
                 String tempStr;
                 ArrayList<String> brokers;
 
-                while(true){
+                while (true) {
 
                     tempStr = dataInputStream.readUTF();
 
-                    if(tempStr.equals("connect")) {
+                    if (tempStr.equals("connect")) {
 
                         brokers = (ArrayList<String>) objectInputStream.readObject();
 
-                        for (int i = 0; i < brokers.size(); i++) {
-
-                            new LoadBalancerSyncThread(brokers.get(i), BROKER_PORT).start();
+                        synchronized (checkPoll) {
+                            for (int i = 0; i < brokers.size(); i++) {
+                                checkPoll.add(new InitiatePollObject(0));
+                            }
                         }
-                    }
 
-                    else if(tempStr.equals("reduce")){
+                        synchronized (checkPoll) {
+                            for (int i = 0; i < brokers.size(); i++) {
+                                new LoadBalancerSyncThread(brokers.get(i), i, BROKER_PORT, checkPoll, sharedPcos).start();
+                            }
+                        }
+                    } else if (tempStr.equals("reduce")) {
 
-                        // initiate polling thread (LoadBalancerSyncThread)
-                        // After that, wait for data using loop
-                        // give it to master LB's worker thread which is connected to this LB's thread.
-                        // the worker thread save it to shared data structure or any object
-                        // master thread calculate replication degree and update it to shared object
-                        // each worker thread send this object to the corresponding LB's thread
-                        // Each LB save it and set the replication degree as new value
+                        synchronized (sharedPcos){
+                            sharedPcos = new ArrayList<PubCountObject>();
+                        }
+
+                        synchronized (checkPoll) {
+                            for (int i = 0; i < checkPoll.size(); i++) {
+                                checkPoll.get(i).setCheck(1);
+                            }
+                        }
+
+                        while (true) {
+                            synchronized (sharedPcos) {
+                                if (sharedPcos.size() == checkPoll.size()) {
+                                    objectOutputStream.writeObject(sharedPcos);
+                                    objectOutputStream.flush();
+                                    sharedPcos = null;
+                                    break;
+                                }
+                            }
+                        }
+
+                        synchronized (repDeg) {
+                            repDeg = (ReplicationDegree) objectInputStream.readObject();
+                        }
                     }
                 }
             } catch (IOException e) {
