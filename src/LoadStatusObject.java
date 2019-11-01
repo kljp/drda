@@ -4,7 +4,11 @@ public class LoadStatusObject {
     private int numSubscriptions;
     private int accessCount;
 
-    public LoadStatusObject(String BROKER_IP){
+    public LoadStatusObject(){
+
+    }
+
+    public void setBROKER_IP(String BROKER_IP){
 
         this.BROKER_IP = BROKER_IP;
     }

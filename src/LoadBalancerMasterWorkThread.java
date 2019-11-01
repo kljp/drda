@@ -14,9 +14,9 @@ public class LoadBalancerMasterWorkThread extends Thread {
     private ArrayList<ArrayList<String>> BrokerList;
     private HashMap<Integer, String> IPMap;
     private ReplicationDegree repDeg;
-    private ArrayList<PubCountObject> pcos;
+    private ArrayList<LoadStatusObject> lsos;
 
-    public LoadBalancerMasterWorkThread(Socket socket, ArrayList<Integer> wakeThread, int threadId, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap, ReplicationDegree repDeg, ArrayList<PubCountObject> pcos) {
+    public LoadBalancerMasterWorkThread(Socket socket, ArrayList<Integer> wakeThread, int threadId, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap, ReplicationDegree repDeg, ArrayList<LoadStatusObject> lsos) {
 
         this.socket = socket;
         this.wakeThread = wakeThread;
@@ -24,7 +24,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
         this.BrokerList = BrokerList;
         this.IPMap = IPMap;
         this.repDeg = repDeg;
-        this.pcos = pcos;
+        this.lsos = lsos;
     }
 
     @Override
@@ -34,6 +34,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
         ObjectOutputStream objectOutputStream = null;
         ObjectInputStream objectInputStream = null;
         int checkFirst = 0;
+        ArrayList<LoadStatusObject> tempLso;
 
         try {
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
@@ -66,8 +67,10 @@ public class LoadBalancerMasterWorkThread extends Thread {
                             dataOutputStream.writeUTF("reduce");
                             dataOutputStream.flush();
 
-                            synchronized (pcos){
-                                pcos.addAll((ArrayList<PubCountObject>) objectInputStream.readObject());
+                            tempLso = (ArrayList<LoadStatusObject>) objectInputStream.readObject();
+
+                            synchronized (lsos){
+                                lsos.addAll(tempLso);
                             }
                         }
 

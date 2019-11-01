@@ -11,14 +11,14 @@ public class LoadBalancerCommThread extends Thread {
     private String LBMaster;
     private int LB_PORT;
     private int BROKER_PORT;
-    private int curMaster;
+    private static int curMaster;
     private static ArrayList<Integer> wakeThread = new ArrayList<Integer>();
     private static ArrayList<ArrayList<String>> BrokerList;
     private HashMap<Integer, String> IPMap;
     private static ArrayList<InitiatePollObject> checkPoll;
-    private static ArrayList<PubCountObject> sharedPcos;
+    private static ArrayList<LoadStatusObject> sharedLsos;
+    private static ArrayList<LoadStatusObject> lsos = new ArrayList<LoadStatusObject>();
     private ReplicationDegree repDeg;
-    private static ArrayList<PubCountObject> pcos = new ArrayList<PubCountObject>();
 
 
     public LoadBalancerCommThread(int LBIdentifier, String LBMaster, int LB_PORT, int BROKER_PORT, HashMap<Integer, String> IPMap, ReplicationDegree repDeg) {
@@ -36,14 +36,14 @@ public class LoadBalancerCommThread extends Thread {
     public void run() { // Crush is inevitable if some load balancers come in after curMaster is already changed. Thus, it should be modified in the future.
 
         while (true)
-            electMaster(curMaster);
+            electMaster();
     }
 
-    private void electMaster(int curMaster) {
+    private void electMaster() {
 
         if (LBIdentifier == curMaster) { // Only Master LB comes in.
 
-            new LoadBalancerMasterNotfThread(wakeThread, BrokerList, IPMap, repDeg, pcos).start();
+            new LoadBalancerMasterNotfThread(wakeThread, BrokerList, IPMap, repDeg, lsos, BROKER_PORT).start();
 
             try {
                 ServerSocket serverSocket = new ServerSocket(LB_PORT);
@@ -55,7 +55,7 @@ public class LoadBalancerCommThread extends Thread {
                         wakeThread.add(0);
                     }
 
-                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, BrokerList, IPMap, repDeg, pcos).start();
+                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, BrokerList, IPMap, repDeg, lsos).start();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -113,13 +113,13 @@ public class LoadBalancerCommThread extends Thread {
 
                         synchronized (checkPoll) {
                             for (int i = 0; i < brokers.size(); i++) {
-                                new LoadBalancerSyncThread(brokers.get(i), i, BROKER_PORT, checkPoll, sharedPcos).start();
+                                new LoadBalancerSyncThread(brokers.get(i), i, BROKER_PORT, checkPoll, sharedLsos).start();
                             }
                         }
                     } else if (tempStr.equals("reduce")) {
 
-                        synchronized (sharedPcos){
-                            sharedPcos = new ArrayList<PubCountObject>();
+                        synchronized (sharedLsos){
+                            sharedLsos = new ArrayList<LoadStatusObject>();
                         }
 
                         synchronized (checkPoll) {
@@ -129,11 +129,11 @@ public class LoadBalancerCommThread extends Thread {
                         }
 
                         while (true) {
-                            synchronized (sharedPcos) {
-                                if (sharedPcos.size() == checkPoll.size()) {
-                                    objectOutputStream.writeObject(sharedPcos);
+                            synchronized (sharedLsos) {
+                                if (sharedLsos.size() == checkPoll.size()) {
+                                    objectOutputStream.writeObject(sharedLsos);
                                     objectOutputStream.flush();
-                                    sharedPcos = null;
+                                    sharedLsos = null;
                                     break;
                                 }
                             }

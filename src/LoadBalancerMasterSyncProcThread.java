@@ -5,21 +5,21 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class LoadBalancerSyncThread extends Thread{
+public class LoadBalancerMasterSyncProcThread extends Thread{
 
     private String BROKER_IP;
-    private int threadId;
     private int BROKER_PORT;
-    private ArrayList<InitiatePollObject> checkPoll;
-    private ArrayList<LoadStatusObject> sharedLsos;
+    private ArrayList<Integer> wakeThread;
+    private int threadId;
+    private ArrayList<LoadStatusObject> lsos;
 
-    public LoadBalancerSyncThread(String BROKER_IP, int threadId, int BROKER_PORT, ArrayList<InitiatePollObject> checkPoll, ArrayList<LoadStatusObject> sharedLsos){
+    public LoadBalancerMasterSyncProcThread(String BROKER_IP, int BROKER_PORT, ArrayList<Integer> wakeThread, int threadId, ArrayList<LoadStatusObject> lsos){
 
         this.BROKER_IP = BROKER_IP;
-        this.threadId = threadId;
         this.BROKER_PORT = BROKER_PORT;
-        this.checkPoll = checkPoll;
-        this.sharedLsos = sharedLsos;
+        this.wakeThread = wakeThread;
+        this.threadId = threadId;
+        this.lsos = lsos;
     }
 
     @Override
@@ -34,27 +34,26 @@ public class LoadBalancerSyncThread extends Thread{
             socket.connect(new InetSocketAddress(BROKER_IP, BROKER_PORT));
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
-            // poll
-            while(true){
-                synchronized (checkPoll.get(threadId)){
 
-                    if(checkPoll.get(threadId).getCheck() == 1){
+            while(true){
+
+                synchronized (wakeThread) {
+
+                    if (wakeThread.get(threadId) == 1) {
 
                         dataOutputStream.writeUTF("sync");
                         dataOutputStream.flush();
                         lso = (LoadStatusObject) objectInputStream.readObject();
                         lso.setBROKER_IP(BROKER_IP);
 
-                        synchronized (sharedLsos){
-                            sharedLsos.add(lso);
+                        synchronized (lsos){
+                            lsos.add(lso);
                         }
 
-                        checkPoll.get(threadId).setCheck(0);
+                        wakeThread.set(threadId, 0);
                     }
                 }
             }
-            // When initiated, send request and receive data
-            // save it to shared data structure or any object
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

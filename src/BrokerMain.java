@@ -28,6 +28,8 @@ public class BrokerMain {
             new BrokerPubConnThread(IP, PortList.get("LB_BROKER_PUB_PORT"), pubQueue, "loadbalancer").start();
             new BrokerSubConnThread(IP, PortList.get("LB_BROKER_SUB_PORT"), PortList.get("SUB_BROKER_PORT"), pubQueue, subQueue, subscriptions, "loadBalancer").start();
         }
+
+        new BrokerSyncConnThread(subscriptions, PortList.get("BROKER_LB_SYNC_PORT")).start();
     }
 
     private static void getAddressList(){
