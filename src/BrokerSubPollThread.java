@@ -1,82 +1,72 @@
 import com.EPartition.EPartitionMessageSchema.msgEPartition;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Queue;
 
 public class BrokerSubPollThread extends Thread {
 
-    private String SUB_IP;
-    private int SUB_PORT;
-    private Queue<msgEPartition> pubQueue;
     private ArrayList<PubCountObject> subscriptions;
+    private Queue<msgEPartition> pubQueue;
+    private ArrayList<EventQueueObject> eventQueues;
 
-    public BrokerSubPollThread(String SUB_IP, int SUB_PORT, Queue<msgEPartition> pubQueue, ArrayList<PubCountObject> subscriptions) {
+    public BrokerSubPollThread(ArrayList<PubCountObject> subscriptions, Queue<msgEPartition> pubQueue, ArrayList<EventQueueObject> eventQueues) {
 
-        this.SUB_IP = SUB_IP;
-        this.SUB_PORT = SUB_PORT;
-        this.pubQueue = pubQueue;
         this.subscriptions = subscriptions;
+        this.pubQueue = pubQueue;
+        this.eventQueues = eventQueues;
     }
 
     @Override
     public void run() {
 
-        Socket socket;
         msgEPartition temp;
         int countExit;
+        int checkEmpty;
 
-        socket = new Socket();
+        while (true) {
 
-        try {
-            socket.connect(new InetSocketAddress(SUB_IP, SUB_PORT));
-            DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            synchronized (pubQueue) {
+                if (!pubQueue.isEmpty())
+                    checkEmpty = 1;
 
-            while (true) {
+                else
+                    checkEmpty = 0;
+            }
+
+            if (checkEmpty == 1) {
+
                 synchronized (pubQueue) {
-                    if (!pubQueue.isEmpty()) {
-                        temp = pubQueue.poll();
-//                        System.out.println(temp);
+                    temp = pubQueue.poll();
+                }
 
-                        for (int i = 0; i < subscriptions.size(); i++) {
+                synchronized (subscriptions) {
 
-                            countExit = 0;
+                    for (int i = 0; i < subscriptions.size(); i++) {
 
-                            for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
+                        countExit = 0;
 
-                                if(temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSubscription().getSub().getLowerBound(j)
-                                && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSubscription().getSub().getUpperBound(j)){
+                        for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
 
-                                    countExit++;
-                                }
+                            if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSubscription().getSub().getLowerBound(j)
+                                    && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSubscription().getSub().getUpperBound(j)) {
 
-                                else
-                                    break;
+                                countExit++;
                             }
 
-                            if(countExit == GlobalState.NumberOfDimensions){
-
-                                subscriptions.get(i).setPubCount(subscriptions.get(i).getPubCount() + 1);
-                                temp.writeDelimitedTo(dataOutputStream);
+                            else
                                 break;
+                        }
+
+                        if (countExit == GlobalState.NumberOfDimensions) {
+
+                            synchronized (eventQueues) {
+                                eventQueues.get(i).getEventQueue().add(temp);
                             }
+
+                            break;
                         }
                     }
                 }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (socket != null && !socket.isClosed()) {
-                    socket.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }

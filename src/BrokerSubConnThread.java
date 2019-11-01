@@ -1,6 +1,7 @@
 import com.EPartition.EPartitionMessageSchema.msgEPartition;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class BrokerSubConnThread extends Thread {
@@ -12,6 +13,8 @@ public class BrokerSubConnThread extends Thread {
     private Queue<msgEPartition> pubQueue;
     private ArrayList<PubCountObject> subscriptions;
     private String serverType;
+    private static ArrayList<EventQueueObject> eventQueues = new ArrayList<EventQueueObject>();
+    private int seqThread = 0;
 
     public BrokerSubConnThread(String LB_IP, int LB_PORT, int SUB_PORT, Queue<msgEPartition> pubQueue, Queue<msgEPartition> subQueue, ArrayList<PubCountObject> subscriptions, String serverType) {
 
@@ -35,6 +38,7 @@ public class BrokerSubConnThread extends Thread {
         String SUB_IP;
 
         new BrokerSubRecvThread(LB_IP, LB_PORT, subQueue).start();
+        new BrokerSubPollThread(subscriptions, pubQueue, eventQueues).start();
 
         while (true) {
 
@@ -44,14 +48,21 @@ public class BrokerSubConnThread extends Thread {
                 if (!subQueue.isEmpty()) {
 
                     temp = subQueue.poll();
+
                     synchronized (subscriptions) {
                         subscriptions.add(new PubCountObject(temp));
+
+                        synchronized (eventQueues){
+                            eventQueues.add(new EventQueueObject(seqThread, new LinkedList<msgEPartition>()));
+                        }
                     }
 
                     // should be replaced
                     SUB_IP = temp.getIPAddress();
 
-                    new BrokerSubPollThread(SUB_IP, SUB_PORT, pubQueue, subscriptions).start();
+                    new BrokerEventProcThread(SUB_IP, SUB_PORT, eventQueues, subscriptions, seqThread).start();
+
+                    seqThread++;
                 }
             }
         }

@@ -57,11 +57,8 @@ public class ClientSubMain {
 
         try {
             serverSocket = new ServerSocket(SUB_PORT);
-
-            while (true) {
-                Socket subSocket = serverSocket.accept();
-                new ClientSubRecvThread(subSocket, queue).start();
-            }
+            Socket subSocket = serverSocket.accept();
+            new ClientSubRecvThread(subSocket, queue).start();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

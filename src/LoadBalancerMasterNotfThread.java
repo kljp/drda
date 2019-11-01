@@ -41,22 +41,26 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
             if (elapsed > GlobalState.PeriodOfSync) {
 
-                if(checkFirst == 0){
+                synchronized (lsos) {
+                    lsos.clear();
+                }
 
-                    synchronized (wakeThread){
+                if (checkFirst == 0) {
 
-                        if(wakeThread.size() == 0)
+                    synchronized (wakeThread) {
+
+                        if (wakeThread.size() == 0)
                             checkType = 0;
                         else
                             checkType = 1;
                     }
                 }
 
-                if(checkType == 0){ // The number of LB is 1.
+                if (checkType == 0) { // The number of LB is 1.
 
-                    if(checkFirst == 0){
+                    if (checkFirst == 0) {
 
-                        synchronized (IPMap){
+                        synchronized (IPMap) {
 
                             for (int i = 0; i < IPMap.size(); i++) {
 
@@ -71,26 +75,21 @@ public class LoadBalancerMasterNotfThread extends Thread {
                         checkFirst = 1;
                     }
 
-                    else{
+                    wakeWorkThreads();
+                    waitWorkThreads();
 
-                        wakeWorkThreads();
-                        waitWorkThreads();
+                    calculateReplicationDegree();
+                } else {// The number of LB is more than 1.
 
-                        calculateReplicationDegree();
-                    }
-                }
-
-                else {// The number of LB is more than 1.
-
-                    if(checkFirst == 0){
+                    if (checkFirst == 0) {
 
                         BrokerList = new ArrayList<ArrayList<String>>();
 
-                        synchronized (wakeThread){
+                        synchronized (wakeThread) {
                             tempSize = wakeThread.size();
                         }
 
-                        synchronized (IPMap){
+                        synchronized (IPMap) {
                             tempNum = IPMap.size();
                         }
 
@@ -101,16 +100,15 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                         for (int i = 0; i < tempNum; i++) {
 
-                            if(countExit == 1)
+                            if (countExit == 1)
                                 break;
 
                             for (int j = 0; j < tempSize; j++) {
-                                if(j + i * tempSize < tempNum){
-                                    synchronized (IPMap){
+                                if (j + i * tempSize < tempNum) {
+                                    synchronized (IPMap) {
                                         BrokerList.get(j).add(IPMap.get(j + i * tempSize));
                                     }
-                                }
-                                else{
+                                } else {
                                     countExit = 1;
                                     break;
                                 }
@@ -129,12 +127,19 @@ public class LoadBalancerMasterNotfThread extends Thread {
                     waitWorkThreads();
                 }
 
+                synchronized (lsos) {
+                    if (!lsos.isEmpty()) {
+                        System.out.println(lsos.get(0).getBROKER_IP());
+                        System.out.println(lsos.get(0).getNumSubscriptions());
+                        System.out.println(lsos.get(0).getAccessCount());
+                    }
+                }
                 before = System.currentTimeMillis();
             }
         }
     }
 
-    private void wakeWorkThreads(){
+    private void wakeWorkThreads() {
 
         synchronized (wakeThread) {
             for (int i = 0; i < wakeThread.size(); i++)
@@ -142,33 +147,33 @@ public class LoadBalancerMasterNotfThread extends Thread {
         }
     }
 
-    private void waitWorkThreads(){
+    private void waitWorkThreads() {
 
-        while(true){ // wait for completion of collecting processes until every value within wakeThread is set to 0
+        while (true) { // wait for completion of collecting processes until every value within wakeThread is set to 0
 
             int countExit = 0;
 
-            synchronized (wakeThread){
+            synchronized (wakeThread) {
 
                 for (int i = 0; i < wakeThread.size(); i++) {
 
-                    if(wakeThread.get(i) == 0)
+                    if (wakeThread.get(i) == 0)
                         countExit++;
                     else
                         break;
                 }
 
-                if(countExit == wakeThread.size())
+                if (countExit == wakeThread.size())
                     break;
             }
         }
     }
 
-    private void calculateReplicationDegree(){
+    private void calculateReplicationDegree() {
 
         // calculate replication degree using lsos ArrayList
 
-        synchronized (repDeg){ // should be replaced by actual calculated value
+        synchronized (repDeg) { // should be replaced by actual calculated value
             repDeg.setRepDegDouble(GlobalState.REP_DEG_INIT);
             repDeg.setRepDegInt((int) GlobalState.REP_DEG_INIT);
         }

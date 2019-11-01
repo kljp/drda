@@ -1,4 +1,6 @@
-public class LoadStatusObject {
+import java.io.Serializable;
+
+public class LoadStatusObject implements Serializable {
 
     private String BROKER_IP;
     private int numSubscriptions;
