@@ -1,5 +1,6 @@
 import com.EPartition.EPartitionMessageSchema.msgEPartition;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -29,16 +30,28 @@ public class BrokerEventProcThread extends Thread {
 
         Socket socket;
         msgEPartition temp;
+        CheckAliveObject cao;
+        int checkAlive;
 
         socket = new Socket();
 
         try {
             socket.connect(new InetSocketAddress(SUB_IP, SUB_PORT));
+            cao = new CheckAliveObject(1);
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
+            new BrokerSubCheckAliveThread(socket, cao).start();
 
             while (true) {
 
-                if (socket.isConnected() && !socket.isClosed()) {
+                synchronized (cao){
+                    if(cao.getCheckAlive() == 1)
+                        checkAlive = 1;
+                    else
+                        checkAlive = 0;
+                }
+
+                if (checkAlive == 1) { // should be replaced by polling thread that checks connectivity periodically
 
                     for (int i = 0; i < eventQueues.size(); i++) {
 
@@ -75,7 +88,7 @@ public class BrokerEventProcThread extends Thread {
                                     subscriptions.remove(i);
                                 }
 
-                                break;
+                                return;
                             }
                         }
                     }
