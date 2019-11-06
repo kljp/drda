@@ -17,11 +17,12 @@ public class LoadBalancerCommThread extends Thread {
     private HashMap<Integer, String> IPMap;
     private static ArrayList<InitiatePollObject> checkPoll;
     private static ArrayList<LoadStatusObject> sharedLsos;
-    private static ArrayList<LoadStatusObject> lsos = new ArrayList<LoadStatusObject>();
+    private ArrayList<LoadStatusObject> lsos;
+    private static ArrayList<LoadStatusObject> tempLsos = new ArrayList<LoadStatusObject>();
     private ReplicationDegree repDeg;
 
 
-    public LoadBalancerCommThread(int LBIdentifier, String LBMaster, int LB_PORT, int BROKER_PORT, HashMap<Integer, String> IPMap, ReplicationDegree repDeg) {
+    public LoadBalancerCommThread(int LBIdentifier, String LBMaster, int LB_PORT, int BROKER_PORT, HashMap<Integer, String> IPMap, ArrayList<LoadStatusObject> lsos, ReplicationDegree repDeg) {
 
         this.LBIdentifier = LBIdentifier;
         this.LBMaster = LBMaster;
@@ -29,6 +30,7 @@ public class LoadBalancerCommThread extends Thread {
         this.BROKER_PORT = BROKER_PORT;
         this.curMaster = 0;
         this.IPMap = IPMap;
+        this.lsos = lsos;
         this.repDeg = repDeg;
     }
 
@@ -43,7 +45,7 @@ public class LoadBalancerCommThread extends Thread {
 
         if (LBIdentifier == curMaster) { // Only Master LB comes in.
 
-            new LoadBalancerMasterNotfThread(wakeThread, BrokerList, IPMap, repDeg, lsos, BROKER_PORT).start();
+            new LoadBalancerMasterNotfThread(wakeThread, BrokerList, IPMap, repDeg, lsos, tempLsos, BROKER_PORT).start();
 
             try {
                 ServerSocket serverSocket = new ServerSocket(LB_PORT);
@@ -55,7 +57,7 @@ public class LoadBalancerCommThread extends Thread {
                         wakeThread.add(0);
                     }
 
-                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, BrokerList, IPMap, repDeg, lsos).start();
+                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, BrokerList, IPMap, repDeg, tempLsos).start();
                 }
             } catch (IOException e) {
                 e.printStackTrace();

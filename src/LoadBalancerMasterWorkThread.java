@@ -14,9 +14,9 @@ public class LoadBalancerMasterWorkThread extends Thread {
     private ArrayList<ArrayList<String>> BrokerList;
     private HashMap<Integer, String> IPMap;
     private ReplicationDegree repDeg;
-    private ArrayList<LoadStatusObject> lsos;
+    private ArrayList<LoadStatusObject> tempLsos;
 
-    public LoadBalancerMasterWorkThread(Socket socket, ArrayList<Integer> wakeThread, int threadId, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap, ReplicationDegree repDeg, ArrayList<LoadStatusObject> lsos) {
+    public LoadBalancerMasterWorkThread(Socket socket, ArrayList<Integer> wakeThread, int threadId, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap, ReplicationDegree repDeg, ArrayList<LoadStatusObject> tempLsos) {
 
         this.socket = socket;
         this.wakeThread = wakeThread;
@@ -24,7 +24,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
         this.BrokerList = BrokerList;
         this.IPMap = IPMap;
         this.repDeg = repDeg;
-        this.lsos = lsos;
+        this.tempLsos = tempLsos;
     }
 
     @Override
@@ -69,8 +69,8 @@ public class LoadBalancerMasterWorkThread extends Thread {
 
                             tempLso = (ArrayList<LoadStatusObject>) objectInputStream.readObject();
 
-                            synchronized (lsos){
-                                lsos.addAll(tempLso);
+                            synchronized (tempLsos){
+                                tempLsos.addAll(tempLso);
                             }
                         }
 

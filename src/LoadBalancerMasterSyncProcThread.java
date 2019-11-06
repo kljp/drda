@@ -11,15 +11,15 @@ public class LoadBalancerMasterSyncProcThread extends Thread{
     private int BROKER_PORT;
     private ArrayList<Integer> wakeThread;
     private int threadId;
-    private ArrayList<LoadStatusObject> lsos;
+    private ArrayList<LoadStatusObject> tempLsos;
 
-    public LoadBalancerMasterSyncProcThread(String BROKER_IP, int BROKER_PORT, ArrayList<Integer> wakeThread, int threadId, ArrayList<LoadStatusObject> lsos){
+    public LoadBalancerMasterSyncProcThread(String BROKER_IP, int BROKER_PORT, ArrayList<Integer> wakeThread, int threadId, ArrayList<LoadStatusObject> tempLsos){
 
         this.BROKER_IP = BROKER_IP;
         this.BROKER_PORT = BROKER_PORT;
         this.wakeThread = wakeThread;
         this.threadId = threadId;
-        this.lsos = lsos;
+        this.tempLsos = tempLsos;
     }
 
     @Override
@@ -46,8 +46,8 @@ public class LoadBalancerMasterSyncProcThread extends Thread{
                         lso = (LoadStatusObject) objectInputStream.readObject();
                         lso.setBROKER_IP(BROKER_IP);
 
-                        synchronized (lsos){
-                            lsos.add(lso);
+                        synchronized (tempLsos){
+                            tempLsos.add(lso);
                         }
 
                         wakeThread.set(threadId, 0);

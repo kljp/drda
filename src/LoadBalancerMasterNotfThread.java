@@ -10,15 +10,19 @@ public class LoadBalancerMasterNotfThread extends Thread {
     private HashMap<Integer, String> IPMap;
     private ReplicationDegree repDeg;
     private ArrayList<LoadStatusObject> lsos;
+    private ArrayList<LoadStatusObject> tempLsos;
     private int BROKER_PORT;
+    private static ArrayList<Double> repDegHistory = new ArrayList<Double>();
 
-    public LoadBalancerMasterNotfThread(ArrayList<Integer> wakeThread, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap, ReplicationDegree repDeg, ArrayList<LoadStatusObject> lsos, int BROKER_PORT) {
+    public LoadBalancerMasterNotfThread(ArrayList<Integer> wakeThread, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap,
+                                        ReplicationDegree repDeg, ArrayList<LoadStatusObject> lsos, ArrayList<LoadStatusObject> tempLsos, int BROKER_PORT) {
 
         this.wakeThread = wakeThread;
         this.BrokerList = BrokerList;
         this.IPMap = IPMap;
         this.repDeg = repDeg;
         this.lsos = lsos;
+        this.tempLsos = tempLsos;
         this.BROKER_PORT = BROKER_PORT;
     }
 
@@ -41,8 +45,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
             if (elapsed > GlobalState.PeriodOfSync) {
 
-                synchronized (lsos) {
-                    lsos.clear();
+                synchronized (tempLsos) {
+                    tempLsos.clear();
                 }
 
                 if (checkFirst == 0) {
@@ -68,7 +72,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
                                     wakeThread.add(0);
                                 }
 
-                                new LoadBalancerMasterSyncProcThread(IPMap.get(i), BROKER_PORT, wakeThread, i, lsos).start();
+                                new LoadBalancerMasterSyncProcThread(IPMap.get(i), BROKER_PORT, wakeThread, i, tempLsos).start();
                             }
                         }
 
@@ -128,6 +132,10 @@ public class LoadBalancerMasterNotfThread extends Thread {
                 }
 
                 synchronized (lsos) {
+                    lsos = tempLsos;
+                }
+
+                synchronized (lsos) {
                     if (!lsos.isEmpty()) {
                         System.out.println(lsos.get(0).getBROKER_IP());
                         System.out.println(lsos.get(0).getNumSubscriptions());
@@ -171,11 +179,72 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
     private void calculateReplicationDegree() {
 
-        // calculate replication degree using lsos ArrayList
+        int lsosSize;
+        int[] nss; // An array of total subscription numbers of brokers
+        int[] acs; // An array of the access counts of brokers
+        double nssMean;
+        double nssNormStdDev;
+        double acsMean;
+        double acsNormStdDev;
+        double tempRepDeg;
 
-        synchronized (repDeg) { // should be replaced by actual calculated value
-            repDeg.setRepDegDouble(GlobalState.REP_DEG_INIT);
-            repDeg.setRepDegInt((int) GlobalState.REP_DEG_INIT);
+        synchronized (tempLsos){
+
+            lsosSize = tempLsos.size();
+
+            nss = new int[lsosSize];
+            acs = new int[lsosSize];
+
+            for (int i = 0; i < lsosSize; i++) {
+
+                nss[i] = tempLsos.get(i).getNumSubscriptions();
+                acs[i] = tempLsos.get(i).getAccessCount();
+            }
         }
+
+        nssMean = calculateMean(nss);
+        nssNormStdDev = calculateStdDev(nss, nssMean) / nssMean;
+
+        acsMean = calculateMean(acs);
+        acsNormStdDev = calculateStdDev(acs, acsMean) / acsMean;
+
+        tempRepDeg = 2.0 * ((double) IPMap.size()) * nssNormStdDev * acsNormStdDev;
+        repDegHistory.add(tempRepDeg); // for experimental results
+
+        if(tempRepDeg < 3)
+            tempRepDeg = 3;
+
+        synchronized (repDeg){
+
+            repDeg.setRepDegDouble(tempRepDeg);
+            repDeg.setRepDegInt((int) tempRepDeg);
+        }
+    }
+
+    private double calculateMean(int[] array){
+
+        double sum = 0.0;
+
+        for (int i = 0; i < array.length; i++)
+            sum += (double) array[i];
+
+        return sum / array.length;
+    }
+
+    private double calculateStdDev(int[] array, double mean){
+
+        double sum = 0.0;
+        double stdDev;
+        double diff;
+
+        for (int i = 0; i < array.length; i++) {
+
+            diff = (double) array[i] - mean;
+            sum += diff * diff;
+        }
+
+        stdDev = Math.sqrt(sum / array.length);
+
+        return stdDev;
     }
 }

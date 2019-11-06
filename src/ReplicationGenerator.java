@@ -61,4 +61,64 @@ public class ReplicationGenerator {
 
         return messages;
     }
+
+    public msgEPartition[] applyReplicationDegree(msgEPartition[] ms, HashMap<Integer, String> IPMap, ArrayList<LoadStatusObject> lsos, int repDeg){
+
+        msgEPartition[] messages;
+        String tempStr;
+        LoadStatusObject[] lsoArray;
+        int[] loads;
+        int temp;
+        int count = 0;
+        LoadStatusObject tempLso;
+
+        messages = new msgEPartition[repDeg];
+
+        synchronized (lsos){
+            lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
+        }
+
+        loads = new int[lsoArray.length];
+
+        for (int i = 0; i < lsoArray.length; i++)
+            loads[i] = lsoArray[i].getNumSubscriptions() * lsoArray[i].getAccessCount();
+
+        for (int i = 0; i < loads.length; i++) {
+
+            for (int j = 0; j < loads.length - i - 1; j++) {
+
+                if(loads[j] > loads[j + 1]){
+
+                    temp = loads[j + 1];
+                    loads[j + 1] = loads[j];
+                    loads[j] = temp;
+
+                    tempLso = lsoArray[j + 1];
+                    lsoArray[j + 1] = lsoArray[j];
+                    lsoArray[j] = tempLso;
+                }
+            }
+        }
+
+        for (int i = 0; i < lsoArray.length; i++) {
+
+            if(count == repDeg)
+                break;
+
+            for (int j = 0; j < ms.length; j++) {
+
+                tempStr = IPMap.get(MurmurHash.hash32(ms[j].getSubspaceForward()) % IPMap.size());
+
+                if(tempStr.equals(lsoArray[i].getBROKER_IP())){
+
+                    messages[count] = ms[j];
+                    count++;
+
+                    break;
+                }
+            }
+        }
+
+        return messages;
+    }
 }

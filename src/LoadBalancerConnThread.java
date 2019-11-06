@@ -17,6 +17,8 @@ public class LoadBalancerConnThread extends Thread {
     private SubspaceAllocator subspaceAllocator;
     private AttributeOrderSorter attributeOrderSorter;
     private ReplicationGenerator replicationGenerator;
+    private ArrayList<LoadStatusObject> lsos;
+    private ReplicationDegree repDeg;
 
     public LoadBalancerConnThread(int LB_PORT, String clientType, String msgType, HashMap<String, Queue<msgEPartition>> queues, HashMap<Integer, String> IPMap) {  // for brokers
 
@@ -28,7 +30,7 @@ public class LoadBalancerConnThread extends Thread {
     }
 
     public LoadBalancerConnThread(int LB_PORT, String clientType, String msgType, HashMap<String, Queue<msgEPartition>> queues, HashMap<Integer, String> IPMap, // for clients
-                                  SubspaceAllocator subspaceAllocator, AttributeOrderSorter attributeOrderSorter, ReplicationGenerator replicationGenerator) {
+                                  SubspaceAllocator subspaceAllocator, AttributeOrderSorter attributeOrderSorter, ReplicationGenerator replicationGenerator, ArrayList<LoadStatusObject> lsos, ReplicationDegree repDeg) {
 
         this.LB_PORT = LB_PORT;
         this.clientType = clientType;
@@ -38,6 +40,8 @@ public class LoadBalancerConnThread extends Thread {
         this.subspaceAllocator = subspaceAllocator;
         this.attributeOrderSorter = attributeOrderSorter;
         this.replicationGenerator = replicationGenerator;
+        this.lsos = lsos;
+        this.repDeg = repDeg;
     }
 
     @Override
@@ -54,7 +58,7 @@ public class LoadBalancerConnThread extends Thread {
                 if (clientType.equals("client")) {
 
                     if (msgType.equals("Subscription"))
-                        new LoadBalancerSubRecvThread(socket, queues, IPMap, subspaceAllocator, attributeOrderSorter, replicationGenerator).start(); // each branch will be modified whether the incoming message is subscription or not.
+                        new LoadBalancerSubRecvThread(socket, queues, IPMap, subspaceAllocator, attributeOrderSorter, replicationGenerator, lsos, repDeg).start(); // each branch will be modified whether the incoming message is subscription or not.
                     else
                         new LoadBalancerPubRecvThread(socket, queues, IPMap, subspaceAllocator, attributeOrderSorter, replicationGenerator).start();
                 } else {

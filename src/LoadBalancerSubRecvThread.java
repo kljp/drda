@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Queue;
 
@@ -15,9 +16,11 @@ public class LoadBalancerSubRecvThread extends Thread {
     private SubspaceAllocator subspaceAllocator;
     private AttributeOrderSorter attributeOrderSorter;
     private ReplicationGenerator replicationGenerator;
+    private ArrayList<LoadStatusObject> lsos;
+    private ReplicationDegree repDeg;
 
     public LoadBalancerSubRecvThread(Socket socket, HashMap<String, Queue<msgEPartition>> queues, HashMap<Integer, String> IPMap,
-                                     SubspaceAllocator subspaceAllocator, AttributeOrderSorter attributeOrderSorter, ReplicationGenerator replicationGenerator) {
+                                     SubspaceAllocator subspaceAllocator, AttributeOrderSorter attributeOrderSorter, ReplicationGenerator replicationGenerator, ArrayList<LoadStatusObject> lsos, ReplicationDegree repDeg) {
 
         this.socket = socket;
         this.queues = queues;
@@ -25,6 +28,8 @@ public class LoadBalancerSubRecvThread extends Thread {
         this.subspaceAllocator = subspaceAllocator;
         this.attributeOrderSorter = attributeOrderSorter;
         this.replicationGenerator = replicationGenerator;
+        this.lsos = lsos;
+        this.repDeg = repDeg;
     }
 
     @Override
@@ -52,6 +57,9 @@ public class LoadBalancerSubRecvThread extends Thread {
 
             if(messages.length > 1)
                 messages = replicationGenerator.preventDuplicates(messages, IPMap);
+
+            if(messages.length > repDeg.getRepDegInt())
+                messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt());
 
             for (int i = 0; i < messages.length; i++) {
 

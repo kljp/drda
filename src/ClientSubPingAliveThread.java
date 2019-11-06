@@ -26,7 +26,7 @@ public class ClientSubPingAliveThread extends Thread{
             while(true){
                 after = System.currentTimeMillis();
                 elapsed = (after - before) / 1000.0;
-                if(elapsed > 3){
+                if(elapsed > 5){
                     dataOutputStream.writeInt(1);
                     before = System.currentTimeMillis();
                 }
