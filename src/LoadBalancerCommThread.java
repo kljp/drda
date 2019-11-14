@@ -15,7 +15,7 @@ public class LoadBalancerCommThread extends Thread {
     private static ArrayList<Integer> wakeThread = new ArrayList<Integer>();
     private static ArrayList<ArrayList<String>> BrokerList;
     private HashMap<Integer, String> IPMap;
-    private static ArrayList<InitiatePollObject> checkPoll;
+    private static ArrayList<InitiatePollObject> checkPoll = new ArrayList<InitiatePollObject>();
     private static ArrayList<LoadStatusObject> sharedLsos;
     private ArrayList<LoadStatusObject> lsos;
     private static ArrayList<LoadStatusObject> tempLsos = new ArrayList<LoadStatusObject>();
@@ -66,9 +66,9 @@ public class LoadBalancerCommThread extends Thread {
 
             Socket cliSocket;
 
-            synchronized (checkPoll){
-                checkPoll = new ArrayList<InitiatePollObject>();
-            }
+//            synchronized (checkPoll){
+//                checkPoll = new ArrayList<InitiatePollObject>();
+//            }
 
             if (curMaster > 0) {
 

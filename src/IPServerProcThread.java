@@ -35,6 +35,8 @@ public class IPServerProcThread extends Thread{
 
     private void IPServerLBProc(){
 
+        System.out.println("LB connected");
+
         InetSocketAddress remoteSocketAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
         String remoteHostName = remoteSocketAddress.getAddress().getHostAddress();
         int LBIdentifier = 0;
@@ -97,6 +99,8 @@ public class IPServerProcThread extends Thread{
 
     private void IPServerBrokerProc(){
 
+        System.out.println("Broker connected");
+
         ArrayList<String> temp;
 
         synchronized (IPList){
@@ -116,6 +120,8 @@ public class IPServerProcThread extends Thread{
     }
 
     private void IPServerClientProc(){
+
+        System.out.println("Client connected");
 
         String temp;
         InetSocketAddress remoteSocketAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
