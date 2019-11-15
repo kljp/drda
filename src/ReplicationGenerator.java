@@ -45,7 +45,7 @@ public class ReplicationGenerator {
 
         for (int i = 0; i < ms.length; i++) {
 
-            tempStr = IPMap.get(MurmurHash.hash32(ms[i].getSubspaceForward()) % IPMap.size());
+            tempStr = IPMap.get(Math.abs(MurmurHash.hash32(ms[i].getSubspaceForward())) % IPMap.size());
             if(checkDuplicates.contains(tempStr))
                 continue;
             else
@@ -109,7 +109,7 @@ public class ReplicationGenerator {
 
             for (int j = 0; j < ms.length; j++) {
 
-                tempStr = IPMap.get(MurmurHash.hash32(ms[j].getSubspaceForward()) % IPMap.size());
+                tempStr = IPMap.get(Math.abs(MurmurHash.hash32(ms[j].getSubspaceForward())) % IPMap.size());
 
                 if(tempStr.equals(lsoArray[i].getBROKER_IP())){
 
