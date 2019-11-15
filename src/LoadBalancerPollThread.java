@@ -30,10 +30,9 @@ public class LoadBalancerPollThread extends Thread {
         String remoteHostName = remoteSocketAddress.getAddress().getHostAddress();
 
         synchronized (queues) {
-            if (!queues.containsKey(remoteHostName)) {
+            if (!queues.containsKey(remoteHostName))
                 queues.put(remoteHostName, new LinkedList<msgEPartition>());
-                System.out.println(remoteHostName);
-            }
+
         }
 
         synchronized (IPMap) {
