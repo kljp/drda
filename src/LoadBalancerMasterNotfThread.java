@@ -136,11 +136,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
                 }
 
                 synchronized (lsos) {
-                    if (!lsos.isEmpty()) {
-                        System.out.println(lsos.get(0).getBROKER_IP());
-                        System.out.println(lsos.get(0).getNumSubscriptions());
-                        System.out.println(lsos.get(0).getAccessCount());
-                    }
+                    if (!lsos.isEmpty())
+                        System.out.println(lsos + "\n");
                 }
                 before = System.currentTimeMillis();
             }

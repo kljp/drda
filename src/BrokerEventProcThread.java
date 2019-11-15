@@ -36,6 +36,7 @@ public class BrokerEventProcThread extends Thread {
         socket = new Socket();
 
         try {
+            System.out.println(SUB_IP);
             socket.connect(new InetSocketAddress(SUB_IP, SUB_PORT));
             cao = new CheckAliveObject(1);
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
