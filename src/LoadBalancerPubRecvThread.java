@@ -56,7 +56,6 @@ public class LoadBalancerPubRecvThread extends Thread {
                     tempStr = IPMap.get(MurmurHash.hash32(temp.getSubspace(0)) % IPMap.size()); // same with -> tempStr = IPMap.get(MurmurHash.hash32(temp.getSubspace((int) Math.random() % temp.getSubspaceList().size())) % IPMap.size());
                 }
 
-                System.out.println(tempStr);
                 synchronized (queues.get(tempStr)) {
                     queues.get(tempStr).add(temp);
 

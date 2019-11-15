@@ -137,7 +137,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                 synchronized (lsos) {
                     if (!lsos.isEmpty())
-                        System.out.println(lsos + "\n");
+                        System.out.println(lsos);
                 }
                 before = System.currentTimeMillis();
             }
