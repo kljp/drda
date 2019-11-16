@@ -101,9 +101,9 @@ public class ReplicationGenerator {
                 }
             }
         }
-
+        System.out.println(loads.length + " " + lsoArray.length);
         for (int i = 0; i < lsoArray.length; i++) {
-            System.out.println(count + " " + repDeg);
+
             if(count == repDeg)
                 break;
 
