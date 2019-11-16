@@ -132,7 +132,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
                 }
 
                 synchronized (lsos) {
-                    lsos = tempLsos;
+                    lsos.clear();
+                    lsos.addAll(tempLsos);
                 }
 
                 synchronized (lsos) {
