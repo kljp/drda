@@ -103,7 +103,7 @@ public class ReplicationGenerator {
         }
 
         for (int i = 0; i < lsoArray.length; i++) {
-
+            System.out.println(count + " " + repDeg);
             if(count == repDeg)
                 break;
 
