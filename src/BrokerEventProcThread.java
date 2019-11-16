@@ -66,7 +66,7 @@ public class BrokerEventProcThread extends Thread {
 
                                 if(temp != null && dataOutputStream != null)
                                     temp.writeDelimitedTo(dataOutputStream);
-                                
+
                                 else
                                     break;
 
