@@ -102,6 +102,11 @@ public class ReplicationGenerator {
             }
         }
 
+        System.out.println("//////////////////");
+        for (int i = 0; i < ms.length; i++) {
+            System.out.println(ms[i]);
+        }
+        System.out.println("//////////////////");
         for (int i = 0; i < lsoArray.length; i++) {
 
             if(count == repDeg)
@@ -113,6 +118,7 @@ public class ReplicationGenerator {
 
                 if(tempStr.equals(lsoArray[i].getBROKER_IP())){
 
+                    System.out.println(messages[count] + "         " + ms[j]);
                     messages[count] = ms[j];
                     count++;
 
