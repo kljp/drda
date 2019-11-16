@@ -29,16 +29,17 @@ public class BrokerEventProcThread extends Thread {
     public void run() {
 
         Socket socket;
-        msgEPartition temp;
+        msgEPartition temp = null;
         CheckAliveObject cao;
         int checkAlive;
+        DataOutputStream dataOutputStream = null;
 
         socket = new Socket();
 
         try {
             socket.connect(new InetSocketAddress(SUB_IP, SUB_PORT));
             cao = new CheckAliveObject(1);
-            DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
             new BrokerSubCheckAliveThread(socket, cao).start();
 
@@ -63,13 +64,7 @@ public class BrokerEventProcThread extends Thread {
                                     temp = eventQueues.get(i).getEventQueue().poll();
                                 }
 
-                                try{
-                                    temp.writeDelimitedTo(dataOutputStream);
-                                } catch (IOException e) {
-                                    System.out.println(temp + " /// " + dataOutputStream);
-                                    return;
-                                }
-
+                                temp.writeDelimitedTo(dataOutputStream);
                                 dataOutputStream.flush();
 
                                 synchronized (subscriptions) {
@@ -102,7 +97,7 @@ public class BrokerEventProcThread extends Thread {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace();System.out.println(temp + " /// " + dataOutputStream);
         } finally {
             try {
                 if (socket != null && !socket.isClosed()) {
