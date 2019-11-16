@@ -64,7 +64,12 @@ public class BrokerEventProcThread extends Thread {
                                     temp = eventQueues.get(i).getEventQueue().poll();
                                 }
 
-                                temp.writeDelimitedTo(dataOutputStream);
+                                if(temp != null && dataOutputStream != null)
+                                    temp.writeDelimitedTo(dataOutputStream);
+                                else {
+                                    System.out.println(temp + " /// " + dataOutputStream);
+                                    break;
+                                }
                                 dataOutputStream.flush();
 
                                 synchronized (subscriptions) {
@@ -104,8 +109,7 @@ public class BrokerEventProcThread extends Thread {
                     socket.close();
                 }
             } catch (IOException e) {
-//                e.printStackTrace();
-                System.out.println(temp + " /// " + dataOutputStream);
+                e.printStackTrace();
             }
         }
     }
