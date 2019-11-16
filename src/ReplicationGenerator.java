@@ -130,7 +130,6 @@ public class ReplicationGenerator {
 
                 tempStr = IPMap.get(Math.abs(MurmurHash.hash32(ms[j].getSubspaceForward())) % IPMap.size());
 
-                System.out.println(tempStr + " " + lsoArray[i].getBROKER_IP());
                 if(tempStr.equals(lsoArray[i].getBROKER_IP())){
 
                     messages[count] = ms[j];
