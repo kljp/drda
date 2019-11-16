@@ -63,7 +63,13 @@ public class BrokerEventProcThread extends Thread {
                                     temp = eventQueues.get(i).getEventQueue().poll();
                                 }
 
-                                temp.writeDelimitedTo(dataOutputStream);
+                                try{
+                                    temp.writeDelimitedTo(dataOutputStream);
+                                } catch (IOException e) {
+                                    System.out.println(temp + " /// " + dataOutputStream);
+                                    return;
+                                }
+
                                 dataOutputStream.flush();
 
                                 synchronized (subscriptions) {
