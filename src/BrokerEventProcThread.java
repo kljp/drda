@@ -97,7 +97,8 @@ public class BrokerEventProcThread extends Thread {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();System.out.println(temp + " /// " + dataOutputStream);
+//            e.printStackTrace();
+            System.out.println(temp + " /// " + dataOutputStream);
         } finally {
             try {
                 if (socket != null && !socket.isClosed()) {
