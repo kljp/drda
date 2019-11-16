@@ -102,11 +102,6 @@ public class ReplicationGenerator {
             }
         }
 
-        System.out.println("//////////////////");
-        for (int i = 0; i < ms.length; i++) {
-            System.out.println(ms[i].getPayload());
-        }
-        System.out.println("//////////////////");
         for (int i = 0; i < lsoArray.length; i++) {
 
             if(count == repDeg)
@@ -116,9 +111,9 @@ public class ReplicationGenerator {
 
                 tempStr = IPMap.get(Math.abs(MurmurHash.hash32(ms[j].getSubspaceForward())) % IPMap.size());
 
+                System.out.println(tempStr + " " + lsoArray[i].getBROKER_IP());
                 if(tempStr.equals(lsoArray[i].getBROKER_IP())){
 
-                    System.out.println(messages[count].getPayload() + "         " + ms[j].getPayload());
                     messages[count] = ms[j];
                     count++;
 
