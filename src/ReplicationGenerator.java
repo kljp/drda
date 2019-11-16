@@ -73,7 +73,7 @@ public class ReplicationGenerator {
         LoadStatusObject tempLso;
 
         messages = new msgEPartition[repDeg];
-
+        System.out.println(lsos.size());
         synchronized (lsos){
             lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
         }
@@ -101,7 +101,7 @@ public class ReplicationGenerator {
                 }
             }
         }
-        System.out.println(loads.length + " " + lsoArray.length);
+
         for (int i = 0; i < lsoArray.length; i++) {
 
             if(count == repDeg)
