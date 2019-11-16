@@ -64,10 +64,9 @@ public class BrokerEventProcThread extends Thread {
                                     temp = eventQueues.get(i).getEventQueue().poll();
                                 }
 
-                                if(temp != null && dataOutputStream != null) {
-                                    System.out.println(temp);
+                                if(temp != null && dataOutputStream != null)
                                     temp.writeDelimitedTo(dataOutputStream);
-                                }
+                                
                                 else
                                     break;
 
