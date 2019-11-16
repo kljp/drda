@@ -62,7 +62,7 @@ public class ReplicationGenerator {
         return messages;
     }
 
-    public msgEPartition[] applyReplicationDegree(msgEPartition[] ms, HashMap<Integer, String> IPMap, ArrayList<LoadStatusObject> lsos, int repDeg){
+    public msgEPartition[] applyReplicationDegree(msgEPartition[] ms, HashMap<Integer, String> IPMap, ArrayList<LoadStatusObject> lsos, int repDeg, int checkFirst){
 
         msgEPartition[] messages;
         String tempStr;
@@ -73,6 +73,25 @@ public class ReplicationGenerator {
         LoadStatusObject tempLso;
 
         messages = new msgEPartition[repDeg];
+
+        if(checkFirst == 0){
+
+            ArrayList<Integer> checkDuplicate = new ArrayList<Integer>();
+
+            for (int i = 0; i < messages.length; i++) {
+                while(true){
+                    temp = ((int) (Math.random() * GlobalState.MAX_NUM_BROKER) % IPMap.size()) % ms.length;
+
+                    if(!checkDuplicate.contains(temp)){
+                        messages[i] = ms[temp];
+                        checkDuplicate.add(temp);
+                        break;
+                    }
+                }
+            }
+
+            return messages;
+        }
 
         synchronized (lsos){
             lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
