@@ -57,9 +57,9 @@ public class LoadBalancerSubRecvThread extends Thread {
 
             if(messages.length > 1)
                 messages = replicationGenerator.preventDuplicates(messages, IPMap);
-
+            System.out.println(lsos.size());
             if(messages.length > repDeg.getRepDegInt()){
-                System.out.println(lsos.size());
+
                 if(lsos.size() > 0)
                     messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 1);
 
