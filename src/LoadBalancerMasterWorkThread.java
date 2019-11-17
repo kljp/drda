@@ -83,10 +83,10 @@ public class LoadBalancerMasterWorkThread extends Thread {
                     }
                     System.out.println("6");
                     while (true) {
-
+                        System.out.println("7");
                         if (wakeThread.get(threadId) == 1) {
 //                        synchronized (repDeg) {
-
+                            System.out.println("8");
                             try {
                                 objectOutputStream.writeObject(repDeg);
                             } catch (IOException e) {
