@@ -129,6 +129,7 @@ public class LoadBalancerCommThread extends Thread {
                         synchronized (lsos) {
                             lsos.clear();
                             lsos.addAll((ArrayList<LoadStatusObject>) objectInputStream.readObject());
+                            System.out.println(lsos);
                         }
 
                         synchronized (lsos){
@@ -167,6 +168,7 @@ public class LoadBalancerCommThread extends Thread {
                         synchronized (lsos) {
                             lsos.clear();
                             lsos.addAll((ArrayList<LoadStatusObject>) objectInputStream.readObject());
+                            System.out.println(lsos);
                         }
 
                         synchronized (lsos){

@@ -109,6 +109,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
 
                             synchronized (lsos){
                                 objectOutputStream.writeObject(lsos);
+                                System.out.println(lsos);
                                 objectOutputStream.flush();
                             }
                         } catch (IOException e) {
