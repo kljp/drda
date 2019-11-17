@@ -52,7 +52,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
                 if (wakeThread.get(threadId) == 1)
                     preventDeadlock = 1;
             }
-
+            System.out.println("a");
             if (preventDeadlock == 1) {
 
                 // send request as string to the corresponding LB
@@ -66,7 +66,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
 
                         checkFirst = 1;
                     } else {
-
+                        System.out.println("b");
                         dataOutputStream.writeUTF("reduce");
                         dataOutputStream.flush();
 

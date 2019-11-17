@@ -170,7 +170,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
             synchronized (wakeThread){
                 tempWakeThread = wakeThread;
             }
-            System.out.println("a");
+
             for (int i = 0; i < tempWakeThread.size(); i++) {
 
                 if (tempWakeThread.get(i) == 0)
