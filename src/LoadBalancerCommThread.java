@@ -121,11 +121,11 @@ public class LoadBalancerCommThread extends Thread {
                                 new LoadBalancerSyncThread(brokers.get(i), i, BROKER_PORT, checkPoll, sharedLsos).start();
                             }
                         }
-
+                        System.out.println("1");
                         synchronized (repDeg) {
                             repDeg = (ReplicationDegree) objectInputStream.readObject();
                         }
-
+                        System.out.println("2");
                         synchronized (lsos) {
                             lsos.clear();
                             lsos.addAll((ArrayList<LoadStatusObject>) objectInputStream.readObject());
@@ -137,7 +137,7 @@ public class LoadBalancerCommThread extends Thread {
                                 System.out.println();
                             }
                         }
-
+                        System.out.println("3");
                     } else if (tempStr.equals("reduce")) {
 
                         synchronized (checkPoll) {
@@ -156,15 +156,16 @@ public class LoadBalancerCommThread extends Thread {
                                 }
                             }
                         }
-
+                        System.out.println("4");
                         synchronized (repDeg) {
                             repDeg = (ReplicationDegree) objectInputStream.readObject();
                         }
-
+                        System.out.println("5");
                         synchronized (lsos) {
                             lsos.clear();
                             lsos.addAll((ArrayList<LoadStatusObject>) objectInputStream.readObject());
                         }
+                        System.out.println("6");
                     }
                 }
             } catch (IOException e) {
