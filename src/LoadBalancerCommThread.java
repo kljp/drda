@@ -101,24 +101,26 @@ public class LoadBalancerCommThread extends Thread {
 
                 while (true) {
 
+                    System.out.println("1");
                     tempStr = dataInputStream.readUTF();
                     System.out.println(tempStr);
+                    System.out.println("2");
 
                     if (tempStr.equals("connect")) {
-                        System.out.println("1");
+
                         brokers = (ArrayList<String>) objectInputStream.readObject();
-                        System.out.println("2");
+
                         synchronized (checkPoll) {
                             for (int i = 0; i < brokers.size(); i++) {
                                 checkPoll.add(new InitiatePollObject(0));
                             }
                         }
-                        System.out.println("3");
+
                         synchronized (checkPoll) {
-                            for (int i = 0; i < brokers.size(); i++) {                System.out.println("4");
+                            for (int i = 0; i < brokers.size(); i++) {
                                 new LoadBalancerSyncThread(brokers.get(i), i, BROKER_PORT, checkPoll, sharedLsos).start();
                             }
-                        }                System.out.println("5");
+                        }
                     } else if (tempStr.equals("reduce")) {
                         System.out.println("A");
                         synchronized (checkPoll) {
@@ -144,7 +146,7 @@ public class LoadBalancerCommThread extends Thread {
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
                 curMaster++;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
