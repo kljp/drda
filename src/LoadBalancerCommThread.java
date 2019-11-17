@@ -165,11 +165,13 @@ public class LoadBalancerCommThread extends Thread {
                             repDeg = (ReplicationDegree) objectInputStream.readObject();
                         }
 
-                        synchronized (lsos) {
-                            lsos.clear();
-                            lsos.addAll((ArrayList<LoadStatusObject>) objectInputStream.readObject());
-                            System.out.println(lsos);
-                        }
+                        System.out.println((ArrayList<LoadStatusObject>) objectInputStream.readObject());
+
+//                        synchronized (lsos) {
+//                            lsos.clear();
+//                            lsos.addAll((ArrayList<LoadStatusObject>) objectInputStream.readObject());
+//                            System.out.println(lsos);
+//                        }
 
                         synchronized (lsos){
                             if (!lsos.isEmpty()) {
