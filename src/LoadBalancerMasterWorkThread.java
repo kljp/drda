@@ -57,7 +57,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
             }
 
             if (preventDeadlock == 1) {
-                System.out.println("aaa");
+
 
                 // send request as string to the corresponding LB
                 try {
@@ -101,10 +101,16 @@ public class LoadBalancerMasterWorkThread extends Thread {
 //                        synchronized (repDeg) {
 
                         try {
-                            objectOutputStream.writeObject(repDeg);
-                            objectOutputStream.flush();
-                            objectOutputStream.writeObject(lsos);
-                            objectOutputStream.flush();
+
+                            synchronized (repDeg){
+                                objectOutputStream.writeObject(repDeg);
+                                objectOutputStream.flush();
+                            }
+
+                            synchronized (lsos){
+                                objectOutputStream.writeObject(lsos);
+                                objectOutputStream.flush();
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
