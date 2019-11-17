@@ -157,7 +157,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
             synchronized (tempLsos){
                 tempLsos.addAll(tempLso);
             }
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }

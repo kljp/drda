@@ -64,12 +64,12 @@ public class LoadBalancerMasterSyncProcThread extends Thread {
         try {
             syncObject = SyncObject.parseDelimitedFrom(dataInputStream);
 
-            synchronized (tempLsos) {
+            LoadStatusObject lso = new LoadStatusObject();
+            lso.setBROKER_IP(BROKER_IP);
+            lso.setNumSubscriptions(syncObject.getLso(0).getNumSubscriptions());
+            lso.setAccessCount(syncObject.getLso(0).getAccessCount());
 
-                LoadStatusObject lso = new LoadStatusObject();
-                lso.setBROKER_IP(BROKER_IP);
-                lso.setNumSubscriptions(syncObject.getLso(0).getNumSubscriptions());
-                lso.setAccessCount(syncObject.getLso(0).getAccessCount());
+            synchronized (tempLsos) {
                 tempLsos.add(lso);
             }
 
