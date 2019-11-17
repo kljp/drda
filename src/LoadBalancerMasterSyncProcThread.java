@@ -1,11 +1,13 @@
+import com.EPartition.GlobalSyncObject.SyncObject;
+
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class LoadBalancerMasterSyncProcThread extends Thread{
+public class LoadBalancerMasterSyncProcThread extends Thread {
 
     private String BROKER_IP;
     private int BROKER_PORT;
@@ -13,7 +15,7 @@ public class LoadBalancerMasterSyncProcThread extends Thread{
     private int threadId;
     private ArrayList<LoadStatusObject> tempLsos;
 
-    public LoadBalancerMasterSyncProcThread(String BROKER_IP, int BROKER_PORT, ArrayList<Integer> wakeThread, int threadId, ArrayList<LoadStatusObject> tempLsos){
+    public LoadBalancerMasterSyncProcThread(String BROKER_IP, int BROKER_PORT, ArrayList<Integer> wakeThread, int threadId, ArrayList<LoadStatusObject> tempLsos) {
 
         this.BROKER_IP = BROKER_IP;
         this.BROKER_PORT = BROKER_PORT;
@@ -23,19 +25,19 @@ public class LoadBalancerMasterSyncProcThread extends Thread{
     }
 
     @Override
-    public void run(){
+    public void run() {
 
         Socket socket = new Socket();
         DataOutputStream dataOutputStream = null;
-        ObjectInputStream objectInputStream = null;
+        DataInputStream dataInputStream = null;
         LoadStatusObject lso;
 
         try {
             socket.connect(new InetSocketAddress(BROKER_IP, BROKER_PORT));
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            objectInputStream = new ObjectInputStream(socket.getInputStream());
+            dataInputStream = new DataInputStream(socket.getInputStream());
 
-            while(true){
+            while (true) {
 
                 synchronized (wakeThread) {
 
@@ -43,12 +45,8 @@ public class LoadBalancerMasterSyncProcThread extends Thread{
 
                         dataOutputStream.writeUTF("sync");
                         dataOutputStream.flush();
-                        lso = (LoadStatusObject) objectInputStream.readObject();
-                        lso.setBROKER_IP(BROKER_IP);
 
-                        synchronized (tempLsos){
-                            tempLsos.add(lso);
-                        }
+                        applyLocalLso(dataInputStream);
 
                         wakeThread.set(threadId, 0);
                     }
@@ -56,7 +54,26 @@ public class LoadBalancerMasterSyncProcThread extends Thread{
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        }
+    }
+
+    public void applyLocalLso(DataInputStream dataInputStream) {
+
+        SyncObject syncObject;
+
+        try {
+            syncObject = SyncObject.parseDelimitedFrom(dataInputStream);
+
+            synchronized (tempLsos) {
+
+                LoadStatusObject lso = new LoadStatusObject();
+                lso.setBROKER_IP(BROKER_IP);
+                lso.setNumSubscriptions(syncObject.getLso(0).getNumSubscriptions());
+                lso.setAccessCount(syncObject.getLso(0).getAccessCount());
+                tempLsos.add(lso);
+            }
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

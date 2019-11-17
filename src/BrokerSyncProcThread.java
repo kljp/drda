@@ -1,6 +1,8 @@
+import com.EPartition.GlobalSyncObject.SyncObject;
+
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -22,9 +24,13 @@ public class BrokerSyncProcThread extends Thread{
         LoadStatusObject lso;
         int accessCount;
 
+        SyncObject syncObject;
+        SyncObject.Builder syncObjectBuilder;
+        SyncObject.LoadStatusObject.Builder lsob;
+
         try {
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
             while(true){
 
@@ -44,8 +50,16 @@ public class BrokerSyncProcThread extends Thread{
                     }
 
                     lso.setAccessCount(accessCount);
-                    objectOutputStream.writeObject(lso);
-                    objectOutputStream.flush();
+
+                    syncObjectBuilder = SyncObject.newBuilder();
+                    lsob = SyncObject.LoadStatusObject.newBuilder();
+                    lsob.setBROKERIP(lso.getBROKER_IP());
+                    lsob.setNumSubscriptions(lso.getNumSubscriptions());
+                    lsob.setAccessCount(lso.getAccessCount());
+                    syncObjectBuilder.addLso(lsob);
+                    syncObject = syncObjectBuilder.build();
+                    syncObject.writeDelimitedTo(dataOutputStream);
+                    dataOutputStream.flush();
                 }
             }
         } catch (IOException e) {

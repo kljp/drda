@@ -98,7 +98,7 @@ public class LoadBalancerCommThread extends Thread {
                 // In while loop, wait for request (by dataInputStream.readUTF())
                 // Then, receive request as string from the worker thread of master LB
                 DataInputStream dataInputStream = new DataInputStream(cliSocket.getInputStream());
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(cliSocket.getOutputStream());
+                DataOutputStream dataOutputStream = new DataOutputStream(cliSocket.getOutputStream());
                 ObjectInputStream objectInputStream = new ObjectInputStream(cliSocket.getInputStream());
                 ArrayList<String> brokers;
 
@@ -147,8 +147,7 @@ public class LoadBalancerCommThread extends Thread {
                         while (true) {
                             synchronized (sharedLsos) {
                                 if (sharedLsos.size() == checkPoll.size()) {
-                                    objectOutputStream.writeObject(sharedLsos);
-                                    objectOutputStream.flush();
+                                    sendLsos(dataOutputStream);
                                     sharedLsos.clear();
                                     break;
                                 }
@@ -200,6 +199,35 @@ public class LoadBalancerCommThread extends Thread {
                     lsos.add(lso);
                 }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendLsos(DataOutputStream dataOutputStream){
+
+        SyncObject syncObject;
+        SyncObject.Builder syncObjectBuilder;
+        SyncObject.LoadStatusObject.Builder lsob;
+
+        try {
+
+            syncObjectBuilder = SyncObject.newBuilder();
+
+            synchronized (lsos) {
+                for (int i = 0; i < sharedLsos.size(); i++) {
+                    lsob = SyncObject.LoadStatusObject.newBuilder();
+                    lsob.setBROKERIP(sharedLsos.get(i).getBROKER_IP());
+                    lsob.setNumSubscriptions(sharedLsos.get(i).getNumSubscriptions());
+                    lsob.setAccessCount(sharedLsos.get(i).getAccessCount());
+                    syncObjectBuilder.addLso(lsob);
+                }
+            }
+
+            syncObject = syncObjectBuilder.build();
+            syncObject.writeDelimitedTo(dataOutputStream);
+            dataOutputStream.flush();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

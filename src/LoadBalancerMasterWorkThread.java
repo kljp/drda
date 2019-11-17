@@ -1,11 +1,8 @@
 import com.EPartition.GlobalSyncObject.SyncObject;
 
-import java.io.DataOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.io.IOException;
 import java.util.HashMap;
 
 public class LoadBalancerMasterWorkThread extends Thread {
@@ -37,9 +34,8 @@ public class LoadBalancerMasterWorkThread extends Thread {
 
         DataOutputStream dataOutputStream = null;
         ObjectOutputStream objectOutputStream = null;
-        ObjectInputStream objectInputStream = null;
+        DataInputStream dataInputStream = null;
         int checkFirst = 0;
-        ArrayList<LoadStatusObject> tempLso;
         int preventDeadlock = 0;
         int preventDeadlock2 = 0;
         SyncObject syncObject;
@@ -50,7 +46,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
         try {
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            objectInputStream = new ObjectInputStream(socket.getInputStream());
+            dataInputStream = new DataInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,7 +59,6 @@ public class LoadBalancerMasterWorkThread extends Thread {
             }
 
             if (preventDeadlock == 1) {
-
 
                 // send request as string to the corresponding LB
                 try {
@@ -80,16 +75,10 @@ public class LoadBalancerMasterWorkThread extends Thread {
                         dataOutputStream.writeUTF("reduce");
                         dataOutputStream.flush();
 
-                        tempLso = (ArrayList<LoadStatusObject>) objectInputStream.readObject();
-
-                        synchronized (tempLsos) {
-                            tempLsos.addAll(tempLso);
-                        }
+                        fillTempLsos(dataInputStream);
                     }
 
                 } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
 
@@ -146,6 +135,31 @@ public class LoadBalancerMasterWorkThread extends Thread {
 
                 preventDeadlock = 0;
             }
+        }
+    }
+
+    public void fillTempLsos(DataInputStream dataInputStream) {
+
+        SyncObject syncObject;
+        ArrayList<LoadStatusObject> tempLso = new ArrayList<LoadStatusObject>();
+
+        try {
+            syncObject = SyncObject.parseDelimitedFrom(dataInputStream);
+
+            for (int i = 0; i < syncObject.getLsoList().size(); i++) {
+                LoadStatusObject lso = new LoadStatusObject();
+                lso.setBROKER_IP(syncObject.getLso(i).getBROKERIP());
+                lso.setNumSubscriptions(syncObject.getLso(i).getNumSubscriptions());
+                lso.setAccessCount(syncObject.getLso(i).getAccessCount());
+                tempLso.add(lso);
+            }
+
+            synchronized (tempLsos){
+                tempLsos.addAll(tempLso);
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

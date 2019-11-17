@@ -1,6 +1,8 @@
+import com.EPartition.GlobalSyncObject.SyncObject;
+
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -27,13 +29,13 @@ public class LoadBalancerSyncThread extends Thread{
 
         Socket socket = new Socket();
         DataOutputStream dataOutputStream = null;
-        ObjectInputStream objectInputStream = null;
+        DataInputStream dataInputStream = null;
         LoadStatusObject lso;
 
         try {
             socket.connect(new InetSocketAddress(BROKER_IP, BROKER_PORT));
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            objectInputStream = new ObjectInputStream(socket.getInputStream());
+            dataInputStream = new DataInputStream(socket.getInputStream());
             // poll
             while(true){
                 synchronized (checkPoll.get(threadId)){
@@ -42,12 +44,8 @@ public class LoadBalancerSyncThread extends Thread{
 
                         dataOutputStream.writeUTF("sync");
                         dataOutputStream.flush();
-                        lso = (LoadStatusObject) objectInputStream.readObject();
-                        lso.setBROKER_IP(BROKER_IP);
 
-                        synchronized (sharedLsos){
-                            sharedLsos.add(lso);
-                        }
+                        applyLocalLso(dataInputStream);
 
                         checkPoll.get(threadId).setCheck(0);
                     }
@@ -57,7 +55,26 @@ public class LoadBalancerSyncThread extends Thread{
             // save it to shared data structure or any object
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        }
+    }
+
+    public void applyLocalLso(DataInputStream dataInputStream) {
+
+        SyncObject syncObject;
+
+        try {
+            syncObject = SyncObject.parseDelimitedFrom(dataInputStream);
+
+            synchronized (sharedLsos) {
+
+                LoadStatusObject lso = new LoadStatusObject();
+                lso.setBROKER_IP(BROKER_IP);
+                lso.setNumSubscriptions(syncObject.getLso(0).getNumSubscriptions());
+                lso.setAccessCount(syncObject.getLso(0).getAccessCount());
+                sharedLsos.add(lso);
+            }
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
