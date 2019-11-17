@@ -13,7 +13,7 @@ public class LoadBalancerCommThread extends Thread {
     private int BROKER_PORT;
     private static int curMaster;
     private static ArrayList<Integer> wakeThread = new ArrayList<Integer>();
-    private static ArrayList<ArrayList<String>> BrokerList;
+    private static ArrayList<ArrayList<String>> BrokerList = new ArrayList<ArrayList<String>>();
     private HashMap<Integer, String> IPMap;
     private static ArrayList<InitiatePollObject> checkPoll = new ArrayList<InitiatePollObject>();
     private static ArrayList<LoadStatusObject> sharedLsos;

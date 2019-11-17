@@ -87,7 +87,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                     if (checkFirst == 0) {
 
-                        BrokerList = new ArrayList<ArrayList<String>>();
+//                        BrokerList = new ArrayList<ArrayList<String>>();
 
                         synchronized (wakeThread) {
                             tempSize = wakeThread.size();
