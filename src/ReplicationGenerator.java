@@ -72,8 +72,6 @@ public class ReplicationGenerator {
         int count = 0;
         LoadStatusObject tempLso;
 
-        System.out.println(lsos);
-
         messages = new msgEPartition[repDeg];
 
         if(checkFirst == 0){

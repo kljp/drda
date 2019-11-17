@@ -57,6 +57,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
             }
 
             if (preventDeadlock == 1) {
+                System.out.println("aaa");
 
                 // send request as string to the corresponding LB
                 try {
