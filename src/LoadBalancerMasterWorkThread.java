@@ -97,6 +97,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
 //                        synchronized (repDeg) {
 
                         try {
+                            System.out.println("xxxxx");
                             objectOutputStream.writeObject(repDeg);
                             objectOutputStream.flush();
                         } catch (IOException e) {
