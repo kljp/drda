@@ -45,7 +45,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
         }
 
         while (true) {
-            System.out.println(wakeThread.get(threadId));
+
             if (wakeThread.get(threadId) == 1) {
 
                 // send request as string to the corresponding LB
