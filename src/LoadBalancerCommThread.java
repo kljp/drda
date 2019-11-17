@@ -98,15 +98,15 @@ public class LoadBalancerCommThread extends Thread {
                 DataInputStream dataInputStream = new DataInputStream(cliSocket.getInputStream());
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(cliSocket.getOutputStream());
                 ObjectInputStream objectInputStream = new ObjectInputStream(cliSocket.getInputStream());
-                int checkMode;
                 ArrayList<String> brokers;
+
+                String tempStr;
 
                 while (true) {
 
-                    checkMode = ((CheckModeObject) objectInputStream.readObject()).getMode();
-                    System.out.println(checkMode);
+                    tempStr = dataInputStream.readUTF();
 
-                    if (checkMode == 0) {
+                    if (tempStr.equals("connect")) {
 
                         brokers = (ArrayList<String>) objectInputStream.readObject();
 
@@ -125,7 +125,7 @@ public class LoadBalancerCommThread extends Thread {
                         synchronized (repDeg) {
                             repDeg = (ReplicationDegree) objectInputStream.readObject();
                         }
-                    } else if (checkMode == 1) {
+                    } else if (tempStr.equals("reduce")) {
                         System.out.println("A");
                         synchronized (checkPoll) {
                             for (int i = 0; i < checkPoll.size(); i++) {
@@ -138,7 +138,7 @@ public class LoadBalancerCommThread extends Thread {
                                 if (sharedLsos.size() == checkPoll.size()) {
                                     objectOutputStream.writeObject(sharedLsos);
                                     objectOutputStream.flush();
-                                    sharedLsos = null;
+                                    sharedLsos.clear();
                                     break;
                                 }
                             }

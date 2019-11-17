@@ -40,7 +40,7 @@ public class LoadBalancerSyncThread extends Thread{
 
                     if(checkPoll.get(threadId).getCheck() == 1){
 
-                        dataOutputStream.writeInt(1);
+                        dataOutputStream.writeUTF("sync");
                         dataOutputStream.flush();
                         lso = (LoadStatusObject) objectInputStream.readObject();
                         lso.setBROKER_IP(BROKER_IP);
