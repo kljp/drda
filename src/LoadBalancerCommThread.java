@@ -63,7 +63,7 @@ public class LoadBalancerCommThread extends Thread {
                 e.printStackTrace();
             }
         } else { // LBs come in except the master.
-
+            System.out.println("1");
             Socket cliSocket;
 
 //            synchronized (checkPoll){
@@ -71,31 +71,31 @@ public class LoadBalancerCommThread extends Thread {
 //            }
 
             if (curMaster > 0) {
-
+                System.out.println("2");
                 try {
-                    cliSocket = new Socket();
-                    cliSocket.connect(new InetSocketAddress(GlobalState.IPS_IP, GlobalState.IPS_LB_PORT));
-                    DataOutputStream dataOutputStream = new DataOutputStream(cliSocket.getOutputStream());
-                    dataOutputStream.writeUTF("elect");
-                    dataOutputStream.flush();
-                    dataOutputStream.writeInt(curMaster);
-                    dataOutputStream.flush();
+                    cliSocket = new Socket();                System.out.println("3");
+                    cliSocket.connect(new InetSocketAddress(GlobalState.IPS_IP, GlobalState.IPS_LB_PORT));                System.out.println("4");
+                    DataOutputStream dataOutputStream = new DataOutputStream(cliSocket.getOutputStream());                System.out.println("5");
+                    dataOutputStream.writeUTF("elect");                System.out.println("6");
+                    dataOutputStream.flush();                System.out.println("7");
+                    dataOutputStream.writeInt(curMaster);                System.out.println("8");
+                    dataOutputStream.flush();                System.out.println("9");
 
-                    DataInputStream dataInputStream = new DataInputStream(cliSocket.getInputStream());
-                    LBMaster = dataInputStream.readUTF();
+                    DataInputStream dataInputStream = new DataInputStream(cliSocket.getInputStream());                System.out.println("10");
+                    LBMaster = dataInputStream.readUTF();                System.out.println("11");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
             try {
-                cliSocket = new Socket();
+                cliSocket = new Socket();                System.out.println("12");
                 cliSocket.connect(new InetSocketAddress(LBMaster, LB_PORT)); // LBMaster should be the latest IP Address.
                 // In while loop, wait for request (by dataInputStream.readUTF())
                 // Then, receive request as string from the worker thread of master LB
-                DataInputStream dataInputStream = new DataInputStream(cliSocket.getInputStream());
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(cliSocket.getOutputStream());
-                ObjectInputStream objectInputStream = new ObjectInputStream(cliSocket.getInputStream());
+                DataInputStream dataInputStream = new DataInputStream(cliSocket.getInputStream());                System.out.println("13");
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(cliSocket.getOutputStream());                System.out.println("14");
+                ObjectInputStream objectInputStream = new ObjectInputStream(cliSocket.getInputStream());                System.out.println("15");
                 String tempStr;
                 ArrayList<String> brokers;
 
