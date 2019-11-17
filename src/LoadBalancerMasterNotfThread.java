@@ -122,7 +122,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
                         checkFirst = 1;
                     }
 
-                    wakeWorkThreads();                System.out.println(wakeThread.get(0));
+                    wakeWorkThreads();
                     waitWorkThreads();                System.out.println("13");
 
                     calculateReplicationDegree();                System.out.println("14");
