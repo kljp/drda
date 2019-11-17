@@ -36,35 +36,41 @@ public class BrokerSubConnThread extends Thread {
 
         msgEPartition temp;
         String SUB_IP;
+        int preventDeadlock = 0;
 
         new BrokerSubRecvThread(LB_IP, LB_PORT, subQueue).start();
         new BrokerSubPollThread(subscriptions, pubQueue, eventQueues).start();
 
         while (true) {
 
-            synchronized (subQueue) {
-
-                // check whether there are new subscriptions or not by polling
-                if (!subQueue.isEmpty()) {
-
-                    temp = subQueue.poll();
-
-                    synchronized (subscriptions) {
-                        subscriptions.add(new PubCountObject(temp));
-
-                        synchronized (eventQueues){
-                            eventQueues.add(new EventQueueObject(seqThread, new LinkedList<msgEPartition>()));
-                        }
-                    }
-
-                    // should be replaced
-                    SUB_IP = temp.getIPAddress();
-
-                    new BrokerEventProcThread(SUB_IP, SUB_PORT, eventQueues, subscriptions, seqThread).start();
-
-                    seqThread++;
-                }
+            synchronized (subQueue){
+                if(!subQueue.isEmpty())
+                    preventDeadlock = 1;
             }
+
+            // check whether there are new subscriptions or not by polling
+            if (preventDeadlock == 1) {
+
+                temp = subQueue.poll();
+
+                synchronized (subscriptions) {
+                    subscriptions.add(new PubCountObject(temp));
+
+                    synchronized (eventQueues){
+                        eventQueues.add(new EventQueueObject(seqThread, new LinkedList<msgEPartition>()));
+                    }
+                }
+
+                // should be replaced
+                SUB_IP = temp.getIPAddress();
+
+                new BrokerEventProcThread(SUB_IP, SUB_PORT, eventQueues, subscriptions, seqThread).start();
+
+                seqThread++;
+
+                preventDeadlock = 0;
+            }
+
         }
     }
 }
