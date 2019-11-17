@@ -53,7 +53,6 @@ public class BrokerSyncProcThread extends Thread{
 
                     syncObjectBuilder = SyncObject.newBuilder();
                     lsob = SyncObject.LoadStatusObject.newBuilder();
-                    lsob.setBROKERIP(lso.getBROKER_IP());
                     lsob.setNumSubscriptions(lso.getNumSubscriptions());
                     lsob.setAccessCount(lso.getAccessCount());
                     syncObjectBuilder.addLso(lsob);
