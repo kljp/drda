@@ -121,6 +121,10 @@ public class LoadBalancerCommThread extends Thread {
                                 new LoadBalancerSyncThread(brokers.get(i), i, BROKER_PORT, checkPoll, sharedLsos).start();
                             }
                         }
+
+                        synchronized (repDeg) {
+                            repDeg = (ReplicationDegree) objectInputStream.readObject();
+                        }
                     } else if (checkMode == 1) {
                         System.out.println("A");
                         synchronized (checkPoll) {
