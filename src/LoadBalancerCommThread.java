@@ -59,7 +59,7 @@ public class LoadBalancerCommThread extends Thread {
                         wakeThread.add(0);
                     }
 
-                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, BrokerList, IPMap, repDeg, tempLsos).start();
+                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, BrokerList, IPMap, repDeg, tempLsos, lsos).start();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -125,14 +125,20 @@ public class LoadBalancerCommThread extends Thread {
                         synchronized (repDeg) {
                             repDeg = (ReplicationDegree) objectInputStream.readObject();
                         }
+
+                        synchronized (lsos) {
+                            lsos.clear();
+                            lsos.addAll((ArrayList<LoadStatusObject>) objectInputStream.readObject());
+                        }
+
                     } else if (tempStr.equals("reduce")) {
-                        System.out.println("A");
+
                         synchronized (checkPoll) {
                             for (int i = 0; i < checkPoll.size(); i++) {
                                 checkPoll.get(i).setCheck(1);
                             }
                         }
-                        System.out.println("B");
+
                         while (true) {
                             synchronized (sharedLsos) {
                                 if (sharedLsos.size() == checkPoll.size()) {
@@ -143,9 +149,14 @@ public class LoadBalancerCommThread extends Thread {
                                 }
                             }
                         }
-                        System.out.println("C");
+
                         synchronized (repDeg) {
                             repDeg = (ReplicationDegree) objectInputStream.readObject();
+                        }
+
+                        synchronized (lsos) {
+                            lsos.clear();
+                            lsos.addAll((ArrayList<LoadStatusObject>) objectInputStream.readObject());
                         }
                     }
                 }

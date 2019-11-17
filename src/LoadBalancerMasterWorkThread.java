@@ -15,8 +15,10 @@ public class LoadBalancerMasterWorkThread extends Thread {
     private HashMap<Integer, String> IPMap;
     private ReplicationDegree repDeg;
     private ArrayList<LoadStatusObject> tempLsos;
+    private ArrayList<LoadStatusObject> lsos;
 
-    public LoadBalancerMasterWorkThread(Socket socket, ArrayList<Integer> wakeThread, int threadId, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap, ReplicationDegree repDeg, ArrayList<LoadStatusObject> tempLsos) {
+    public LoadBalancerMasterWorkThread(Socket socket, ArrayList<Integer> wakeThread, int threadId, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap,
+                                        ReplicationDegree repDeg, ArrayList<LoadStatusObject> tempLsos, ArrayList<LoadStatusObject> lsos) {
 
         this.socket = socket;
         this.wakeThread = wakeThread;
@@ -25,6 +27,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
         this.IPMap = IPMap;
         this.repDeg = repDeg;
         this.tempLsos = tempLsos;
+        this.lsos = lsos;
     }
 
     @Override
@@ -66,27 +69,27 @@ public class LoadBalancerMasterWorkThread extends Thread {
 
                         checkFirst = 1;
                     } else {
-                        System.out.println("a");
+
                         dataOutputStream.writeUTF("reduce");
                         dataOutputStream.flush();
-                        System.out.println("b");
+
                         tempLso = (ArrayList<LoadStatusObject>) objectInputStream.readObject();
-                        System.out.println("c");
+
                         synchronized (tempLsos) {
                             tempLsos.addAll(tempLso);
                         }
                     }
-                    System.out.println("d");
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                System.out.println("e");
+
                 synchronized (wakeThread) {
                     wakeThread.set(threadId, 0);
                 }
-                System.out.println("f");
+
                 while (true) {
 
                     synchronized (wakeThread) {
@@ -98,6 +101,8 @@ public class LoadBalancerMasterWorkThread extends Thread {
 
                         try {
                             objectOutputStream.writeObject(repDeg);
+                            objectOutputStream.flush();
+                            objectOutputStream.writeObject(lsos);
                             objectOutputStream.flush();
                         } catch (IOException e) {
                             e.printStackTrace();
