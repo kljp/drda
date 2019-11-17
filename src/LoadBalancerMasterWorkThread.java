@@ -51,7 +51,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
                 // send request as string to the corresponding LB
                 try {
                     if (checkFirst == 0) { // only come in when initiated
-
+                        System.out.println("0");
                         dataOutputStream.writeUTF("connect");                        System.out.println("1");
                         dataOutputStream.flush();                        System.out.println("2");
                         objectOutputStream.writeObject(BrokerList.get(threadId));                        System.out.println("3");
