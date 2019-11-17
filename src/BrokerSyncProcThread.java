@@ -29,7 +29,7 @@ public class BrokerSyncProcThread extends Thread{
             while(true){
 
                 temp = dataInputStream.readInt();
-                System.out.println(temp);
+
                 if(temp == 1){
 
                     lso = new LoadStatusObject();
