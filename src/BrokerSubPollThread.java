@@ -39,6 +39,9 @@ public class BrokerSubPollThread extends Thread {
                     temp = pubQueue.poll();
                 }
 
+                if(temp == null)
+                    continue;
+
                 synchronized (subscriptions) {
 
                     for (int i = 0; i < subscriptions.size(); i++) {

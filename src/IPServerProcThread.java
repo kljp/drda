@@ -128,7 +128,7 @@ public class IPServerProcThread extends Thread{
         String remoteHostName = remoteSocketAddress.getAddress().getHostAddress();
 
         synchronized (IPList){
-            temp = IPList.get(MurmurHash.hash32(remoteHostName) % IPList.size());
+            temp = IPList.get(Math.abs(MurmurHash.hash32(remoteHostName)) % IPList.size());
         }
 
         try {
