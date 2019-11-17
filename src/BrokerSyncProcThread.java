@@ -58,7 +58,6 @@ public class BrokerSyncProcThread extends Thread{
                     syncObjectBuilder.addLso(lsob);
                     syncObject = syncObjectBuilder.build();
                     syncObject.writeDelimitedTo(dataOutputStream);
-                    System.out.println(syncObject);
                     dataOutputStream.flush();
                 }
             }

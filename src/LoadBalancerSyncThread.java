@@ -64,7 +64,6 @@ public class LoadBalancerSyncThread extends Thread{
 
         try {
             syncObject = SyncObject.parseDelimitedFrom(dataInputStream);
-            System.out.println(syncObject);
 
             LoadStatusObject lso = new LoadStatusObject();
             lso.setBROKER_IP(BROKER_IP);
