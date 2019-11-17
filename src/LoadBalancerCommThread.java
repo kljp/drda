@@ -63,7 +63,7 @@ public class LoadBalancerCommThread extends Thread {
                 e.printStackTrace();
             }
         } else { // LBs come in except the master.
-            System.out.println("1");
+
             Socket cliSocket;
 
 //            synchronized (checkPoll){
@@ -102,6 +102,7 @@ public class LoadBalancerCommThread extends Thread {
                 while (true) {
 
                     tempStr = dataInputStream.readUTF();
+                    System.out.println(tempStr);
 
                     if (tempStr.equals("connect")) {
                         System.out.println("1");
