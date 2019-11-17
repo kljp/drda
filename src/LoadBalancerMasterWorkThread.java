@@ -45,7 +45,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
         }
 
         while (true) {
-            if(wakeThread.get(0) == 1)
+       
                 System.out.println(wakeThread.get(0));
             if (wakeThread.get(threadId) == 1) {
 
