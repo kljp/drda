@@ -59,6 +59,8 @@ public class LoadBalancerMasterWorkThread extends Thread {
                 try {
                     if (checkFirst == 0) { // only come in when initiated
 
+//                        objectOutputStream.writeObject(new CheckModeObject(0));
+//                        objectOutputStream.flush();
                         dataOutputStream.writeInt(0);
                         dataOutputStream.flush();
                         objectOutputStream.writeObject(BrokerList.get(threadId));
@@ -67,6 +69,8 @@ public class LoadBalancerMasterWorkThread extends Thread {
                         checkFirst = 1;
                     } else {
                         System.out.println("a");
+//                        objectOutputStream.writeObject(new CheckModeObject(0));
+//                        objectOutputStream.flush();
                         dataOutputStream.writeInt(1);
                         dataOutputStream.flush();
                         System.out.println("b");
@@ -98,6 +102,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
 
                         try {
                             objectOutputStream.writeObject(repDeg);
+                            objectOutputStream.flush();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

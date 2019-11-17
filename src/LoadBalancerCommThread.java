@@ -95,7 +95,7 @@ public class LoadBalancerCommThread extends Thread {
                 cliSocket.connect(new InetSocketAddress(LBMaster, LB_PORT)); // LBMaster should be the latest IP Address.
                 // In while loop, wait for request (by dataInputStream.readUTF())
                 // Then, receive request as string from the worker thread of master LB
-                DataInputStream dataInputStream;
+                DataInputStream dataInputStream = new DataInputStream(cliSocket.getInputStream());
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(cliSocket.getOutputStream());
                 ObjectInputStream objectInputStream = new ObjectInputStream(cliSocket.getInputStream());
                 int checkMode;
@@ -104,9 +104,7 @@ public class LoadBalancerCommThread extends Thread {
                 while (true) {
 
                     System.out.println("1");
-                    dataInputStream = new DataInputStream(cliSocket.getInputStream());
                     checkMode = dataInputStream.readInt();
-                    dataInputStream.close();
                     System.out.println(checkMode);
                     System.out.println("2");
 
