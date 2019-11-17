@@ -1,4 +1,6 @@
-public class ReplicationDegree {
+import java.io.Serializable;
+
+public class ReplicationDegree implements Serializable {
 
     private double repDegDouble;
     private int repDegInt;
