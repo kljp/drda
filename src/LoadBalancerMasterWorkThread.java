@@ -48,73 +48,77 @@ public class LoadBalancerMasterWorkThread extends Thread {
 
         while (true) {
 
-            synchronized (wakeThread){
-                if(wakeThread.get(threadId) == 1)
+            synchronized (wakeThread) {
+                if (wakeThread.get(threadId) == 1)
                     preventDeadlock = 1;
             }
 
-                if (preventDeadlock == 1) {
+            if (preventDeadlock == 1) {
 
-                    // send request as string to the corresponding LB
-                    try {
-                        if (checkFirst == 0) { // only come in when initiated
-                            System.out.println("0");
-                            dataOutputStream.writeUTF("connect");                        System.out.println("1");
-                            dataOutputStream.flush();                        System.out.println("2");
-                            objectOutputStream.writeObject(BrokerList.get(threadId));                        System.out.println("3");
-                            objectOutputStream.flush();                        System.out.println("4");
+                // send request as string to the corresponding LB
+                try {
+                    if (checkFirst == 0) { // only come in when initiated
+                        System.out.println("0");
+                        dataOutputStream.writeUTF("connect");
+                        System.out.println("1");
+                        dataOutputStream.flush();
+                        System.out.println("2");
+                        objectOutputStream.writeObject(BrokerList.get(threadId));
+                        System.out.println("3");
+                        objectOutputStream.flush();
+                        System.out.println("4");
 
-                            checkFirst = 1;
-                        } else {
+                        checkFirst = 1;
+                    } else {
 
-                            dataOutputStream.writeUTF("reduce");
-                            dataOutputStream.flush();
+                        dataOutputStream.writeUTF("reduce");
+                        dataOutputStream.flush();
 
-                            tempLso = (ArrayList<LoadStatusObject>) objectInputStream.readObject();
+                        tempLso = (ArrayList<LoadStatusObject>) objectInputStream.readObject();
 
-                            synchronized (tempLsos) {
-                                tempLsos.addAll(tempLso);
-                            }
+                        synchronized (tempLsos) {
+                            tempLsos.addAll(tempLso);
                         }
+                    }
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("5");
-                    synchronized (wakeThread){
-                        wakeThread.set(threadId, 0);
-                    }
-                    System.out.println("6");
-                    while (true) {
-                        System.out.println("7");
-                        synchronized (wakeThread) {
-                        if(wakeThread.get(threadId) == 1){
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("5");
+                synchronized (wakeThread) {
+                    wakeThread.set(threadId, 0);
+                }
+                System.out.println("6");
+                while (true) {
+
+                    synchronized (wakeThread) {
+                        if (wakeThread.get(threadId) == 1)
                             preventDeadlock2 = 1;
-                        }
-                        if (preventDeadlock2 == 1) {
+                    }
+                    if (preventDeadlock2 == 1) {
 //                        synchronized (repDeg) {
-                            System.out.println("8");
-                            try {
-                                objectOutputStream.writeObject(repDeg);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                        System.out.println("8");
+                        try {
+                            objectOutputStream.writeObject(repDeg);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 //                        }
 
-                            synchronized (wakeThread){
-                                wakeThread.set(threadId, 0);
-                            }
-
-                            preventDeadlock2 = 0;
-                            break;
+                        synchronized (wakeThread) {
+                            wakeThread.set(threadId, 0);
                         }
-                    }
 
-                    preventDeadlock = 0;
+                        preventDeadlock2 = 0;
+                        break;
+                    }
                 }
+
+                preventDeadlock = 0;
             }
         }
     }
 }
+
