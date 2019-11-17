@@ -96,17 +96,17 @@ public class LoadBalancerCommThread extends Thread {
                 DataInputStream dataInputStream = new DataInputStream(cliSocket.getInputStream());
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(cliSocket.getOutputStream());
                 ObjectInputStream objectInputStream = new ObjectInputStream(cliSocket.getInputStream());
-                String tempStr;
+                int checkMode;
                 ArrayList<String> brokers;
 
                 while (true) {
 
                     System.out.println("1");
-                    tempStr = dataInputStream.readUTF();
-                    System.out.println(tempStr);
+                    checkMode = dataInputStream.readInt();
+                    System.out.println(checkMode);
                     System.out.println("2");
 
-                    if (tempStr.equals("connect")) {
+                    if (checkMode == 0) {
 
                         brokers = (ArrayList<String>) objectInputStream.readObject();
 
@@ -121,7 +121,7 @@ public class LoadBalancerCommThread extends Thread {
                                 new LoadBalancerSyncThread(brokers.get(i), i, BROKER_PORT, checkPoll, sharedLsos).start();
                             }
                         }
-                    } else if (tempStr.equals("reduce")) {
+                    } else if (checkMode == 1) {
                         System.out.println("A");
                         synchronized (checkPoll) {
                             for (int i = 0; i < checkPoll.size(); i++) {
