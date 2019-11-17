@@ -45,45 +45,46 @@ public class LoadBalancerMasterWorkThread extends Thread {
         }
 
         while (true) {
-       
-                System.out.println(wakeThread.get(0));
-            if (wakeThread.get(threadId) == 1) {
 
-                // send request as string to the corresponding LB
-                try {
-                    if (checkFirst == 0) { // only come in when initiated
-                        System.out.println("0");
-                        dataOutputStream.writeUTF("connect");                        System.out.println("1");
-                        dataOutputStream.flush();                        System.out.println("2");
-                        objectOutputStream.writeObject(BrokerList.get(threadId));                        System.out.println("3");
-                        objectOutputStream.flush();                        System.out.println("4");
+            synchronized (wakeThread){
 
-                        checkFirst = 1;
-                    } else {
+                if (wakeThread.get(threadId) == 1) {
 
-                        dataOutputStream.writeUTF("reduce");
-                        dataOutputStream.flush();
+                    // send request as string to the corresponding LB
+                    try {
+                        if (checkFirst == 0) { // only come in when initiated
+                            System.out.println("0");
+                            dataOutputStream.writeUTF("connect");                        System.out.println("1");
+                            dataOutputStream.flush();                        System.out.println("2");
+                            objectOutputStream.writeObject(BrokerList.get(threadId));                        System.out.println("3");
+                            objectOutputStream.flush();                        System.out.println("4");
 
-                        tempLso = (ArrayList<LoadStatusObject>) objectInputStream.readObject();
+                            checkFirst = 1;
+                        } else {
 
-                        synchronized (tempLsos) {
-                            tempLsos.addAll(tempLso);
+                            dataOutputStream.writeUTF("reduce");
+                            dataOutputStream.flush();
+
+                            tempLso = (ArrayList<LoadStatusObject>) objectInputStream.readObject();
+
+                            synchronized (tempLsos) {
+                                tempLsos.addAll(tempLso);
+                            }
                         }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
                     }
+                    System.out.println("5");
+                    synchronized (wakeThread){
+                        wakeThread.set(threadId, 0);
+                    }
+                    System.out.println("6");
+                    while (true) {
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("5");
-                synchronized (wakeThread){
-                    wakeThread.set(threadId, 0);
-                }
-                System.out.println("6");
-                while (true) {
-
-                    if (wakeThread.get(threadId) == 1) {
+                        if (wakeThread.get(threadId) == 1) {
 //                        synchronized (repDeg) {
 
                             try {
@@ -93,15 +94,15 @@ public class LoadBalancerMasterWorkThread extends Thread {
                             }
 //                        }
 
-                        synchronized (wakeThread){
-                            wakeThread.set(threadId, 0);
-                        }
+                            synchronized (wakeThread){
+                                wakeThread.set(threadId, 0);
+                            }
 
-                        break;
+                            break;
+                        }
                     }
                 }
             }
-
         }
     }
 }
