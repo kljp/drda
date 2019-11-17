@@ -71,31 +71,31 @@ public class LoadBalancerCommThread extends Thread {
 //            }
 
             if (curMaster > 0) {
-                System.out.println("2");
-                try {
-                    cliSocket = new Socket();                System.out.println("3");
-                    cliSocket.connect(new InetSocketAddress(GlobalState.IPS_IP, GlobalState.IPS_LB_PORT));                System.out.println("4");
-                    DataOutputStream dataOutputStream = new DataOutputStream(cliSocket.getOutputStream());                System.out.println("5");
-                    dataOutputStream.writeUTF("elect");                System.out.println("6");
-                    dataOutputStream.flush();                System.out.println("7");
-                    dataOutputStream.writeInt(curMaster);                System.out.println("8");
-                    dataOutputStream.flush();                System.out.println("9");
 
-                    DataInputStream dataInputStream = new DataInputStream(cliSocket.getInputStream());                System.out.println("10");
-                    LBMaster = dataInputStream.readUTF();                System.out.println("11");
+                try {
+                    cliSocket = new Socket();
+                    cliSocket.connect(new InetSocketAddress(GlobalState.IPS_IP, GlobalState.IPS_LB_PORT));
+                    DataOutputStream dataOutputStream = new DataOutputStream(cliSocket.getOutputStream());
+                    dataOutputStream.writeUTF("elect");
+                    dataOutputStream.flush();
+                    dataOutputStream.writeInt(curMaster);
+                    dataOutputStream.flush();
+
+                    DataInputStream dataInputStream = new DataInputStream(cliSocket.getInputStream());
+                    LBMaster = dataInputStream.readUTF();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
             try {
-                cliSocket = new Socket();                System.out.println("12");
+                cliSocket = new Socket();
                 cliSocket.connect(new InetSocketAddress(LBMaster, LB_PORT)); // LBMaster should be the latest IP Address.
                 // In while loop, wait for request (by dataInputStream.readUTF())
                 // Then, receive request as string from the worker thread of master LB
-                DataInputStream dataInputStream = new DataInputStream(cliSocket.getInputStream());                System.out.println("13");
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(cliSocket.getOutputStream());                System.out.println("14");
-                ObjectInputStream objectInputStream = new ObjectInputStream(cliSocket.getInputStream());                System.out.println("15");
+                DataInputStream dataInputStream = new DataInputStream(cliSocket.getInputStream());
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(cliSocket.getOutputStream());
+                ObjectInputStream objectInputStream = new ObjectInputStream(cliSocket.getInputStream());
                 String tempStr;
                 ArrayList<String> brokers;
 
@@ -104,20 +104,20 @@ public class LoadBalancerCommThread extends Thread {
                     tempStr = dataInputStream.readUTF();
 
                     if (tempStr.equals("connect")) {
-
+                        System.out.println("1");
                         brokers = (ArrayList<String>) objectInputStream.readObject();
-
+                        System.out.println("2");
                         synchronized (checkPoll) {
                             for (int i = 0; i < brokers.size(); i++) {
                                 checkPoll.add(new InitiatePollObject(0));
                             }
                         }
-
+                        System.out.println("3");
                         synchronized (checkPoll) {
-                            for (int i = 0; i < brokers.size(); i++) {
+                            for (int i = 0; i < brokers.size(); i++) {                System.out.println("4");
                                 new LoadBalancerSyncThread(brokers.get(i), i, BROKER_PORT, checkPoll, sharedLsos).start();
                             }
-                        }
+                        }                System.out.println("5");
                     } else if (tempStr.equals("reduce")) {
                         System.out.println("A");
                         synchronized (checkPoll) {
