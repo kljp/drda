@@ -1,3 +1,5 @@
+import com.EPartition.GlobalSyncObject.SyncObject;
+
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -101,6 +103,7 @@ public class LoadBalancerCommThread extends Thread {
                 ArrayList<String> brokers;
 
                 String tempStr;
+                SyncObject syncObject;
 
                 while (true) {
 
@@ -122,14 +125,24 @@ public class LoadBalancerCommThread extends Thread {
                             }
                         }
 
-                        synchronized (repDeg) {
-                            repDeg = (ReplicationDegree) objectInputStream.readObject();
+                        syncObject = SyncObject.parseDelimitedFrom(dataInputStream);
+
+                        synchronized (repDeg){
+                            repDeg.setRepDegDouble(syncObject.getRepDeg().getRepDegDouble());
+                            repDeg.setRepDegInt(syncObject.getRepDeg().getRepDegInt());
                         }
 
-                        synchronized (lsos) {
+                        synchronized (lsos){
+
                             lsos.clear();
-                            lsos.addAll((ArrayList<LoadStatusObject>) objectInputStream.readObject());
-                            System.out.println(lsos);
+
+                            for (int i = 0; i < syncObject.getLsoList().size(); i++) {
+                                LoadStatusObject lso = new LoadStatusObject();
+                                lso.setBROKER_IP(syncObject.getLso(i).getBROKERIP());
+                                lso.setNumSubscriptions(syncObject.getLso(i).getNumSubscriptions());
+                                lso.setAccessCount(syncObject.getLso(i).getAccessCount());
+                                lsos.add(lso);
+                            }
                         }
 
                         synchronized (lsos){

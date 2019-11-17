@@ -1,3 +1,5 @@
+import com.EPartition.GlobalSyncObject.SyncObject;
+
 import java.io.DataOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -40,6 +42,10 @@ public class LoadBalancerMasterWorkThread extends Thread {
         ArrayList<LoadStatusObject> tempLso;
         int preventDeadlock = 0;
         int preventDeadlock2 = 0;
+        SyncObject syncObject;
+        SyncObject.Builder syncObjectBuilder;
+        SyncObject.ReplicationDegree.Builder rdb;
+        SyncObject.LoadStatusObject.Builder lsob;
 
         try {
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
@@ -98,25 +104,36 @@ public class LoadBalancerMasterWorkThread extends Thread {
                             preventDeadlock2 = 1;
                     }
                     if (preventDeadlock2 == 1) {
-//                        synchronized (repDeg) {
 
                         try {
 
-                            synchronized (repDeg){
-                                objectOutputStream.writeObject(repDeg);
-                                objectOutputStream.flush();
-                                objectOutputStream.reset();
+                            syncObjectBuilder = SyncObject.newBuilder();
+                            rdb = SyncObject.ReplicationDegree.newBuilder();
+
+
+                            synchronized (repDeg) {
+                                rdb.setRepDegDouble(repDeg.getRepDegDouble());
+                                rdb.setRepDegInt(repDeg.getRepDegInt());
+                                syncObjectBuilder.setRepDeg(rdb);
                             }
 
-                            synchronized (lsos){
-                                objectOutputStream.writeObject(lsos);
-                                objectOutputStream.flush();
-                                objectOutputStream.reset();
+                            synchronized (lsos) {
+                                for (int i = 0; i < lsos.size(); i++) {
+                                    lsob = SyncObject.LoadStatusObject.newBuilder();
+                                    lsob.setBROKERIP(lsos.get(i).getBROKER_IP());
+                                    lsob.setNumSubscriptions(lsos.get(i).getNumSubscriptions());
+                                    lsob.setAccessCount(lsos.get(i).getAccessCount());
+                                    syncObjectBuilder.addLso(lsob);
+                                }
                             }
+
+                            syncObject = syncObjectBuilder.build();
+                            syncObject.writeDelimitedTo(dataOutputStream);
+                            dataOutputStream.flush();
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-//                        }
 
                         synchronized (wakeThread) {
                             wakeThread.set(threadId, 0);
