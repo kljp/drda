@@ -127,14 +127,16 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                     calculateReplicationDegree();
 
+                    synchronized (lsos) {
+                        lsos.clear();
+                        lsos.addAll(tempLsos);
+                    }
+
                     wakeWorkThreads();
                     waitWorkThreads();
                 }
 
-                synchronized (lsos) {
-                    lsos.clear();
-                    lsos.addAll(tempLsos);
-                }
+
 
                 synchronized (lsos) {
                     if (!lsos.isEmpty()) {

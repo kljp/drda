@@ -58,13 +58,10 @@ public class LoadBalancerPubRecvThread extends Thread {
 
                 synchronized (queues.get(tempStr)) {
                     queues.get(tempStr).add(temp);
-
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 }
