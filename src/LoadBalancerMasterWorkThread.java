@@ -46,14 +46,14 @@ public class LoadBalancerMasterWorkThread extends Thread {
 
         while (true) {
 
-            synchronized (wakeThread) {
+//            synchronized (wakeThread) {
 
                 if (wakeThread.get(threadId) == 1) {
 
                     // send request as string to the corresponding LB
                     try {
                         if(checkFirst == 0){ // only come in when initiated
-                            System.out.println("5");
+
                             dataOutputStream.writeUTF("connect");
                             dataOutputStream.flush();
                             objectOutputStream.writeObject(BrokerList.get(threadId));
@@ -97,7 +97,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
                         }
                     }
                 }
-            }
+//            }
         }
     }
 }
