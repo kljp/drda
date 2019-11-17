@@ -103,7 +103,6 @@ public class LoadBalancerCommThread extends Thread {
                 ArrayList<String> brokers;
 
                 String tempStr;
-                SyncObject syncObject;
 
                 while (true) {
 
@@ -125,25 +124,7 @@ public class LoadBalancerCommThread extends Thread {
                             }
                         }
 
-                        syncObject = SyncObject.parseDelimitedFrom(dataInputStream);
-
-                        synchronized (repDeg){
-                            repDeg.setRepDegDouble(syncObject.getRepDeg().getRepDegDouble());
-                            repDeg.setRepDegInt(syncObject.getRepDeg().getRepDegInt());
-                        }
-
-                        synchronized (lsos){
-
-                            lsos.clear();
-
-                            for (int i = 0; i < syncObject.getLsoList().size(); i++) {
-                                LoadStatusObject lso = new LoadStatusObject();
-                                lso.setBROKER_IP(syncObject.getLso(i).getBROKERIP());
-                                lso.setNumSubscriptions(syncObject.getLso(i).getNumSubscriptions());
-                                lso.setAccessCount(syncObject.getLso(i).getAccessCount());
-                                lsos.add(lso);
-                            }
-                        }
+                        applyGlobalSync(dataInputStream);
 
                         synchronized (lsos){
                             if (!lsos.isEmpty()) {
@@ -174,17 +155,7 @@ public class LoadBalancerCommThread extends Thread {
                             }
                         }
 
-//                        synchronized (repDeg) {
-//                            repDeg = (ReplicationDegree) objectInputStream.readObject();
-//                        }
-                        System.out.println((ReplicationDegree) objectInputStream.readObject());
-                        System.out.println((ArrayList<LoadStatusObject>) objectInputStream.readObject());
-
-//                        synchronized (lsos) {
-//                            lsos.clear();
-//                            lsos.addAll((ArrayList<LoadStatusObject>) objectInputStream.readObject());
-//                            System.out.println(lsos);
-//                        }
+                        applyGlobalSync(dataInputStream);
 
                         synchronized (lsos){
                             if (!lsos.isEmpty()) {
@@ -202,6 +173,35 @@ public class LoadBalancerCommThread extends Thread {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void applyGlobalSync(DataInputStream dataInputStream){
+
+        SyncObject syncObject;
+
+        try {
+            syncObject = SyncObject.parseDelimitedFrom(dataInputStream);
+
+            synchronized (repDeg){
+                repDeg.setRepDegDouble(syncObject.getRepDeg().getRepDegDouble());
+                repDeg.setRepDegInt(syncObject.getRepDeg().getRepDegInt());
+            }
+
+            synchronized (lsos){
+
+                lsos.clear();
+
+                for (int i = 0; i < syncObject.getLsoList().size(); i++) {
+                    LoadStatusObject lso = new LoadStatusObject();
+                    lso.setBROKER_IP(syncObject.getLso(i).getBROKERIP());
+                    lso.setNumSubscriptions(syncObject.getLso(i).getNumSubscriptions());
+                    lso.setAccessCount(syncObject.getLso(i).getAccessCount());
+                    lsos.add(lso);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
