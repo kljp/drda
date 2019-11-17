@@ -46,58 +46,62 @@ public class LoadBalancerMasterWorkThread extends Thread {
 
         while (true) {
 
-//            synchronized (wakeThread) {
 
-                if (wakeThread.get(threadId) == 1) {
+            if (wakeThread.get(threadId) == 1) {
 
-                    // send request as string to the corresponding LB
-                    try {
-                        if(checkFirst == 0){ // only come in when initiated
+                // send request as string to the corresponding LB
+                try {
+                    if (checkFirst == 0) { // only come in when initiated
 
-                            dataOutputStream.writeUTF("connect");
-                            dataOutputStream.flush();
-                            objectOutputStream.writeObject(BrokerList.get(threadId));
-                            objectOutputStream.flush();
+                        dataOutputStream.writeUTF("connect");
+                        dataOutputStream.flush();
+                        objectOutputStream.writeObject(BrokerList.get(threadId));
+                        objectOutputStream.flush();
 
-                            checkFirst = 1;
+                        checkFirst = 1;
+                    } else {
+                        System.out.println("6");
+                        dataOutputStream.writeUTF("reduce");
+                        dataOutputStream.flush();
+
+                        tempLso = (ArrayList<LoadStatusObject>) objectInputStream.readObject();
+
+                        synchronized (tempLsos) {
+                            tempLsos.addAll(tempLso);
                         }
-
-                        else{
-                            System.out.println("6");
-                            dataOutputStream.writeUTF("reduce");
-                            dataOutputStream.flush();
-
-                            tempLso = (ArrayList<LoadStatusObject>) objectInputStream.readObject();
-
-                            synchronized (tempLsos){
-                                tempLsos.addAll(tempLso);
-                            }
-                        }
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
                     }
 
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                synchronized (wakeThread){
                     wakeThread.set(threadId, 0);
+                }
 
-                    while(true){
-                        if (wakeThread.get(threadId) == 1) {
-                            synchronized (repDeg){
-                                try {
-                                    objectOutputStream.writeObject(repDeg);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                while (true) {
+                    System.out.println("7");
+                    if (wakeThread.get(threadId) == 1) {
+//                        synchronized (repDeg) {
+                        System.out.println("8");
+                            try {
+                                objectOutputStream.writeObject(repDeg);
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
+//                        }
 
+                        synchronized (wakeThread){
                             wakeThread.set(threadId, 0);
-                            break;
                         }
+
+                        break;
                     }
                 }
-//            }
+            }
+
         }
     }
 }
