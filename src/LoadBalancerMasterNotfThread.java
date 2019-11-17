@@ -163,7 +163,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
             int countExit = 0;
 
-            synchronized (wakeThread) {
+//            synchronized (wakeThread) {
 
                 for (int i = 0; i < wakeThread.size(); i++) {
 
@@ -175,7 +175,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                 if (countExit == wakeThread.size())
                     break;
-            }
+//            }
         }
     }
 
