@@ -148,7 +148,7 @@ public class LoadBalancerCommThread extends Thread {
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
                 curMaster++;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
