@@ -44,22 +44,22 @@ public class LoadBalancerMasterNotfThread extends Thread {
             elapsed = (after - before) / 1000.0;
 
             if (elapsed > GlobalState.PeriodOfSync) {
-
+                System.out.println("1");
                 synchronized (tempLsos) {
                     tempLsos.clear();
                 }
-
+                System.out.println("2");
                 if (checkFirst == 0) {
-
+                    System.out.println("3");
                     synchronized (wakeThread) {
-
+                        System.out.println("4");
                         if (wakeThread.size() == 0)
                             checkType = 0;
                         else
                             checkType = 1;
                     }
                 }
-
+                System.out.println("5");
                 if (checkType == 0) { // The number of LB is 1.
 
                     if (checkFirst == 0) {
@@ -84,22 +84,22 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                     calculateReplicationDegree();
                 } else {// The number of LB is more than 1.
-
+                    System.out.println("6");
                     if (checkFirst == 0) {
-
+                        System.out.println("7");
 //                        BrokerList = new ArrayList<ArrayList<String>>();
 
                         synchronized (wakeThread) {
                             tempSize = wakeThread.size();
                         }
-
+                        System.out.println("8");
                         synchronized (IPMap) {
                             tempNum = IPMap.size();
                         }
-
+                        System.out.println("9");
                         for (int i = 0; i < tempSize; i++)
                             BrokerList.add(new ArrayList<String>());
-
+                        System.out.println("10");
                         countExit = 0;
 
                         for (int i = 0; i < tempNum; i++) {
@@ -121,14 +121,14 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                         checkFirst = 1;
                     }
+                    System.out.println("11");
+                    wakeWorkThreads();                System.out.println("12");
+                    waitWorkThreads();                System.out.println("13");
 
-                    wakeWorkThreads();
-                    waitWorkThreads();
+                    calculateReplicationDegree();                System.out.println("14");
 
-                    calculateReplicationDegree();
-
-                    wakeWorkThreads();
-                    waitWorkThreads();
+                    wakeWorkThreads();                System.out.println("15");
+                    waitWorkThreads();                System.out.println("16");
                 }
 
                 synchronized (lsos) {
