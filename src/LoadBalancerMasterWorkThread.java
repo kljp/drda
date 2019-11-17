@@ -54,9 +54,9 @@ public class LoadBalancerMasterWorkThread extends Thread {
                     if (checkFirst == 0) { // only come in when initiated
 
                         dataOutputStream.writeUTF("connect");
-                        dataOutputStream.flush();
-                        objectOutputStream.writeObject(BrokerList.get(threadId));
-                        objectOutputStream.flush();
+                        dataOutputStream.flush();System.out.println("a");
+                        objectOutputStream.writeObject(BrokerList.get(threadId));System.out.println("b");
+                        objectOutputStream.flush();System.out.println("c");
 
                         checkFirst = 1;
                     } else {
@@ -76,11 +76,11 @@ public class LoadBalancerMasterWorkThread extends Thread {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-
+                System.out.println("d");
                 synchronized (wakeThread){
                     wakeThread.set(threadId, 0);
                 }
-
+                System.out.println("e");
                 while (true) {
                     System.out.println("7");
                     if (wakeThread.get(threadId) == 1) {
