@@ -52,7 +52,7 @@ public class LoadBalancerCommThread extends Thread {
 
                 while (true) {
                     Socket socket = serverSocket.accept();
-
+                    System.out.println("1");
                     synchronized (wakeThread) {
                         wakeThread.add(0);
                     }
