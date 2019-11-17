@@ -45,6 +45,8 @@ public class LoadBalancerCommThread extends Thread {
 
         if (LBIdentifier == curMaster) { // Only Master LB comes in.
 
+            System.out.println("master");
+
             new LoadBalancerMasterNotfThread(wakeThread, BrokerList, IPMap, repDeg, lsos, tempLsos, BROKER_PORT).start();
 
             try {

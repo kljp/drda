@@ -18,7 +18,7 @@ public class BrokerSyncProcThread extends Thread{
     @Override
     public void run(){
 
-        String temp;
+        int temp;
         LoadStatusObject lso;
         int accessCount;
 
@@ -28,9 +28,9 @@ public class BrokerSyncProcThread extends Thread{
 
             while(true){
 
-                temp = dataInputStream.readUTF();
+                temp = dataInputStream.readInt();
 
-                if(temp.equals("sync")){
+                if(temp == 1){
 
                     lso = new LoadStatusObject();
                     accessCount = 0;

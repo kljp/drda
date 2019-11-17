@@ -41,7 +41,7 @@ public class LoadBalancerMasterSyncProcThread extends Thread{
 
                     if (wakeThread.get(threadId) == 1) {
 
-                        dataOutputStream.writeUTF("sync");
+                        dataOutputStream.writeInt(1);
                         dataOutputStream.flush();
                         lso = (LoadStatusObject) objectInputStream.readObject();
                         lso.setBROKER_IP(BROKER_IP);
