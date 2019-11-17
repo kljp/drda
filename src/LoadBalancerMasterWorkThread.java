@@ -58,15 +58,11 @@ public class LoadBalancerMasterWorkThread extends Thread {
                 // send request as string to the corresponding LB
                 try {
                     if (checkFirst == 0) { // only come in when initiated
-                        System.out.println("0");
+
                         dataOutputStream.writeUTF("connect");
-                        System.out.println("1");
                         dataOutputStream.flush();
-                        System.out.println("2");
                         objectOutputStream.writeObject(BrokerList.get(threadId));
-                        System.out.println("3");
                         objectOutputStream.flush();
-                        System.out.println("4");
 
                         checkFirst = 1;
                     } else {
@@ -86,11 +82,11 @@ public class LoadBalancerMasterWorkThread extends Thread {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-                System.out.println("5");
+
                 synchronized (wakeThread) {
                     wakeThread.set(threadId, 0);
                 }
-                System.out.println("6");
+
                 while (true) {
 
                     synchronized (wakeThread) {
@@ -99,18 +95,18 @@ public class LoadBalancerMasterWorkThread extends Thread {
                     }
                     if (preventDeadlock2 == 1) {
 //                        synchronized (repDeg) {
-                        System.out.println("8");
+
                         try {
                             objectOutputStream.writeObject(repDeg);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
 //                        }
-                        System.out.println("9");
+
                         synchronized (wakeThread) {
                             wakeThread.set(threadId, 0);
                         }
-                        System.out.println("10");
+
                         preventDeadlock2 = 0;
                         break;
                     }
