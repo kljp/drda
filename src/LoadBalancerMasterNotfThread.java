@@ -139,7 +139,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
                 }
 
                 synchronized (lsos) {
-                    if (!lsos.isEmpty()){
+                    if (!lsos.isEmpty()) {
                         System.out.println(repDeg.getRepDegDouble() + " " + repDeg.getRepDegInt());
                         for (int i = 0; i < lsos.size(); i++)
                             System.out.println(lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " " + lsos.get(i).getAccessCount());
@@ -161,23 +161,27 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
     private void waitWorkThreads() {
 
+        ArrayList<Integer> tempWakeThread;
+
         while (true) { // wait for completion of collecting processes until every value within wakeThread is set to 0
 
             int countExit = 0;
 
-//            synchronized (wakeThread) {
+            synchronized (wakeThread){
+                tempWakeThread = wakeThread;
+            }
 
-                for (int i = 0; i < wakeThread.size(); i++) {
+            for (int i = 0; i < tempWakeThread.size(); i++) {
 
-                    if (wakeThread.get(i) == 0)
-                        countExit++;
-                    else
-                        break;
-                }
-
-                if (countExit == wakeThread.size())
+                if (tempWakeThread.get(i) == 0)
+                    countExit++;
+                else
                     break;
-//            }
+            }
+
+            if (countExit == tempWakeThread.size())
+                break;
+
         }
     }
 
@@ -192,7 +196,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
         double acsNormStdDev;
         double tempRepDeg;
 
-        synchronized (tempLsos){
+        synchronized (tempLsos) {
 
             lsosSize = tempLsos.size();
 
@@ -215,17 +219,17 @@ public class LoadBalancerMasterNotfThread extends Thread {
         tempRepDeg = 2.0 * ((double) IPMap.size()) * nssNormStdDev * acsNormStdDev;
         repDegHistory.add(tempRepDeg); // for experimental results
 
-        if(tempRepDeg < 3)
+        if (tempRepDeg < 3)
             tempRepDeg = 3;
 
-        synchronized (repDeg){
+        synchronized (repDeg) {
 
             repDeg.setRepDegDouble(tempRepDeg);
             repDeg.setRepDegInt((int) tempRepDeg);
         }
     }
 
-    private double calculateMean(int[] array){
+    private double calculateMean(int[] array) {
 
         double sum = 0.0;
 
@@ -235,7 +239,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
         return sum / array.length;
     }
 
-    private double calculateStdDev(int[] array, double mean){
+    private double calculateStdDev(int[] array, double mean) {
 
         double sum = 0.0;
         double stdDev;
