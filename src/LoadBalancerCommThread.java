@@ -16,7 +16,7 @@ public class LoadBalancerCommThread extends Thread {
     private static ArrayList<ArrayList<String>> BrokerList = new ArrayList<ArrayList<String>>();
     private HashMap<Integer, String> IPMap;
     private static ArrayList<InitiatePollObject> checkPoll = new ArrayList<InitiatePollObject>();
-    private static ArrayList<LoadStatusObject> sharedLsos;
+    private static ArrayList<LoadStatusObject> sharedLsos = new ArrayList<LoadStatusObject>();
     private ArrayList<LoadStatusObject> lsos;
     private static ArrayList<LoadStatusObject> tempLsos = new ArrayList<LoadStatusObject>();
     private ReplicationDegree repDeg;
@@ -119,17 +119,13 @@ public class LoadBalancerCommThread extends Thread {
                             }
                         }
                     } else if (tempStr.equals("reduce")) {
-
-                        synchronized (sharedLsos){
-                            sharedLsos = new ArrayList<LoadStatusObject>();
-                        }
-
+                        System.out.println("A");
                         synchronized (checkPoll) {
                             for (int i = 0; i < checkPoll.size(); i++) {
                                 checkPoll.get(i).setCheck(1);
                             }
                         }
-
+                        System.out.println("B");
                         while (true) {
                             synchronized (sharedLsos) {
                                 if (sharedLsos.size() == checkPoll.size()) {
@@ -140,7 +136,7 @@ public class LoadBalancerCommThread extends Thread {
                                 }
                             }
                         }
-
+                        System.out.println("C");
                         synchronized (repDeg) {
                             repDeg = (ReplicationDegree) objectInputStream.readObject();
                         }
