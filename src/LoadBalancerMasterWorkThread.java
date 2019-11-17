@@ -52,7 +52,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
                 if (wakeThread.get(threadId) == 1)
                     preventDeadlock = 1;
             }
-            System.out.println("a");
+
             if (preventDeadlock == 1) {
 
                 // send request as string to the corresponding LB
@@ -66,27 +66,27 @@ public class LoadBalancerMasterWorkThread extends Thread {
 
                         checkFirst = 1;
                     } else {
-                        System.out.println("b");
+                        System.out.println("a");
                         dataOutputStream.writeUTF("reduce");
                         dataOutputStream.flush();
-
+                        System.out.println("b");
                         tempLso = (ArrayList<LoadStatusObject>) objectInputStream.readObject();
-
+                        System.out.println("c");
                         synchronized (tempLsos) {
                             tempLsos.addAll(tempLso);
                         }
                     }
-
+                    System.out.println("d");
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-
+                System.out.println("e");
                 synchronized (wakeThread) {
                     wakeThread.set(threadId, 0);
                 }
-
+                System.out.println("f");
                 while (true) {
 
                     synchronized (wakeThread) {
