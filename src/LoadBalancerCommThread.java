@@ -103,10 +103,8 @@ public class LoadBalancerCommThread extends Thread {
 
                 while (true) {
 
-                    System.out.println("1");
-                    checkMode = dataInputStream.readInt();
+                    checkMode = ((CheckModeObject) objectInputStream.readObject()).getMode();
                     System.out.println(checkMode);
-                    System.out.println("2");
 
                     if (checkMode == 0) {
 

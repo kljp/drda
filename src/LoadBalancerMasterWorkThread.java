@@ -59,20 +59,16 @@ public class LoadBalancerMasterWorkThread extends Thread {
                 try {
                     if (checkFirst == 0) { // only come in when initiated
 
-//                        objectOutputStream.writeObject(new CheckModeObject(0));
-//                        objectOutputStream.flush();
-                        dataOutputStream.writeInt(0);
-                        dataOutputStream.flush();
+                        objectOutputStream.writeObject(new CheckModeObject(0));
+                        objectOutputStream.flush();
                         objectOutputStream.writeObject(BrokerList.get(threadId));
                         objectOutputStream.flush();
 
                         checkFirst = 1;
                     } else {
                         System.out.println("a");
-//                        objectOutputStream.writeObject(new CheckModeObject(0));
-//                        objectOutputStream.flush();
-                        dataOutputStream.writeInt(1);
-                        dataOutputStream.flush();
+                        objectOutputStream.writeObject(new CheckModeObject(1));
+                        objectOutputStream.flush();
                         System.out.println("b");
                         tempLso = (ArrayList<LoadStatusObject>) objectInputStream.readObject();
                         System.out.println("c");
