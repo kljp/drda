@@ -121,30 +121,30 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                         checkFirst = 1;
                     }
-
+                    System.out.println("checkFirst = " + checkFirst);
                     wakeWorkThreads();
                     waitWorkThreads();
 
                     calculateReplicationDegree();
 
-                    wakeWorkThreads();                System.out.println("1");
-                    waitWorkThreads();                System.out.println("2");
+                    wakeWorkThreads();
+                    waitWorkThreads();
                 }
 
                 synchronized (lsos) {
-                    lsos.clear();                System.out.println("3");
-                    lsos.addAll(tempLsos);                System.out.println("4");
+                    lsos.clear();
+                    lsos.addAll(tempLsos);
                 }
 
-                synchronized (lsos) {                System.out.println("5");
-                    if (!lsos.isEmpty()){                System.out.println("6");
+                synchronized (lsos) {
+                    if (!lsos.isEmpty()){
                         System.out.println(repDeg.getRepDegDouble() + " " + repDeg.getRepDegInt());
                         for (int i = 0; i < lsos.size(); i++)
                             System.out.println(lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " " + lsos.get(i).getAccessCount());
                         System.out.println();
                     }
-                }                System.out.println("7");
-                before = System.currentTimeMillis();                System.out.println("8");
+                }
+                before = System.currentTimeMillis();
             }
         }
     }
