@@ -35,6 +35,8 @@ public class LoadBalancerMasterWorkThread extends Thread {
         ObjectInputStream objectInputStream = null;
         int checkFirst = 0;
         ArrayList<LoadStatusObject> tempLso;
+        int preventDeadlock = 0;
+        int preventDeadlock2 = 0;
 
         try {
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
@@ -47,8 +49,11 @@ public class LoadBalancerMasterWorkThread extends Thread {
         while (true) {
 
             synchronized (wakeThread){
+                if(wakeThread.get(threadId) == 1)
+                    preventDeadlock = 1;
+            }
 
-                if (wakeThread.get(threadId) == 1) {
+                if (preventDeadlock == 1) {
 
                     // send request as string to the corresponding LB
                     try {
@@ -84,7 +89,11 @@ public class LoadBalancerMasterWorkThread extends Thread {
                     System.out.println("6");
                     while (true) {
                         System.out.println("7");
-                        if (wakeThread.get(threadId) == 1) {
+                        synchronized (wakeThread) {
+                        if(wakeThread.get(threadId) == 1){
+                            preventDeadlock2 = 1;
+                        }
+                        if (preventDeadlock2 == 1) {
 //                        synchronized (repDeg) {
                             System.out.println("8");
                             try {
@@ -98,9 +107,12 @@ public class LoadBalancerMasterWorkThread extends Thread {
                                 wakeThread.set(threadId, 0);
                             }
 
+                            preventDeadlock2 = 0;
                             break;
                         }
                     }
+
+                    preventDeadlock = 0;
                 }
             }
         }
