@@ -1,4 +1,6 @@
-public class CheckModeObject {
+import java.io.Serializable;
+
+public class CheckModeObject implements Serializable {
 
     int mode;
 
