@@ -106,11 +106,11 @@ public class LoadBalancerMasterWorkThread extends Thread {
                             e.printStackTrace();
                         }
 //                        }
-
+                        System.out.println("9");
                         synchronized (wakeThread) {
                             wakeThread.set(threadId, 0);
                         }
-
+                        System.out.println("10");
                         preventDeadlock2 = 0;
                         break;
                     }
