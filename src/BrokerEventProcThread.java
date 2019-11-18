@@ -52,7 +52,7 @@ public class BrokerEventProcThread extends Thread {
                         checkAlive = 0;
                 }
 
-                if (checkAlive == 1) { // should be replaced by polling thread that checks connectivity periodically
+                if (checkAlive == 1) {
 
                     for (int i = 0; i < eventQueues.size(); i++) {
 
@@ -82,34 +82,39 @@ public class BrokerEventProcThread extends Thread {
                     }
                 } else {
 
-                    synchronized (eventQueues) {
-
-                        for (int i = 0; i < eventQueues.size(); i++) {
-
-                            if (eventQueues.get(i).getSeqThread() == seqThread) {
-
-                                eventQueues.remove(i);
-
-                                synchronized (subscriptions) {
-                                    subscriptions.remove(i);
-                                }
-
-                                return;
-                            }
-                        }
-                    }
+                    terminateThread();
                 }
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            terminateThread();
         } finally {
             try {
                 if (socket != null && !socket.isClosed()) {
                     socket.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                terminateThread();
+            }
+        }
+    }
+
+    public void terminateThread(){
+
+        synchronized (eventQueues) {
+
+            for (int i = 0; i < eventQueues.size(); i++) {
+
+                if (eventQueues.get(i).getSeqThread() == seqThread) {
+
+                    eventQueues.remove(i);
+
+                    synchronized (subscriptions) {
+                        subscriptions.remove(i);
+                    }
+
+                    return;
+                }
             }
         }
     }
