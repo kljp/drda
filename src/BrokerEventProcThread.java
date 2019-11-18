@@ -83,11 +83,13 @@ public class BrokerEventProcThread extends Thread {
                 } else {
 
                     terminateThread();
+                    return;
                 }
             }
 
         } catch (IOException e) {
             terminateThread();
+            return;
         } finally {
             try {
                 if (socket != null && !socket.isClosed()) {
@@ -95,6 +97,7 @@ public class BrokerEventProcThread extends Thread {
                 }
             } catch (IOException e) {
                 terminateThread();
+                return;
             }
         }
     }
