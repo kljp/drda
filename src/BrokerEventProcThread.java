@@ -45,40 +45,45 @@ public class BrokerEventProcThread extends Thread {
 
             while (true) {
 
-                synchronized (cao){
-                    if(cao.getCheckAlive() == 1)
+                synchronized (cao) {
+                    if (cao.getCheckAlive() == 1)
                         checkAlive = 1;
                     else
                         checkAlive = 0;
                 }
 
+
                 if (checkAlive == 1) {
+                    try {
+                        for (int i = 0; i < eventQueues.size(); i++) {
 
-                    for (int i = 0; i < eventQueues.size(); i++) {
+                            if (eventQueues.get(i).getSeqThread() == seqThread) {
 
-                        if (eventQueues.get(i).getSeqThread() == seqThread) {
+                                if (!eventQueues.get(i).getEventQueue().isEmpty()) {
 
-                            if (!eventQueues.get(i).getEventQueue().isEmpty()) {
+                                    synchronized (eventQueues.get(i)) {
+                                        temp = eventQueues.get(i).getEventQueue().poll();
+                                    }
 
-                                synchronized (eventQueues.get(i)) {
-                                    temp = eventQueues.get(i).getEventQueue().poll();
+                                    if (temp != null)
+                                        temp.writeDelimitedTo(dataOutputStream);
+
+                                    else
+                                        break;
+
+                                    dataOutputStream.flush();
+
+                                    synchronized (subscriptions) {
+                                        subscriptions.get(i).setPubCount(subscriptions.get(i).getPubCount() + 1);
+                                    }
                                 }
 
-                                if(temp != null)
-                                    temp.writeDelimitedTo(dataOutputStream);
-
-                                else
-                                    break;
-
-                                dataOutputStream.flush();
-
-                                synchronized (subscriptions) {
-                                    subscriptions.get(i).setPubCount(subscriptions.get(i).getPubCount() + 1);
-                                }
+                                break;
                             }
-
-                            break;
                         }
+                    } catch (IOException e) {
+                        terminateThread();
+                        return;
                     }
                 } else {
 
@@ -102,7 +107,7 @@ public class BrokerEventProcThread extends Thread {
         }
     }
 
-    public void terminateThread(){
+    public void terminateThread() {
 
         synchronized (eventQueues) {
 
