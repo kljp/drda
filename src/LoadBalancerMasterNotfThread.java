@@ -83,6 +83,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
                     waitWorkThreads();
 
                     calculateReplicationDegree();
+
                 } else {// The number of LB is more than 1.
 
                     if (checkFirst == 0) {
@@ -135,8 +136,6 @@ public class LoadBalancerMasterNotfThread extends Thread {
                     wakeWorkThreads();
                     waitWorkThreads();
                 }
-
-
 
                 synchronized (lsos) {
                     if (!lsos.isEmpty()) {

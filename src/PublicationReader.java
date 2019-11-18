@@ -53,7 +53,7 @@ public class PublicationReader {
         try {
             for (int i = 0; i < GlobalState.NumberOfDimensions; i++) {
 
-                output = "./src/plot2/plot" + i;
+                output = "./src/plot/publication/plot" + i;
                 outputStream = new FileOutputStream(output);
 
                 for (msgEPartition msg : list) {

@@ -53,7 +53,7 @@ public class SubscriptionReader {
         try {
             for (int i = 0; i < GlobalState.NumberOfDimensions; i++) {
 
-                output = "./src/plot/plot" + i;
+                output = "./src/plot/subscription/plot" + i;
                 outputStream = new FileOutputStream(output);
 
                 for (msgEPartition msg : list) {
