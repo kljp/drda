@@ -222,8 +222,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
         tempRepDeg = 2.0 * ((double) IPMap.size()) * nssNormStdDev * acsNormStdDev;
         repDegHistory.add(tempRepDeg); // for experimental results
 
-        if (tempRepDeg < 3)
-            tempRepDeg = 3;
+        if (tempRepDeg < 3.0 || Double.isNaN(tempRepDeg))
+            tempRepDeg = 3.0;
 
         synchronized (repDeg) {
 
