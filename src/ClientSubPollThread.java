@@ -25,8 +25,8 @@ public class ClientSubPollThread extends Thread {
                     temp = queue.poll();
             }
 
-            if(temp != null)
-                System.out.println(temp);
+//            if(temp != null)
+//                System.out.println(temp);
         }
     }
 }
