@@ -52,6 +52,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
             if (elapsed > GlobalState.PeriodOfSync) {
 
+                curSync++;
+
                 synchronized (tempLsos) {
                     tempLsos.clear();
                 }
@@ -159,7 +161,6 @@ public class LoadBalancerMasterNotfThread extends Thread {
                     }
                 }
                 before = System.currentTimeMillis();
-                curSync++;
 
                 if(curSync == GlobalState.PERIOD_SYNC_END){
                     afterSync = System.currentTimeMillis();
