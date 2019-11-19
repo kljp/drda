@@ -147,6 +147,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
                 synchronized (lsos) {
                     if (!lsos.isEmpty()) {
 
+                        System.out.println("curSync = " + curSync);
+
                         synchronized (repDeg){
                             System.out.println(repDeg.getRepDegDouble() + " " + repDeg.getRepDegInt());
                         }
