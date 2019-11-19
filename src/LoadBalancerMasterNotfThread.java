@@ -41,6 +41,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
         double beforeSync = 0.0;
         double afterSync;
         double elapsedSync;
+        ArrayList<LoadStatusObject> lsoSyncStart = new ArrayList<LoadStatusObject>();
 
         while (true) {
 
@@ -146,36 +147,45 @@ public class LoadBalancerMasterNotfThread extends Thread {
                     waitWorkThreads();
                 }
 
+                if(curSync == GlobalState.PERIOD_SYNC_START)
+                    lsoSyncStart.addAll(tempLsos);
+
+                System.out.println("curSync = " + curSync);
+
+                synchronized (repDeg){
+                    System.out.println(repDeg.getRepDegDouble() + " " + repDeg.getRepDegInt());
+                }
+
                 synchronized (lsos) {
                     if (!lsos.isEmpty()) {
-
-                        System.out.println("curSync = " + curSync);
-
-                        synchronized (repDeg){
-                            System.out.println(repDeg.getRepDegDouble() + " " + repDeg.getRepDegInt());
-                        }
 
                         for (int i = 0; i < lsos.size(); i++)
                             System.out.println(lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " " + lsos.get(i).getAccessCount());
                         System.out.println();
                     }
                 }
+
                 before = System.currentTimeMillis();
 
-                if(curSync == GlobalState.PERIOD_SYNC_END){
-                    afterSync = System.currentTimeMillis();
-                    elapsedSync = (afterSync - beforeSync) / 1000.0;
-                    int numEvent = 0;
-                    double matchingRate;
+                if(GlobalState.EXP_MODE.equals("ON")){
+                    
+                    if(curSync == GlobalState.PERIOD_SYNC_END){
 
-                    synchronized (lsos){
-                        for (int i = 0; i < lsos.size(); i++)
-                            numEvent = numEvent + lsos.get(i).getAccessCount();
+                        afterSync = System.currentTimeMillis();
+                        elapsedSync = (afterSync - beforeSync) / 1000.0;
+                        int numEvent = 0;
+                        double matchingRate;
+
+                        synchronized (lsos){
+                            for (int i = 0; i < lsos.size(); i++)
+                                numEvent = numEvent + (lsos.get(i).getAccessCount() - lsoSyncStart.get(i).getAccessCount());
+                        }
+
+                        matchingRate = (double) numEvent / elapsedSync;
+                        System.out.println("Matching rate between period " + GlobalState.PERIOD_SYNC_START + " and " + GlobalState.PERIOD_SYNC_END + " is " + matchingRate + "(elapsed time = " + elapsedSync +")");
+
+                        return;
                     }
-
-                    matchingRate = (double) numEvent / elapsedSync;
-                    System.out.println("Matching rate between period " + GlobalState.PERIOD_SYNC_START + " and " + GlobalState.PERIOD_SYNC_END + " is " + matchingRate);
-                    return;
                 }
             }
         }

@@ -28,4 +28,5 @@ public class GlobalState {
     public static int MAX_NUM_BROKER = 1024;
     public static int PERIOD_SYNC_START = 3;
     public static int PERIOD_SYNC_END = 5;
+    public static String EXP_MODE = "ON"; // "ON" or "OFF"
 }
