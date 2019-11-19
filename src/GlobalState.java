@@ -29,4 +29,6 @@ public class GlobalState {
     public static int PERIOD_SYNC_START = 3;
     public static int PERIOD_SYNC_END = 5;
     public static String EXP_MODE = "ON"; // "ON" or "OFF"
+    public static String SKEWED_SUBSCRIPTION_MODE = "OFF"; // "ON" or "OFF"
+    public static String SKEWED_PUBLICATION_MODE = "OFF"; // "ON" or "OFF"
 }

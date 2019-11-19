@@ -37,9 +37,11 @@ public class RangeGenerator {
                 upperbounds[i] = randomUpperBound * (maxbounds[i] - minbounds[i]) + minbounds[i];
 
                 // For skewed subscription dataset
-                if(i != 0){
-                    if(Math.abs(lowerbounds[i] - lowerbounds[i - 1])  > 30 || Math.abs(upperbounds[i] - upperbounds[i - 1]) > 30)
-                        continue;
+                if(GlobalState.SKEWED_SUBSCRIPTION_MODE.equals("ON")){
+                    if(i != 0){
+                        if(Math.abs(lowerbounds[i] - lowerbounds[i - 1])  > 30 || Math.abs(upperbounds[i] - upperbounds[i - 1]) > 30)
+                            continue;
+                    }
                 }
 
                 if (lowerbounds[i] <= upperbounds[i]
@@ -65,10 +67,12 @@ public class RangeGenerator {
 
                 singlePoints[i] = Math.random() * (maxbounds[i] - minbounds[i]) + minbounds[i];
 
-                // For skewed subscription dataset
-                if(i != 0){
-                    if(Math.abs(singlePoints[i] - singlePoints[i - 1])  > 30)
-                        continue;
+                // For skewed publication dataset
+                if(GlobalState.SKEWED_PUBLICATION_MODE.equals("ON")){
+                    if(i != 0){
+                        if(Math.abs(singlePoints[i] - singlePoints[i - 1])  > 30)
+                            continue;
+                    }
                 }
 
                 singlePoints[i] = Math.round(singlePoints[i] * 100) / 100.0;
