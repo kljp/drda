@@ -15,10 +15,10 @@ public class LoadBalancerMasterWorkThread extends Thread {
     private ReplicationDegree repDeg;
     private ArrayList<LoadStatusObject> tempLsos;
     private ArrayList<LoadStatusObject> lsos;
-    private int curSync;
+    private CurSyncObject cso;
 
     public LoadBalancerMasterWorkThread(Socket socket, ArrayList<Integer> wakeThread, int threadId, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap,
-                                        ReplicationDegree repDeg, ArrayList<LoadStatusObject> tempLsos, ArrayList<LoadStatusObject> lsos, int curSync) {
+                                        ReplicationDegree repDeg, ArrayList<LoadStatusObject> tempLsos, ArrayList<LoadStatusObject> lsos, CurSyncObject cso) {
 
         this.socket = socket;
         this.wakeThread = wakeThread;
@@ -28,7 +28,7 @@ public class LoadBalancerMasterWorkThread extends Thread {
         this.repDeg = repDeg;
         this.tempLsos = tempLsos;
         this.lsos = lsos;
-        this.curSync = curSync;
+        this.cso = cso;
     }
 
     @Override
@@ -101,7 +101,9 @@ public class LoadBalancerMasterWorkThread extends Thread {
                             syncObjectBuilder = SyncObject.newBuilder();
                             rdb = SyncObject.ReplicationDegree.newBuilder();
 
-                            syncObjectBuilder.setCurSync(curSync);
+                            synchronized (cso){
+                                syncObjectBuilder.setCurSync(cso.getCurSync());
+                            }
 
                             synchronized (repDeg) {
                                 rdb.setRepDegDouble(repDeg.getRepDegDouble());

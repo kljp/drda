@@ -13,10 +13,10 @@ public class LoadBalancerMasterNotfThread extends Thread {
     private ArrayList<LoadStatusObject> tempLsos;
     private int BROKER_PORT;
     private static ArrayList<Double> repDegHistory = new ArrayList<Double>();
-    private int curSync;
+    private CurSyncObject cso;
 
     public LoadBalancerMasterNotfThread(ArrayList<Integer> wakeThread, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap,
-                                        ReplicationDegree repDeg, ArrayList<LoadStatusObject> lsos, ArrayList<LoadStatusObject> tempLsos, int BROKER_PORT, int curSync) {
+                                        ReplicationDegree repDeg, ArrayList<LoadStatusObject> lsos, ArrayList<LoadStatusObject> tempLsos, int BROKER_PORT, CurSyncObject cso) {
 
         this.wakeThread = wakeThread;
         this.BrokerList = BrokerList;
@@ -25,7 +25,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
         this.lsos = lsos;
         this.tempLsos = tempLsos;
         this.BROKER_PORT = BROKER_PORT;
-        this.curSync = curSync;
+        this.cso = cso;
     }
 
     @Override
@@ -46,15 +46,19 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
         while (true) {
 
-            if(curSync == GlobalState.PERIOD_SYNC_START)
-                beforeSync = System.currentTimeMillis();
+            synchronized (cso){
+                if(cso.getCurSync() == GlobalState.PERIOD_SYNC_START)
+                    beforeSync = System.currentTimeMillis();
+            }
 
             after = System.currentTimeMillis();
             elapsed = (after - before) / 1000.0;
 
             if (elapsed > GlobalState.PeriodOfSync) {
 
-                curSync++;
+                synchronized (cso){
+                    cso.setCurSync(cso.getCurSync() + 1);
+                }
 
                 synchronized (tempLsos) {
                     tempLsos.clear();
@@ -148,10 +152,12 @@ public class LoadBalancerMasterNotfThread extends Thread {
                     waitWorkThreads();
                 }
 
-                if(curSync == GlobalState.PERIOD_SYNC_START)
-                    lsoSyncStart.addAll(tempLsos);
+                synchronized (cso){
+                    if(cso.getCurSync() == GlobalState.PERIOD_SYNC_START)
+                        lsoSyncStart.addAll(tempLsos);
 
-                System.out.println("curSync = " + curSync);
+                    System.out.println("curSync = " + cso.getCurSync());
+                }
 
                 synchronized (repDeg){
                     System.out.println(repDeg.getRepDegDouble() + " " + repDeg.getRepDegInt());
@@ -170,22 +176,25 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                 if(GlobalState.EXP_MODE.equals("ON")){
 
-                    if(curSync == GlobalState.PERIOD_SYNC_END){
+                    synchronized (cso){
 
-                        afterSync = System.currentTimeMillis();
-                        elapsedSync = (afterSync - beforeSync) / 1000.0;
-                        int numEvent = 0;
-                        double matchingRate;
+                        if(cso.getCurSync() == GlobalState.PERIOD_SYNC_END){
 
-                        synchronized (lsos){
-                            for (int i = 0; i < lsos.size(); i++)
-                                numEvent = numEvent + (lsos.get(i).getAccessCount() - lsoSyncStart.get(i).getAccessCount());
+                            afterSync = System.currentTimeMillis();
+                            elapsedSync = (afterSync - beforeSync) / 1000.0;
+                            int numEvent = 0;
+                            double matchingRate;
+
+                            synchronized (lsos){
+                                for (int i = 0; i < lsos.size(); i++)
+                                    numEvent = numEvent + (lsos.get(i).getAccessCount() - lsoSyncStart.get(i).getAccessCount());
+                            }
+
+                            matchingRate = (double) numEvent / elapsedSync;
+                            System.out.println("Matching rate between period " + GlobalState.PERIOD_SYNC_START + " and " + GlobalState.PERIOD_SYNC_END + " is " + matchingRate + "(elapsed time = " + elapsedSync +")");
+
+                            return;
                         }
-
-                        matchingRate = (double) numEvent / elapsedSync;
-                        System.out.println("Matching rate between period " + GlobalState.PERIOD_SYNC_START + " and " + GlobalState.PERIOD_SYNC_END + " is " + matchingRate + "(elapsed time = " + elapsedSync +")");
-
-                        return;
                     }
                 }
             }

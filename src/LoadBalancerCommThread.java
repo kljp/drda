@@ -22,7 +22,7 @@ public class LoadBalancerCommThread extends Thread {
     private ArrayList<LoadStatusObject> lsos;
     private static ArrayList<LoadStatusObject> tempLsos = new ArrayList<LoadStatusObject>();
     private ReplicationDegree repDeg;
-    private static int curSync = 0;
+    private static CurSyncObject cso = new CurSyncObject();
 
 
     public LoadBalancerCommThread(int LBIdentifier, String LBMaster, int LB_PORT, int BROKER_PORT, HashMap<Integer, String> IPMap, ArrayList<LoadStatusObject> lsos, ReplicationDegree repDeg) {
@@ -50,7 +50,7 @@ public class LoadBalancerCommThread extends Thread {
 
             System.out.println("master");
 
-            new LoadBalancerMasterNotfThread(wakeThread, BrokerList, IPMap, repDeg, lsos, tempLsos, BROKER_PORT, curSync).start();
+            new LoadBalancerMasterNotfThread(wakeThread, BrokerList, IPMap, repDeg, lsos, tempLsos, BROKER_PORT, cso).start();
 
             try {
                 ServerSocket serverSocket = new ServerSocket(LB_PORT);
@@ -62,7 +62,7 @@ public class LoadBalancerCommThread extends Thread {
                         wakeThread.add(0);
                     }
 
-                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, BrokerList, IPMap, repDeg, tempLsos, lsos, curSync).start();
+                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, BrokerList, IPMap, repDeg, tempLsos, lsos, cso).start();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -161,7 +161,7 @@ public class LoadBalancerCommThread extends Thread {
 
                         applyGlobalSync(dataInputStream);
 
-                        System.out.println("curSync = " + curSync);
+                        System.out.println("curSync = " + cso.getCurSync());
 
                         synchronized (repDeg){
                             System.out.println(repDeg.getRepDegDouble() + " " + repDeg.getRepDegInt());
@@ -192,6 +192,10 @@ public class LoadBalancerCommThread extends Thread {
 
         try {
             syncObject = SyncObject.parseDelimitedFrom(dataInputStream);
+
+            synchronized (cso){
+                cso.setCurSync(syncObject.getCurSync());
+            }
 
             synchronized (repDeg){
                 repDeg.setRepDegDouble(syncObject.getRepDeg().getRepDegDouble());
