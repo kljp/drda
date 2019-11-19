@@ -168,7 +168,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
                 before = System.currentTimeMillis();
 
                 if(GlobalState.EXP_MODE.equals("ON")){
-                    
+
                     if(curSync == GlobalState.PERIOD_SYNC_END){
 
                         afterSync = System.currentTimeMillis();
