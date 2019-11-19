@@ -54,6 +54,11 @@ public final class GlobalSyncObject {
      */
     com.EPartition.GlobalSyncObject.SyncObject.LoadStatusObjectOrBuilder getLsoOrBuilder(
         int index);
+
+    /**
+     * <code>int32 curSync = 3;</code>
+     */
+    int getCurSync();
   }
   /**
    * Protobuf type {@code EPartiton.SyncObject}
@@ -115,6 +120,11 @@ public final class GlobalSyncObject {
               }
               lso_.add(
                   input.readMessage(com.EPartition.GlobalSyncObject.SyncObject.LoadStatusObject.parser(), extensionRegistry));
+              break;
+            }
+            case 24: {
+
+              curSync_ = input.readInt32();
               break;
             }
             default: {
@@ -1420,6 +1430,15 @@ public final class GlobalSyncObject {
       return lso_.get(index);
     }
 
+    public static final int CURSYNC_FIELD_NUMBER = 3;
+    private int curSync_;
+    /**
+     * <code>int32 curSync = 3;</code>
+     */
+    public int getCurSync() {
+      return curSync_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1440,6 +1459,9 @@ public final class GlobalSyncObject {
       for (int i = 0; i < lso_.size(); i++) {
         output.writeMessage(2, lso_.get(i));
       }
+      if (curSync_ != 0) {
+        output.writeInt32(3, curSync_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -1456,6 +1478,10 @@ public final class GlobalSyncObject {
       for (int i = 0; i < lso_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, lso_.get(i));
+      }
+      if (curSync_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, curSync_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1479,6 +1505,8 @@ public final class GlobalSyncObject {
       }
       if (!getLsoList()
           .equals(other.getLsoList())) return false;
+      if (getCurSync()
+          != other.getCurSync()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -1498,6 +1526,8 @@ public final class GlobalSyncObject {
         hash = (37 * hash) + LSO_FIELD_NUMBER;
         hash = (53 * hash) + getLsoList().hashCode();
       }
+      hash = (37 * hash) + CURSYNC_FIELD_NUMBER;
+      hash = (53 * hash) + getCurSync();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1644,6 +1674,8 @@ public final class GlobalSyncObject {
         } else {
           lsoBuilder_.clear();
         }
+        curSync_ = 0;
+
         return this;
       }
 
@@ -1686,6 +1718,7 @@ public final class GlobalSyncObject {
         } else {
           result.lso_ = lsoBuilder_.build();
         }
+        result.curSync_ = curSync_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1763,6 +1796,9 @@ public final class GlobalSyncObject {
               lsoBuilder_.addAllMessages(other.lso_);
             }
           }
+        }
+        if (other.getCurSync() != 0) {
+          setCurSync(other.getCurSync());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2150,6 +2186,32 @@ public final class GlobalSyncObject {
         }
         return lsoBuilder_;
       }
+
+      private int curSync_ ;
+      /**
+       * <code>int32 curSync = 3;</code>
+       */
+      public int getCurSync() {
+        return curSync_;
+      }
+      /**
+       * <code>int32 curSync = 3;</code>
+       */
+      public Builder setCurSync(int value) {
+        
+        curSync_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 curSync = 3;</code>
+       */
+      public Builder clearCurSync() {
+        
+        curSync_ = 0;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2227,15 +2289,16 @@ public final class GlobalSyncObject {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\026GlobalSyncObject.proto\022\tEPartiton\"\216\002\n\n" +
+      "\n\026GlobalSyncObject.proto\022\tEPartiton\"\237\002\n\n" +
       "SyncObject\0227\n\006repDeg\030\001 \001(\0132\'.EPartiton.S" +
       "yncObject.ReplicationDegree\0223\n\003lso\030\002 \003(\013" +
       "2&.EPartiton.SyncObject.LoadStatusObject" +
-      "\032<\n\021ReplicationDegree\022\024\n\014repDegDouble\030\001 " +
-      "\001(\001\022\021\n\trepDegInt\030\002 \001(\005\032T\n\020LoadStatusObje" +
-      "ct\022\021\n\tBROKER_IP\030\001 \001(\t\022\030\n\020numSubscription" +
-      "s\030\002 \001(\005\022\023\n\013accessCount\030\003 \001(\005B\"\n\016com.EPar" +
-      "titionB\020GlobalSyncObjectb\006proto3"
+      "\022\017\n\007curSync\030\003 \001(\005\032<\n\021ReplicationDegree\022\024" +
+      "\n\014repDegDouble\030\001 \001(\001\022\021\n\trepDegInt\030\002 \001(\005\032" +
+      "T\n\020LoadStatusObject\022\021\n\tBROKER_IP\030\001 \001(\t\022\030" +
+      "\n\020numSubscriptions\030\002 \001(\005\022\023\n\013accessCount\030" +
+      "\003 \001(\005B\"\n\016com.EPartitionB\020GlobalSyncObjec" +
+      "tb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2254,7 +2317,7 @@ public final class GlobalSyncObject {
     internal_static_EPartiton_SyncObject_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EPartiton_SyncObject_descriptor,
-        new java.lang.String[] { "RepDeg", "Lso", });
+        new java.lang.String[] { "RepDeg", "Lso", "CurSync", });
     internal_static_EPartiton_SyncObject_ReplicationDegree_descriptor =
       internal_static_EPartiton_SyncObject_descriptor.getNestedTypes().get(0);
     internal_static_EPartiton_SyncObject_ReplicationDegree_fieldAccessorTable = new

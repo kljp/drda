@@ -10,6 +10,7 @@ message SyncObject {
 
     ReplicationDegree repDeg = 1;
     repeated LoadStatusObject lso = 2;
+    int32 curSync = 3;
 
     message ReplicationDegree{
 

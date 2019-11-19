@@ -22,6 +22,7 @@ public class LoadBalancerCommThread extends Thread {
     private ArrayList<LoadStatusObject> lsos;
     private static ArrayList<LoadStatusObject> tempLsos = new ArrayList<LoadStatusObject>();
     private ReplicationDegree repDeg;
+    private static int curSync = 0;
 
 
     public LoadBalancerCommThread(int LBIdentifier, String LBMaster, int LB_PORT, int BROKER_PORT, HashMap<Integer, String> IPMap, ArrayList<LoadStatusObject> lsos, ReplicationDegree repDeg) {
@@ -49,7 +50,7 @@ public class LoadBalancerCommThread extends Thread {
 
             System.out.println("master");
 
-            new LoadBalancerMasterNotfThread(wakeThread, BrokerList, IPMap, repDeg, lsos, tempLsos, BROKER_PORT).start();
+            new LoadBalancerMasterNotfThread(wakeThread, BrokerList, IPMap, repDeg, lsos, tempLsos, BROKER_PORT, curSync).start();
 
             try {
                 ServerSocket serverSocket = new ServerSocket(LB_PORT);
@@ -61,7 +62,7 @@ public class LoadBalancerCommThread extends Thread {
                         wakeThread.add(0);
                     }
 
-                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, BrokerList, IPMap, repDeg, tempLsos, lsos).start();
+                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, BrokerList, IPMap, repDeg, tempLsos, lsos, curSync).start();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -160,18 +161,20 @@ public class LoadBalancerCommThread extends Thread {
 
                         applyGlobalSync(dataInputStream);
 
+                        System.out.println("curSync = " + curSync);
+
+                        synchronized (repDeg){
+                            System.out.println(repDeg.getRepDegDouble() + " " + repDeg.getRepDegInt());
+                        }
+
                         synchronized (lsos){
                             if (!lsos.isEmpty()) {
-
-                                synchronized (repDeg){
-                                    System.out.println(repDeg.getRepDegDouble() + " " + repDeg.getRepDegInt());
-                                }
-
                                 for (int i = 0; i < lsos.size(); i++)
                                     System.out.println(lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " " + lsos.get(i).getAccessCount());
-                                System.out.println();
                             }
                         }
+
+                        System.out.println();
                     }
                 }
             } catch (IOException e) {

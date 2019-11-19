@@ -13,9 +13,10 @@ public class LoadBalancerMasterNotfThread extends Thread {
     private ArrayList<LoadStatusObject> tempLsos;
     private int BROKER_PORT;
     private static ArrayList<Double> repDegHistory = new ArrayList<Double>();
+    private int curSync;
 
     public LoadBalancerMasterNotfThread(ArrayList<Integer> wakeThread, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap,
-                                        ReplicationDegree repDeg, ArrayList<LoadStatusObject> lsos, ArrayList<LoadStatusObject> tempLsos, int BROKER_PORT) {
+                                        ReplicationDegree repDeg, ArrayList<LoadStatusObject> lsos, ArrayList<LoadStatusObject> tempLsos, int BROKER_PORT, int curSync) {
 
         this.wakeThread = wakeThread;
         this.BrokerList = BrokerList;
@@ -24,6 +25,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
         this.lsos = lsos;
         this.tempLsos = tempLsos;
         this.BROKER_PORT = BROKER_PORT;
+        this.curSync = curSync;
     }
 
     @Override
@@ -37,7 +39,6 @@ public class LoadBalancerMasterNotfThread extends Thread {
         int tempSize; //the number of worker threads
         int tempNum; // the number of connected brokers
         int checkType = 0;
-        int curSync = 0;
         double beforeSync = 0.0;
         double afterSync;
         double elapsedSync;
@@ -158,12 +159,12 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                 synchronized (lsos) {
                     if (!lsos.isEmpty()) {
-
                         for (int i = 0; i < lsos.size(); i++)
                             System.out.println(lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " " + lsos.get(i).getAccessCount());
-                        System.out.println();
                     }
                 }
+
+                System.out.println();
 
                 before = System.currentTimeMillis();
 
