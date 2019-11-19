@@ -187,7 +187,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
                             }
 
                             matchingRate = (double) numEvent / elapsedSync;
-                            System.out.println("Matching rate between period " + GlobalState.PERIOD_SYNC_START + " and " + GlobalState.PERIOD_SYNC_END + " is " + matchingRate + "(elapsed time = " + elapsedSync +")");
+                            System.out.println("Matching rate between period " + GlobalState.PERIOD_SYNC_START + " and " + GlobalState.PERIOD_SYNC_END + " is " + matchingRate + " (elapsed time = " + elapsedSync +")");
 
                             return;
                         }
