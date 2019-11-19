@@ -26,4 +26,6 @@ public class GlobalState {
     public static double PeriodOfSync = 10.0;
     public static double REP_DEG_INIT = 3.0;
     public static int MAX_NUM_BROKER = 1024;
+    public static int PERIOD_SYNC_START = 3;
+    public static int PERIOD_SYNC_END = 5;
 }

@@ -37,8 +37,15 @@ public class LoadBalancerMasterNotfThread extends Thread {
         int tempSize; //the number of worker threads
         int tempNum; // the number of connected brokers
         int checkType = 0;
+        int curSync = 0;
+        double beforeSync = 0.0;
+        double afterSync;
+        double elapsedSync;
 
         while (true) {
+
+            if(curSync == GlobalState.PERIOD_SYNC_START)
+                beforeSync = System.currentTimeMillis();
 
             after = System.currentTimeMillis();
             elapsed = (after - before) / 1000.0;
@@ -150,6 +157,23 @@ public class LoadBalancerMasterNotfThread extends Thread {
                     }
                 }
                 before = System.currentTimeMillis();
+                curSync++;
+
+                if(curSync == GlobalState.PERIOD_SYNC_END){
+                    afterSync = System.currentTimeMillis();
+                    elapsedSync = (afterSync - beforeSync) / 1000.0;
+                    int numEvent = 0;
+                    double matchingRate;
+
+                    synchronized (lsos){
+                        for (int i = 0; i < lsos.size(); i++)
+                            numEvent = numEvent + lsos.get(i).getAccessCount();
+                    }
+
+                    matchingRate = (double) numEvent / elapsedSync;
+                    System.out.println("Matching rate between period " + GlobalState.PERIOD_SYNC_START + " and " + GlobalState.PERIOD_SYNC_END + " is " + matchingRate);
+                    return;
+                }
             }
         }
     }
