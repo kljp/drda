@@ -56,10 +56,6 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
             if (elapsed > GlobalState.PeriodOfSync) {
 
-                synchronized (cso){
-                    cso.setCurSync(cso.getCurSync() + 1);
-                }
-
                 synchronized (tempLsos) {
                     tempLsos.clear();
                 }
@@ -196,6 +192,10 @@ public class LoadBalancerMasterNotfThread extends Thread {
                             return;
                         }
                     }
+                }
+
+                synchronized (cso){
+                    cso.setCurSync(cso.getCurSync() + 1);
                 }
             }
         }
