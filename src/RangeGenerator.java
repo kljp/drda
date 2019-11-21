@@ -13,7 +13,7 @@ public class RangeGenerator {
         }
 
         for (int i = 0; i < GlobalState.NumberOfDimensions; i++)
-            skewedSubscription[i] = GlobalState.skewedSubscriptionDist[i];
+            skewedSubscription[i] = GlobalState.skewedSubscriptionDist[i]; // currently not used
     }
 
     public AttributeRanges randomRangeGenerator() {
