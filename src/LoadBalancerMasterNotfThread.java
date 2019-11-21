@@ -222,8 +222,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
                                 synchronized (repDegHistory){
                                     if(!repDegHistory.isEmpty()){
                                         for (int i = 0; i < repDegHistory.size(); i++) {
-                                            fos_lb.write((repDegHistory.get(i) + "\n").getBytes());
-                                            fos_lb.flush();
+                                            fos_rd.write((repDegHistory.get(i) + "\n").getBytes());
+                                            fos_rd.flush();
                                         }
                                     }
                                 }
