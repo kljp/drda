@@ -2,7 +2,9 @@ import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class LoadBalancerMasterNotfThread extends Thread {
@@ -53,9 +55,14 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
         try {
             if(GlobalState.EXP_MODE.equals("ON")){
-                fos_lb = new FileOutputStream("./src/experiment/loadbalance/loadbalance_" + System.currentTimeMillis() + ".txt");
-                fos_rd = new FileOutputStream("./src/experiment/replicationdegree/replicationdegree_" + System.currentTimeMillis() + ".txt");
-                fos_result = new FileOutputStream("./src/experiment/result/result_" + System.currentTimeMillis() + ".txt");
+
+                SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                Date time = new Date();
+                String formattedTime = format.format(time);
+
+                fos_lb = new FileOutputStream("./experiment/loadbalance/loadbalance_" + formattedTime + ".txt");
+                fos_rd = new FileOutputStream("./experiment/replicationdegree/replicationdegree_" + formattedTime + ".txt");
+                fos_result = new FileOutputStream("./experiment/result/result_" + formattedTime + ".txt");
             }
 
             while (true) {
