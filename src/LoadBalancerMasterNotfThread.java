@@ -60,9 +60,9 @@ public class LoadBalancerMasterNotfThread extends Thread {
                 Date time = new Date();
                 String formattedTime = format.format(time);
 
-                fos_lb = new FileOutputStream("./experiment/loadbalance/loadbalance_" + formattedTime + ".txt");
-                fos_rd = new FileOutputStream("./experiment/replicationdegree/replicationdegree_" + formattedTime + ".txt");
-                fos_result = new FileOutputStream("./experiment/result/result_" + formattedTime + ".txt");
+                fos_lb = new FileOutputStream("./../experiment/loadbalance/loadbalance_" + formattedTime + ".txt");
+                fos_rd = new FileOutputStream("./../experiment/replicationdegree/replicationdegree_" + formattedTime + ".txt");
+                fos_result = new FileOutputStream("./../experiment/result/result_" + formattedTime + ".txt");
             }
 
             while (true) {
