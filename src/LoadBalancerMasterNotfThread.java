@@ -216,6 +216,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
                                             fos_lb.write((loadbalanceHistory.get(i) + "\n").getBytes());
                                             fos_lb.flush();
                                         }
+                                        fos_lb.close();
+
                                     }
                                 }
 
@@ -225,6 +227,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
                                             fos_rd.write((repDegHistory.get(i) + "\n").getBytes());
                                             fos_rd.flush();
                                         }
+
+                                        fos_rd.close();
                                     }
                                 }
 
@@ -238,12 +242,9 @@ public class LoadBalancerMasterNotfThread extends Thread {
                                             fos_result.flush();
                                         }
 
+                                        fos_result.close();
                                     }
                                 }
-
-                                fos_lb.close();
-                                fos_rd.close();
-                                fos_result.close();
 
                                 return;
                             }
@@ -335,8 +336,18 @@ public class LoadBalancerMasterNotfThread extends Thread {
         }
 
         // for experimental results
-        loadbalanceHistory.add(loadbalance);
-        repDegHistory.add(tempRepDeg);
+        synchronized (cso){
+            if(cso.getCurSync() > 0){
+
+                synchronized (loadbalanceHistory){
+                    loadbalanceHistory.add(loadbalance);
+                }
+
+                synchronized (repDegHistory){
+                    repDegHistory.add(tempRepDeg);
+                }
+            }
+        }
 
         if (tempRepDeg < 3.0 || Double.isNaN(tempRepDeg))
             tempRepDeg = 3.0;
