@@ -3,3 +3,6 @@ out/
 drda.iml
 src/messages/
 src/plot/
+experiment/loadbalance/*.txt
+experiment/replicationdegree/*.txt
+experiment/result/*.txt

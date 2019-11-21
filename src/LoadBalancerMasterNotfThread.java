@@ -1,4 +1,6 @@
 import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +14,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
     private ArrayList<LoadStatusObject> lsos;
     private ArrayList<LoadStatusObject> tempLsos;
     private int BROKER_PORT;
+    private static ArrayList<Double> loadbalanceHistory = new ArrayList<Double>();
     private static ArrayList<Double> repDegHistory = new ArrayList<Double>();
     private CurSyncObject cso;
 
@@ -39,165 +42,216 @@ public class LoadBalancerMasterNotfThread extends Thread {
         int tempSize; //the number of worker threads
         int tempNum; // the number of connected brokers
         int checkType = 0;
+        double loadbalance;
         double beforeSync = 0.0;
         double afterSync;
         double elapsedSync;
         ArrayList<LoadStatusObject> lsoSyncStart = new ArrayList<LoadStatusObject>();
+        FileOutputStream fos_lb = null;
+        FileOutputStream fos_rd = null;
+        FileOutputStream fos_result = null;
 
-        while (true) {
-
-            synchronized (cso){
-                if(cso.getCurSync() == GlobalState.PERIOD_SYNC_START)
-                    beforeSync = System.currentTimeMillis();
+        try {
+            if(GlobalState.EXP_MODE.equals("ON")){
+                fos_lb = new FileOutputStream("./src/experiment/loadbalance/loadbalance_" + System.currentTimeMillis() + ".txt");
+                fos_rd = new FileOutputStream("./src/experiment/replicationdegree/replicationdegree_" + System.currentTimeMillis() + ".txt");
+                fos_result = new FileOutputStream("./src/experiment/result/result_" + System.currentTimeMillis() + ".txt");
             }
 
-            after = System.currentTimeMillis();
-            elapsed = (after - before) / 1000.0;
-
-            if (elapsed > GlobalState.PeriodOfSync) {
-
-                synchronized (tempLsos) {
-                    tempLsos.clear();
-                }
-
-                if (checkFirst == 0) {
-
-                    synchronized (wakeThread) {
-
-                        if (wakeThread.size() == 0)
-                            checkType = 0;
-                        else
-                            checkType = 1;
-                    }
-                }
-
-                if (checkType == 0) { // The number of LB is 1.
-
-                    if (checkFirst == 0) {
-
-                        synchronized (IPMap) {
-
-                            for (int i = 0; i < IPMap.size(); i++) {
-
-                                synchronized (wakeThread) {
-                                    wakeThread.add(0);
-                                }
-
-                                new LoadBalancerMasterSyncProcThread(IPMap.get(i), BROKER_PORT, wakeThread, i, tempLsos).start();
-                            }
-                        }
-
-                        checkFirst = 1;
-                    }
-
-                    wakeWorkThreads();
-                    waitWorkThreads();
-
-                    calculateReplicationDegree();
-
-                } else {// The number of LB is more than 1.
-
-                    if (checkFirst == 0) {
-
-//                        BrokerList = new ArrayList<ArrayList<String>>();
-
-                        synchronized (wakeThread) {
-                            tempSize = wakeThread.size();
-                        }
-
-                        synchronized (IPMap) {
-                            tempNum = IPMap.size();
-                        }
-
-                        for (int i = 0; i < tempSize; i++)
-                            BrokerList.add(new ArrayList<String>());
-
-                        countExit = 0;
-
-                        for (int i = 0; i < tempNum; i++) {
-
-                            if (countExit == 1)
-                                break;
-
-                            for (int j = 0; j < tempSize; j++) {
-                                if (j + i * tempSize < tempNum) {
-                                    synchronized (IPMap) {
-                                        BrokerList.get(j).add(IPMap.get(j + i * tempSize));
-                                    }
-                                } else {
-                                    countExit = 1;
-                                    break;
-                                }
-                            }
-                        }
-
-                        checkFirst = 1;
-                    }
-
-                    wakeWorkThreads();
-                    waitWorkThreads();
-
-                    calculateReplicationDegree();
-
-                    synchronized (lsos) {
-                        lsos.clear();
-                        lsos.addAll(tempLsos);
-                    }
-
-                    wakeWorkThreads();
-                    waitWorkThreads();
-                }
+            while (true) {
 
                 synchronized (cso){
                     if(cso.getCurSync() == GlobalState.PERIOD_SYNC_START)
-                        lsoSyncStart.addAll(tempLsos);
-
-                    System.out.println("curSync = " + cso.getCurSync());
+                        beforeSync = System.currentTimeMillis();
                 }
 
-                synchronized (repDeg){
-                    System.out.println(repDeg.getRepDegDouble() + " " + repDeg.getRepDegInt());
-                }
+                after = System.currentTimeMillis();
+                elapsed = (after - before) / 1000.0;
 
-                synchronized (lsos) {
-                    if (!lsos.isEmpty()) {
-                        for (int i = 0; i < lsos.size(); i++)
-                            System.out.println(lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " " + lsos.get(i).getAccessCount());
+                if (elapsed > GlobalState.PeriodOfSync) {
+
+                    synchronized (tempLsos) {
+                        tempLsos.clear();
                     }
-                }
 
-                System.out.println();
+                    if (checkFirst == 0) {
 
-                before = System.currentTimeMillis();
+                        synchronized (wakeThread) {
 
-                if(GlobalState.EXP_MODE.equals("ON")){
-
-                    synchronized (cso){
-
-                        if(cso.getCurSync() == GlobalState.PERIOD_SYNC_END){
-
-                            afterSync = System.currentTimeMillis();
-                            elapsedSync = (afterSync - beforeSync) / 1000.0;
-                            int numEvent = 0;
-                            double matchingRate;
-
-                            synchronized (lsos){
-                                for (int i = 0; i < lsos.size(); i++)
-                                    numEvent = numEvent + (lsos.get(i).getAccessCount() - lsoSyncStart.get(i).getAccessCount());
-                            }
-
-                            matchingRate = (double) numEvent / elapsedSync;
-                            System.out.println("Matching rate between period " + GlobalState.PERIOD_SYNC_START + " and " + GlobalState.PERIOD_SYNC_END + " is " + matchingRate + " (elapsed time = " + elapsedSync +")");
-
-                            return;
+                            if (wakeThread.size() == 0)
+                                checkType = 0;
+                            else
+                                checkType = 1;
                         }
                     }
-                }
 
-                synchronized (cso){
-                    cso.setCurSync(cso.getCurSync() + 1);
+                    if (checkType == 0) { // The number of LB is 1.
+
+                        if (checkFirst == 0) {
+
+                            synchronized (IPMap) {
+
+                                for (int i = 0; i < IPMap.size(); i++) {
+
+                                    synchronized (wakeThread) {
+                                        wakeThread.add(0);
+                                    }
+
+                                    new LoadBalancerMasterSyncProcThread(IPMap.get(i), BROKER_PORT, wakeThread, i, tempLsos).start();
+                                }
+                            }
+
+                            checkFirst = 1;
+                        }
+
+                        wakeWorkThreads();
+                        waitWorkThreads();
+
+                        loadbalance = calculateReplicationDegree();
+
+                    } else {// The number of LB is more than 1.
+
+                        if (checkFirst == 0) {
+
+//                        BrokerList = new ArrayList<ArrayList<String>>();
+
+                            synchronized (wakeThread) {
+                                tempSize = wakeThread.size();
+                            }
+
+                            synchronized (IPMap) {
+                                tempNum = IPMap.size();
+                            }
+
+                            for (int i = 0; i < tempSize; i++)
+                                BrokerList.add(new ArrayList<String>());
+
+                            countExit = 0;
+
+                            for (int i = 0; i < tempNum; i++) {
+
+                                if (countExit == 1)
+                                    break;
+
+                                for (int j = 0; j < tempSize; j++) {
+                                    if (j + i * tempSize < tempNum) {
+                                        synchronized (IPMap) {
+                                            BrokerList.get(j).add(IPMap.get(j + i * tempSize));
+                                        }
+                                    } else {
+                                        countExit = 1;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            checkFirst = 1;
+                        }
+
+                        wakeWorkThreads();
+                        waitWorkThreads();
+
+                        loadbalance = calculateReplicationDegree();
+
+                        synchronized (lsos) {
+                            lsos.clear();
+                            lsos.addAll(tempLsos);
+                        }
+
+                        wakeWorkThreads();
+                        waitWorkThreads();
+                    }
+
+                    synchronized (cso){
+                        if(cso.getCurSync() == GlobalState.PERIOD_SYNC_START)
+                            lsoSyncStart.addAll(tempLsos);
+
+                        System.out.println("curSync = " + cso.getCurSync());
+                    }
+
+                    synchronized (repDeg){
+                        System.out.println(repDeg.getRepDegDouble() + " " + repDeg.getRepDegInt());
+                    }
+
+                    synchronized (lsos) {
+                        if (!lsos.isEmpty()) {
+                            for (int i = 0; i < lsos.size(); i++)
+                                System.out.println(lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " " + lsos.get(i).getAccessCount());
+                        }
+                    }
+
+                    System.out.println();
+
+                    before = System.currentTimeMillis();
+
+                    if(GlobalState.EXP_MODE.equals("ON")){
+
+                        synchronized (cso){
+
+                            if(cso.getCurSync() == GlobalState.PERIOD_SYNC_END){
+
+                                afterSync = System.currentTimeMillis();
+                                elapsedSync = (afterSync - beforeSync) / 1000.0;
+                                int numEvent = 0;
+                                double matchingRate;
+
+                                synchronized (lsos){
+                                    for (int i = 0; i < lsos.size(); i++)
+                                        numEvent = numEvent + (lsos.get(i).getAccessCount() - lsoSyncStart.get(i).getAccessCount());
+                                }
+
+                                matchingRate = (double) numEvent / elapsedSync;
+                                System.out.println("Matching rate between period " + GlobalState.PERIOD_SYNC_START + " and " + GlobalState.PERIOD_SYNC_END + " is " + matchingRate + " (elapsed time = " + elapsedSync +")");
+
+                                synchronized (loadbalanceHistory){
+                                    if(!loadbalanceHistory.isEmpty()){
+                                        for (int i = 0; i < loadbalanceHistory.size(); i++) {
+                                            fos_lb.write((loadbalanceHistory.get(i) + "\n").getBytes());
+                                            fos_lb.flush();
+                                        }
+                                    }
+                                }
+
+                                synchronized (repDegHistory){
+                                    if(!repDegHistory.isEmpty()){
+                                        for (int i = 0; i < repDegHistory.size(); i++) {
+                                            fos_lb.write((repDegHistory.get(i) + "\n").getBytes());
+                                            fos_lb.flush();
+                                        }
+                                    }
+                                }
+
+                                fos_result.write((matchingRate + "\n").getBytes());
+                                fos_result.flush();
+
+                                synchronized (lsos) {
+                                    if (!lsos.isEmpty()) {
+                                        for (int i = 0; i < lsos.size(); i++){
+                                            fos_result.write((lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " " + lsos.get(i).getAccessCount() + "\n").getBytes());
+                                            fos_result.flush();
+                                        }
+
+                                    }
+                                }
+
+                                fos_lb.close();
+                                fos_rd.close();
+                                fos_result.close();
+
+                                return;
+                            }
+                        }
+                    }
+
+                    synchronized (cso){
+                        cso.setCurSync(cso.getCurSync() + 1);
+                    }
                 }
             }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -235,11 +289,12 @@ public class LoadBalancerMasterNotfThread extends Thread {
         }
     }
 
-    private void calculateReplicationDegree() {
+    private double calculateReplicationDegree() {
 
         int lsosSize;
         int[] nss; // An array of total subscription numbers of brokers
         int[] acs; // An array of the access counts of brokers
+        double loadbalance;
         double nssMean;
         double nssNormStdDev;
         double acsMean;
@@ -266,8 +321,15 @@ public class LoadBalancerMasterNotfThread extends Thread {
         acsMean = calculateMean(acs);
         acsNormStdDev = calculateStdDev(acs, acsMean) / acsMean;
 
-        tempRepDeg = 2.0 * ((double) IPMap.size()) * nssNormStdDev * acsNormStdDev;
-        repDegHistory.add(tempRepDeg); // for experimental results
+        loadbalance = 1 / (nssNormStdDev * acsNormStdDev);
+
+        synchronized (IPMap){
+            tempRepDeg = 2.0 * ((double) IPMap.size()) * (1 / loadbalance);
+        }
+
+        // for experimental results
+        loadbalanceHistory.add(loadbalance);
+        repDegHistory.add(tempRepDeg);
 
         if (tempRepDeg < 3.0 || Double.isNaN(tempRepDeg))
             tempRepDeg = 3.0;
@@ -277,6 +339,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
             repDeg.setRepDegDouble(tempRepDeg);
             repDeg.setRepDegInt((int) tempRepDeg);
         }
+
+        return loadbalance;
     }
 
     private double calculateMean(int[] array) {

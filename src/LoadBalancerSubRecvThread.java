@@ -61,19 +61,22 @@ public class LoadBalancerSubRecvThread extends Thread {
                 }
             }
 
-            synchronized (repDeg){
+            if(GlobalState.DRDA_MODE.equals("ON")){
 
-                if(messages.length > repDeg.getRepDegInt()){
+                synchronized (repDeg){
 
-                    if(lsos.size() > 0){
-                        synchronized (IPMap){
-                            messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 1);
+                    if(messages.length > repDeg.getRepDegInt()){
+
+                        if(lsos.size() > 0){
+                            synchronized (IPMap){
+                                messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 1);
+                            }
                         }
-                    }
 
-                    else{
-                        synchronized (IPMap){
-                            messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 0);
+                        else{
+                            synchronized (IPMap){
+                                messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 0);
+                            }
                         }
                     }
                 }
