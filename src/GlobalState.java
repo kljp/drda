@@ -33,6 +33,6 @@ public class GlobalState {
     public static String SKEWED_SUBSCRIPTION_MODE = "OFF"; // "ON" or "OFF"
     public static String SKEWED_PUBLICATION_MODE = "OFF"; // "ON" or "OFF"
     public static String LOAD_OPTION = "AC"; // "SUB": only consider the number of subscriptions, "AC": only consider the number of access counts, "ALL": consider both the number of subscriptions and the number of access counts.
-    public static String DRDA_MODE = "OFF"; // "ON", "SEMI" or "OFF". SEMI: replication degree is always 3.
+    public static String DRDA_MODE = "ON"; // "ON", "SEMI" or "OFF". SEMI: replication degree is always 3.
     public static String UNSUB_MODE = "ON"; // "ON" or "OFF"
 }
