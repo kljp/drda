@@ -28,11 +28,11 @@ public class GlobalState {
     public static double REP_DEG_INIT = 3.0;
     public static int MAX_NUM_BROKER = 1024;
     public static int PERIOD_SYNC_START = 3;
-    public static int PERIOD_SYNC_END = 5;
+    public static int PERIOD_SYNC_END = 20;
     public static String EXP_MODE = "ON"; // "ON" or "OFF"
     public static String SKEWED_SUBSCRIPTION_MODE = "OFF"; // "ON" or "OFF"
     public static String SKEWED_PUBLICATION_MODE = "OFF"; // "ON" or "OFF"
     public static String LOAD_OPTION = "AC"; // "SUB": only consider the number of subscriptions, "AC": only consider the number of access counts, "ALL": consider both the number of subscriptions and the number of access counts.
-    public static String DRDA_MODE = "ON"; // "ON", "SEMI" or "OFF". SEMI: replication degree is always 3.
+    public static String DRDA_MODE = "OFF"; // "ON", "SEMI" or "OFF". SEMI: replication degree is always 3.
     public static String UNSUB_MODE = "OFF"; // "ON" or "OFF"
 }
