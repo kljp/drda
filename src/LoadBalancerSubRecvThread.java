@@ -82,6 +82,24 @@ public class LoadBalancerSubRecvThread extends Thread {
                 }
             }
 
+            else if(GlobalState.DRDA_MODE.equals("SEMI")){
+
+                if(messages.length > 3){
+
+                    if(lsos.size() > 0){
+                        synchronized (IPMap){
+                            messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, 3, 1);
+                        }
+                    }
+
+                    else{
+                        synchronized (IPMap){
+                            messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, 3, 0);
+                        }
+                    }
+                }
+            }
+
             for (int i = 0; i < messages.length; i++) {
 
                 synchronized (IPMap){

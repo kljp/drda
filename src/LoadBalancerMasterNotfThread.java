@@ -183,7 +183,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
                     synchronized (lsos) {
                         if (!lsos.isEmpty()) {
                             for (int i = 0; i < lsos.size(); i++)
-                                System.out.println(lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " " + lsos.get(i).getAccessCount());
+                                System.out.println(lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " "
+                                        + lsos.get(i).getAccessCount() + " " + lsos.get(i).getNumSubscriptions() * lsos.get(i).getAccessCount());
                         }
                     }
 
@@ -238,7 +239,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
                                 synchronized (lsos) {
                                     if (!lsos.isEmpty()) {
                                         for (int i = 0; i < lsos.size(); i++){
-                                            fos_result.write((lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " " + lsos.get(i).getAccessCount() + "\n").getBytes());
+                                            fos_result.write((lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " "
+                                                    + lsos.get(i).getAccessCount() + lsos.get(i).getNumSubscriptions() * lsos.get(i).getAccessCount() + "\n").getBytes());
                                             fos_result.flush();
                                         }
 
@@ -349,8 +351,13 @@ public class LoadBalancerMasterNotfThread extends Thread {
             }
         }
 
-        if (tempRepDeg < 3.0 || Double.isNaN(tempRepDeg))
+        if(GlobalState.DRDA_MODE.equals("SEMI")){
             tempRepDeg = 3.0;
+        }
+        else{
+            if (tempRepDeg < 3.0 || Double.isNaN(tempRepDeg))
+                tempRepDeg = 3.0;
+        }
 
         synchronized (repDeg) {
 
