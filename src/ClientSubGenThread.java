@@ -33,9 +33,9 @@ public class ClientSubGenThread extends Thread{
         msgEPartition temp;
         int curCount = 0;
 
-        synchronized (queue){
+//        synchronized (queue){
             new ClientSubPollThread(queue).start();
-        }
+//        }
 
         ServerSocket serverSocket = null;
         socket = new Socket();

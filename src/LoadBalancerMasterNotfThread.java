@@ -182,9 +182,10 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                     synchronized (lsos) {
                         if (!lsos.isEmpty()) {
-                            for (int i = 0; i < lsos.size(); i++)
+                            for (int i = 0; i < lsos.size(); i++){
                                 System.out.println(lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " "
                                         + lsos.get(i).getAccessCount() + " " + lsos.get(i).getNumSubscriptions() * lsos.get(i).getAccessCount());
+                            }
                         }
                     }
 
@@ -240,7 +241,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
                                     if (!lsos.isEmpty()) {
                                         for (int i = 0; i < lsos.size(); i++){
                                             fos_result.write((lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " "
-                                                    + lsos.get(i).getAccessCount() + lsos.get(i).getNumSubscriptions() * lsos.get(i).getAccessCount() + "\n").getBytes());
+                                                    + lsos.get(i).getAccessCount() + " " + lsos.get(i).getNumSubscriptions() * lsos.get(i).getAccessCount() + "\n").getBytes());
                                             fos_result.flush();
                                         }
 

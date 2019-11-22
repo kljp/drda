@@ -23,9 +23,9 @@ public class ClientSubConnThread extends Thread{
             while(true){
                 Socket subSocket = serverSocket.accept();
 
-                synchronized (queue){
+//                synchronized (queue){
                     new ClientSubRecvThread(subSocket, queue).start();
-                }
+//                }
 
                 new ClientSubPingAliveThread(subSocket).start();
             }

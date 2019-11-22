@@ -169,8 +169,10 @@ public class LoadBalancerCommThread extends Thread {
 
                         synchronized (lsos){
                             if (!lsos.isEmpty()) {
-                                for (int i = 0; i < lsos.size(); i++)
-                                    System.out.println(lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " " + lsos.get(i).getAccessCount());
+                                for (int i = 0; i < lsos.size(); i++){
+                                    System.out.println(lsos.get(i).getBROKER_IP() + " " + lsos.get(i).getNumSubscriptions() + " "
+                                            + lsos.get(i).getAccessCount() + " " + lsos.get(i).getNumSubscriptions() * lsos.get(i).getAccessCount());
+                                }
                             }
                         }
 
