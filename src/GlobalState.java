@@ -22,7 +22,7 @@ public class GlobalState {
     public static int IPS_LB_PORT = 5007;
     public static int IPS_BROKER_PORT = 5008;
     public static int IPS_CLIENT_PORT = 5009;
-    public static int SUB_COUNT = 100;
+    public static int SUB_COUNT = 10000;
     public static int PUB_COUNT = 10000;
     public static double PeriodOfSync = 10.0;
     public static double REP_DEG_INIT = 3.0;
