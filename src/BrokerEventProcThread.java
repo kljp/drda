@@ -41,16 +41,21 @@ public class BrokerEventProcThread extends Thread {
             cao = new CheckAliveObject(1);
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
-            new BrokerSubCheckAliveThread(socket, cao).start();
+            if(GlobalState.UNSUB_MODE.equals("ON"))
+                new BrokerSubCheckAliveThread(socket, cao).start();
 
             while (true) {
 
-                synchronized (cao) {
-                    if (cao.getCheckAlive() == 1)
-                        checkAlive = 1;
-                    else
-                        checkAlive = 0;
+                if(GlobalState.UNSUB_MODE.equals("ON")){
+                    synchronized (cao) {
+                        if (cao.getCheckAlive() == 1)
+                            checkAlive = 1;
+                        else
+                            checkAlive = 0;
+                    }
                 }
+                else
+                    checkAlive = 1;
 
 
                 if (checkAlive == 1) {

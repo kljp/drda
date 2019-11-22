@@ -22,12 +22,10 @@ public class ClientSubConnThread extends Thread{
         try {
             while(true){
                 Socket subSocket = serverSocket.accept();
+                new ClientSubRecvThread(subSocket, queue).start();
 
-//                synchronized (queue){
-                    new ClientSubRecvThread(subSocket, queue).start();
-//                }
-
-                new ClientSubPingAliveThread(subSocket).start();
+                if(GlobalState.UNSUB_MODE.equals("ON"))
+                    new ClientSubPingAliveThread(subSocket).start();
             }
         } catch (IOException e) {
             e.printStackTrace();

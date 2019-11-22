@@ -33,9 +33,7 @@ public class ClientSubGenThread extends Thread{
         msgEPartition temp;
         int curCount = 0;
 
-//        synchronized (queue){
-            new ClientSubPollThread(queue).start();
-//        }
+        new ClientSubPollThread(queue).start();
 
         ServerSocket serverSocket = null;
         socket = new Socket();
@@ -52,7 +50,6 @@ public class ClientSubGenThread extends Thread{
                 synchronized (genQueue) {
                     if (!genQueue.isEmpty()) {
                         temp = genQueue.poll();
-//                        System.out.println(temp);
                         temp.writeDelimitedTo(dataOutputStream);
                         dataOutputStream.flush();
 
