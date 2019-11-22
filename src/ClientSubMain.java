@@ -18,60 +18,31 @@ public class ClientSubMain {
     private static int SUB_PORT;
     private static final String msgType = "Subscription";
     private static HashMap<String, Integer> PortList;
+    private static Queue<msgEPartition> genQueue = new LinkedList<msgEPartition>();
 
     public static void main(String[] args) {
 
         getIPAddress();
         LB_PORT = PortList.get("LB_SUB_PORT");
         SUB_PORT = PortList.get("SUB_BROKER_PORT");
-
-        Socket socket;
-        MessageWrapper messageWrapper = new MessageWrapper(msgType, new RangeGenerator().randomRangeGenerator());
+        int count = GlobalState.SUB_COUNT;
+        MessageWrapper messageWrapper;
         msgEPartition message;
 
-        message = messageWrapper.buildMsgEPartition();
-        socket = new Socket();
+        new ClientSubGenThread(LB_IP, LB_PORT, SUB_PORT, genQueue, count).start();
 
-        try {
-            socket.connect(new InetSocketAddress(LB_IP, LB_PORT));
-            DataOutputStream dataOutputStream= new DataOutputStream(socket.getOutputStream());
-            message.writeDelimitedTo(dataOutputStream);
-            dataOutputStream.flush();
-            dataOutputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (socket != null && !socket.isClosed()) {
-                    socket.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        for (int i = 0; i < count; i++) { // Publish i messages
+
+            messageWrapper = new MessageWrapper(msgType, new RangeGenerator().randomRangeGenerator());
+            message = messageWrapper.buildMsgEPartition();
+
+            synchronized (genQueue){
+                genQueue.add(message);
             }
-        }
 
-        Queue<msgEPartition> queue = new LinkedList<msgEPartition>();
-        new ClientSubPollThread(queue).start();
-
-        ServerSocket serverSocket = null;
-
-        try {
-            serverSocket = new ServerSocket(SUB_PORT);
-
-            while(true){
-
-                Socket subSocket = serverSocket.accept();
-                new ClientSubRecvThread(subSocket, queue).start();
-                new ClientSubPingAliveThread(subSocket).start();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
             try {
-                if (serverSocket != null && !serverSocket.isClosed()) {
-                    serverSocket.close();
-                }
-            } catch (IOException e) {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }

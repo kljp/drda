@@ -41,73 +41,78 @@ public class LoadBalancerSubRecvThread extends Thread {
         InetSocketAddress remoteSocketAddress;
         String remoteHostName;
         msgEPartition[] messages;
+        int count = 0;
 
         try {
             dataInputStream = new DataInputStream(socket.getInputStream());
+            count = dataInputStream.readInt();
 
-            temp = msgEPartition.parseDelimitedFrom(dataInputStream);
-            remoteSocketAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
-            remoteHostName = remoteSocketAddress.getAddress().getHostAddress();
-            temp = attributeOrderSorter.sortAttributeOrder(temp);
-            temp = subspaceAllocator.allocateSubspace(temp);
-            temp = replicationGenerator.setIPAddress(temp, remoteHostName);
+            for (int j = 0; j < count; j++) {
+
+                temp = msgEPartition.parseDelimitedFrom(dataInputStream);
+                remoteSocketAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
+                remoteHostName = remoteSocketAddress.getAddress().getHostAddress();
+                temp = attributeOrderSorter.sortAttributeOrder(temp);
+                temp = subspaceAllocator.allocateSubspace(temp);
+                temp = replicationGenerator.setIPAddress(temp, remoteHostName);
 //            System.out.println(temp);
 
-            messages = replicationGenerator.generateReplicates(temp);
+                messages = replicationGenerator.generateReplicates(temp);
 
-            if(messages.length > 1) {
-                synchronized (IPMap) {
-                    messages = replicationGenerator.preventDuplicates(messages, IPMap);
+                if(messages.length > 1) {
+                    synchronized (IPMap) {
+                        messages = replicationGenerator.preventDuplicates(messages, IPMap);
+                    }
                 }
-            }
 
-            if(GlobalState.DRDA_MODE.equals("ON")){
+                if(GlobalState.DRDA_MODE.equals("ON")){
 
-                synchronized (repDeg){
+                    synchronized (repDeg){
 
-                    if(messages.length > repDeg.getRepDegInt()){
+                        if(messages.length > repDeg.getRepDegInt()){
+
+                            if(lsos.size() > 0){
+                                synchronized (IPMap){
+                                    messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 1);
+                                }
+                            }
+
+                            else{
+                                synchronized (IPMap){
+                                    messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 0);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                else if(GlobalState.DRDA_MODE.equals("SEMI")){
+
+                    if(messages.length > 3){
 
                         if(lsos.size() > 0){
                             synchronized (IPMap){
-                                messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 1);
+                                messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, 3, 1);
                             }
                         }
 
                         else{
                             synchronized (IPMap){
-                                messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 0);
+                                messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, 3, 0);
                             }
                         }
                     }
                 }
-            }
 
-            else if(GlobalState.DRDA_MODE.equals("SEMI")){
+                for (int i = 0; i < messages.length; i++) {
 
-                if(messages.length > 3){
-
-                    if(lsos.size() > 0){
-                        synchronized (IPMap){
-                            messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, 3, 1);
-                        }
+                    synchronized (IPMap){
+                        tempStr = IPMap.get(Math.abs(MurmurHash.hash32(messages[i].getSubspaceForward())) % IPMap.size());
                     }
 
-                    else{
-                        synchronized (IPMap){
-                            messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, 3, 0);
-                        }
+                    synchronized (queues.get(tempStr)) {
+                        queues.get(tempStr).add(messages[i]);
                     }
-                }
-            }
-
-            for (int i = 0; i < messages.length; i++) {
-
-                synchronized (IPMap){
-                    tempStr = IPMap.get(Math.abs(MurmurHash.hash32(messages[i].getSubspaceForward())) % IPMap.size());
-                }
-
-                synchronized (queues.get(tempStr)) {
-                    queues.get(tempStr).add(messages[i]);
                 }
             }
 
