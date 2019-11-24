@@ -97,7 +97,7 @@ public class BrokerEventProcThread extends Thread {
                 }
             }
 
-        } catch (IOException | NullPointerException e) {
+        } catch (IOException | NullPointerException | IndexOutOfBoundsException e) {
             terminateThread();
             return;
         } finally {
@@ -105,7 +105,7 @@ public class BrokerEventProcThread extends Thread {
                 if (socket != null && !socket.isClosed()) {
                     socket.close();
                 }
-            } catch (IOException | NullPointerException e) {
+            } catch (IOException | NullPointerException | IndexOutOfBoundsException e) {
                 terminateThread();
                 return;
             }
