@@ -86,7 +86,7 @@ public class BrokerEventProcThread extends Thread {
                                 break;
                             }
                         }
-                    } catch (IOException | NullPointerException e) {
+                    } catch (IOException | NullPointerException | IndexOutOfBoundsException e) {
                         terminateThread();
                         return;
                     }
