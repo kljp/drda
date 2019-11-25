@@ -12,7 +12,7 @@ public class GlobalState {
     public static int NumberOfDimensionGroups = 1;
     public static int NumberOfDimensionsPerGroup = NumberOfDimensions / NumberOfDimensionGroups;
     public static final boolean[] skewedSubscriptionDist = new boolean[]{true, true, true, true, false, false, false, false};
-    public static int NumberOfSubscriptions = 1000;
+    public static int NumberOfSubscriptions = 10000;
     public static int NumberOfPublications = 10000;
     public static final String subscriptionListDir = "./src/messages/subscriptions/subscription ";
     public static final String publicationListDir = "./src/messages/publications/publication ";
@@ -32,7 +32,7 @@ public class GlobalState {
     public static String EXP_MODE = "ON"; // "ON" or "OFF"
     public static String SKEWED_SUBSCRIPTION_MODE = "OFF"; // "ON" or "OFF"
     public static String SKEWED_PUBLICATION_MODE = "OFF"; // "ON" or "OFF"
-    public static String LOAD_OPTION = "AC"; // "SUB": only consider the number of subscriptions, "AC": only consider the number of access counts, "ALL": consider both the number of subscriptions and the number of access counts.
+    public static String LOAD_OPTION = "SUB"; // "SUB": only consider the number of subscriptions, "AC": only consider the number of access counts, "ALL": consider both the number of subscriptions and the number of access counts.
     public static String DRDA_MODE = "ON"; // "ON", "SEMI" or "OFF". SEMI: replication degree is always 3.
     public static String UNSUB_MODE = "OFF"; // "ON" or "OFF"
 }
