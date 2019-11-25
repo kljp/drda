@@ -31,7 +31,7 @@ public class ClientSubMain {
 
         new ClientSubGenThread(LB_IP, LB_PORT, SUB_PORT, genQueue, count).start();
 
-        for (int i = 0; i < count; i++) { // Publish i messages
+        for (int i = 0; i < count; i++) {
 
             messageWrapper = new MessageWrapper(msgType, new RangeGenerator().randomRangeGenerator());
             message = messageWrapper.buildMsgEPartition();
@@ -41,7 +41,7 @@ public class ClientSubMain {
             }
 
             try {
-                Thread.sleep(5);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
