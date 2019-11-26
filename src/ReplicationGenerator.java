@@ -174,6 +174,7 @@ public class ReplicationGenerator {
         msgEPartition.Builder msgGlobalBuilder = msgEPartition.newBuilder();
 
         msgGlobalBuilder.mergeFrom(ms[0]);
+        System.out.println(ms[0].getSub().getId());
 
         for (int i = 0; i < ms.length; i++) {
             tempStr = IPMap.get(Math.abs(MurmurHash.hash32(ms[i].getSubspaceForward())) % IPMap.size());
