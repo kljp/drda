@@ -332,10 +332,10 @@ public class LoadBalancerMasterNotfThread extends Thread {
         acsMean = calculateMean(acs);
         acsNormStdDev = calculateStdDev(acs, acsMean) / acsMean;
 
-        loadbalance = 1 / (nssNormStdDev * acsNormStdDev);
+        loadbalance = Math.sqrt(1 / (nssNormStdDev * acsNormStdDev));
 
         synchronized (IPMap){
-            tempRepDeg = 2.0 * ((double) IPMap.size()) * (1 / loadbalance);
+            tempRepDeg = 4.0 * ((double) IPMap.size()) * (1 / loadbalance);
         }
 
         // for experimental results
