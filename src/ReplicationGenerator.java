@@ -93,9 +93,9 @@ public class ReplicationGenerator {
             return messages;
         }
 
-//        synchronized (lsos){
+        synchronized (lsos){
             lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
-//        }
+        }
 
         loads = new int[lsoArray.length];
 
