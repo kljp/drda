@@ -17,6 +17,8 @@ public class ReplicationGenerator {
         messageBuilder.setIPAddress(remoteHostName);
         Subscription.Builder subscriptionBuilder = Subscription.newBuilder();
         subscriptionBuilder.setId(remoteHostName + "_" + m.getSub().getId());
+        subscriptionBuilder.addAllLowerBound(m.getSub().getLowerBoundList());
+        subscriptionBuilder.addAllUpperBound(m.getSub().getUpperBoundList());
         Subscription subscription = subscriptionBuilder.build();
         messageBuilder.setSub(subscription);
         m = messageBuilder.build();

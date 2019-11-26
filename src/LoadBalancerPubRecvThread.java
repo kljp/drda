@@ -105,72 +105,65 @@ public class LoadBalancerPubRecvThread extends Thread {
 
                     synchronized (subscriptions) {
 
-                        if(!subscriptions.isEmpty()){
+                        for (int i = 0; i < subscriptions.size(); i++) {
 
-                            for (int i = 0; i < subscriptions.size(); i++) {
+                            countExit = 0;
+                            System.out.println(subscriptions.get(i));
+                            for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
 
-                                countExit = 0;
-                                System.out.println(subscriptions.get(i));
-                                for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
+                                if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
+                                        && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSub().getUpperBound(j)) {
 
-                                    if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
-                                            && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSub().getUpperBound(j)) {
-
-                                        countExit++;
-                                    }
-
-                                    else
-                                        break;
+                                    countExit++;
                                 }
 
-                                if (countExit == GlobalState.NumberOfDimensions) {
-
-                                    String[] brokers = subscriptions.get(i).getBrokersList().toArray(new String[subscriptions.get(i).getBrokersList().size()]);
-                                    int[] indexes = new int[brokers.length];
-
-                                    for (int j = 0; j < indexes.length; j++) {
-                                        for (int l = 0; l < lsoArray.length; l++) {
-                                            if(brokers[j].equals(lsoArray[l].getBROKER_IP())){
-                                                indexes[j] = l;
-                                                break;
-                                            }
-                                        }
-                                    }
-
-                                    int tempInt2;
-                                    String tempStr2;
-
-                                    for (int a = 0; a < indexes.length; a++) {
-
-                                        for (int b = 0; b < indexes.length - a - 1; b++) {
-
-                                            if(indexes[b] > indexes[b + 1]){
-
-                                                tempInt2 = indexes[b + 1];
-                                                indexes[b + 1] = indexes[b];
-                                                indexes[b] = tempInt2;
-
-                                                tempStr2 = brokers[b + 1];
-                                                brokers[b + 1] = brokers[b];
-                                                brokers[b] = tempStr2;
-                                            }
-                                        }
-                                    }
-
-                                    synchronized (queues.get(brokers[0])){
-                                        queues.get(brokers[0]).add(temp);
-                                    }
-
+                                else
                                     break;
-                                }
                             }
 
-                            //retention should be added
+                            if (countExit == GlobalState.NumberOfDimensions) {
+
+                                String[] brokers = subscriptions.get(i).getBrokersList().toArray(new String[subscriptions.get(i).getBrokersList().size()]);
+                                int[] indexes = new int[brokers.length];
+
+                                for (int j = 0; j < indexes.length; j++) {
+                                    for (int l = 0; l < lsoArray.length; l++) {
+                                        if(brokers[j].equals(lsoArray[l].getBROKER_IP())){
+                                            indexes[j] = l;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                int tempInt2;
+                                String tempStr2;
+
+                                for (int a = 0; a < indexes.length; a++) {
+
+                                    for (int b = 0; b < indexes.length - a - 1; b++) {
+
+                                        if(indexes[b] > indexes[b + 1]){
+
+                                            tempInt2 = indexes[b + 1];
+                                            indexes[b + 1] = indexes[b];
+                                            indexes[b] = tempInt2;
+
+                                            tempStr2 = brokers[b + 1];
+                                            brokers[b + 1] = brokers[b];
+                                            brokers[b] = tempStr2;
+                                        }
+                                    }
+                                }
+
+                                synchronized (queues.get(brokers[0])){
+                                    queues.get(brokers[0]).add(temp);
+                                }
+
+                                break;
+                            }
                         }
 
-                        else{ // retention should be added
-
-                        }
+                        // retention should be added.
                     }
                 }
 
