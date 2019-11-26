@@ -54,6 +54,7 @@ public class LoadBalancerSubRecvThread extends Thread {
             for (int j = 0; j < count; j++) {
 
                 temp = msgEPartition.parseDelimitedFrom(dataInputStream);
+                System.out.println(temp.getSub().getId());
                 remoteSocketAddress = (InetSocketAddress) socket.getRemoteSocketAddress();
                 remoteHostName = remoteSocketAddress.getAddress().getHostAddress();
                 temp = attributeOrderSorter.sortAttributeOrder(temp);

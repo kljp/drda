@@ -8,13 +8,13 @@ public class MessageWrapper {
     String msgType;
     AttributeRanges attributeRanges;
     double[] singlePoints;
-    int count;
+    int index;
 
-    public MessageWrapper(String msgType, AttributeRanges attributeRanges, int count) {
+    public MessageWrapper(String msgType, AttributeRanges attributeRanges, int index) {
 
         this.msgType = msgType;
         this.attributeRanges = attributeRanges;
-        this.count = count;
+        this.index = index;
     }
 
     public MessageWrapper(String msgType, double[] singlePoints) {
@@ -37,7 +37,7 @@ public class MessageWrapper {
 
             message.setMsgType(msgType);
             SubscriptionWrapper subscriptionWrapper = new SubscriptionWrapper(attributeRanges);
-            Subscription subscription = subscriptionWrapper.buildSubscription(count);
+            Subscription subscription = subscriptionWrapper.buildSubscription(index);
             message.setSub(subscription);
         } else if (msgType.equals("Publication")) {
 
