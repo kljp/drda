@@ -60,6 +60,7 @@ public class LoadBalancerSubRecvThread extends Thread {
                 temp = subspaceAllocator.allocateSubspace(temp);
                 temp = replicationGenerator.setIPAddress(temp, remoteHostName);
                 messages = replicationGenerator.generateReplicates(temp);
+                System.out.println(messages[0].getSub().getId());
 
                 if(messages.length > 1) {
                     synchronized (IPMap) {
@@ -92,8 +93,6 @@ public class LoadBalancerSubRecvThread extends Thread {
                             }
                         }
                     }
-
-                    System.out.println(tempMsgGlobal.getSub().getId());
                 }
 
                 else if(GlobalState.DRDA_MODE.equals("SEMI")){
