@@ -19,7 +19,7 @@ public class SubscriptionWriter {
 
             for (int i = 0; i < GlobalState.NumberOfSubscriptions; i++) {
 
-                messageWrapper = new MessageWrapper(msgType, new RangeGenerator().randomRangeGenerator());
+                messageWrapper = new MessageWrapper(msgType, new RangeGenerator().randomRangeGenerator(), i);
                 messageWrapper.buildMsgEPartition().writeDelimitedTo(outputStream);
             }
 
