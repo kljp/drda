@@ -416,21 +416,28 @@ public class LoadBalancerMasterNotfThread extends Thread {
     private void syncSubscriptionList(){
 
         String tempStr;
+        int check;
 
         synchronized (tempSubscriptions){
             synchronized (subscriptions){
 
                 for (int i = 0; i < tempSubscriptions.size(); i++) {
 
+                    check = 0;
                     tempStr = tempSubscriptions.get(i).getSub().getId();
 
                     for (int j = 0; j < subscriptions.size(); j++) {
 
-                        if(tempStr.equals(subscriptions.get(j).getSub().getId()))
-                            continue;
+                        if(tempStr.equals(subscriptions.get(j).getSub().getId())) {
+                            check = 1;
+                            break;
+                        }
+                        else
+                            check = 0;
                     }
 
-                    subscriptions.add(tempSubscriptions.get(i));
+                    if(check == 0)
+                        subscriptions.add(tempSubscriptions.get(i));
                 }
             }
         }

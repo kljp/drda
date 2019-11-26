@@ -181,7 +181,7 @@ public class ReplicationGenerator {
         }
 
         msgGlobal = msgGlobalBuilder.build();
-        System.out.println(msgGlobal.getSub().getId() + " " + ms[0].getSub().getId());
+
         return  msgGlobal;
     }
 }
