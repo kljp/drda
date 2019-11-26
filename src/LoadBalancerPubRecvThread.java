@@ -110,7 +110,7 @@ public class LoadBalancerPubRecvThread extends Thread {
                             for (int i = 0; i < subscriptions.size(); i++) {
 
                                 countExit = 0;
-
+                                System.out.println(subscriptions.get(i));
                                 for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
 
                                     if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
