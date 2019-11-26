@@ -190,7 +190,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                     synchronized (subscriptions){
                         if(!subscriptions.isEmpty())
-                            System.out.println("the actual number of subscription = " + subscriptions.size());
+                            System.out.println("the actual number of subscriptions = " + subscriptions.size());
                     }
 
                     synchronized (repDeg){
