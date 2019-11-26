@@ -41,7 +41,7 @@ public class ClientSubMain {
             }
 
             try {
-                Thread.sleep(125);
+                Thread.sleep(GlobalState.SUB_TERM);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
