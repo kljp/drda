@@ -71,15 +71,18 @@ public class LoadBalancerSubRecvThread extends Thread {
 
                         if(messages.length > repDeg.getRepDegInt()){
 
-                            if(lsos.size() > 0){
-                                synchronized (IPMap){
-                                    messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 1);
-                                }
-                            }
+                            synchronized (lsos){
 
-                            else{
-                                synchronized (IPMap){
-                                    messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 0);
+                                if(lsos.size() > 0){
+                                    synchronized (IPMap){
+                                        messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 1);
+                                    }
+                                }
+
+                                else{
+                                    synchronized (IPMap){
+                                        messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 0);
+                                    }
                                 }
                             }
                         }
@@ -90,15 +93,18 @@ public class LoadBalancerSubRecvThread extends Thread {
 
                     if(messages.length > 3){
 
-                        if(lsos.size() > 0){
-                            synchronized (IPMap){
-                                messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, 3, 1);
-                            }
-                        }
+                        synchronized (lsos){
 
-                        else{
-                            synchronized (IPMap){
-                                messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, 3, 0);
+                            if(lsos.size() > 0){
+                                synchronized (IPMap){
+                                    messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, 3, 1);
+                                }
+                            }
+
+                            else{
+                                synchronized (IPMap){
+                                    messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, 3, 0);
+                                }
                             }
                         }
                     }
