@@ -15,15 +15,17 @@ message msgEPartition {
     string subspaceForward = 5;
     repeated string subspace = 6;
     repeated string attribute = 7;
+    repeated string brokers = 8;
 
-    Subscription sub = 8;
-    Publication pub = 9;
-    Unsubscription unsub = 10;
+    Subscription sub = 9;
+    Publication pub = 10;
+    Unsubscription unsub = 11;
 
     message Subscription {
 
-        repeated double lowerBound = 1;
-        repeated double upperBound = 2;
+        string id = 1;
+        repeated double lowerBound = 2;
+        repeated double upperBound = 3;
     }
 
     message Publication {
@@ -36,5 +38,27 @@ message msgEPartition {
         repeated double lowerBound = 1;
         repeated double upperBound = 2;
     }
+}
+
+message SyncObject {
+
+    ReplicationDegree repDeg = 1;
+    repeated LoadStatusObject lso = 2;
+    int32 curSync = 3;
+    repeated msgEPartition messages = 4; //global subscriptions
+
+    message ReplicationDegree{
+
+        double repDegDouble = 1;
+        int32 repDegInt = 2;
+    }
+
+    message LoadStatusObject{
+
+        string BROKER_IP = 1;
+        int32 numSubscriptions = 2;
+        int32 accessCount = 3;
+    }
+
 }
 

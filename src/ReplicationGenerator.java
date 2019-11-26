@@ -1,4 +1,5 @@
 import com.EPartition.EPartitionMessageSchema.msgEPartition;
+import com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +15,10 @@ public class ReplicationGenerator {
         msgEPartition.Builder messageBuilder = msgEPartition.newBuilder();
         messageBuilder.mergeFrom(m);
         messageBuilder.setIPAddress(remoteHostName);
+        Subscription.Builder subscriptionBuilder = Subscription.newBuilder();
+        subscriptionBuilder.setId(remoteHostName + "_" + m.getSub().getId());
+        Subscription subscription = subscriptionBuilder.build();
+        messageBuilder.setSub(subscription);
         m = messageBuilder.build();
 
         return m;
@@ -150,6 +155,26 @@ public class ReplicationGenerator {
             }
         }
 
+
+
         return messages;
+    }
+
+    public msgEPartition setGlobalSub(msgEPartition[] ms, HashMap<Integer, String> IPMap){
+
+        String tempStr;
+        msgEPartition msgGlobal;
+        msgEPartition.Builder msgGlobalBuilder = msgEPartition.newBuilder();
+
+        msgGlobalBuilder.mergeFrom(ms[0]);
+
+        for (int i = 0; i < ms.length; i++) {
+            tempStr = IPMap.get(Math.abs(MurmurHash.hash32(ms[i].getSubspaceForward())) % IPMap.size());
+            msgGlobalBuilder.addBrokers(tempStr);
+        }
+
+        msgGlobal = msgGlobalBuilder.build();
+
+        return  msgGlobal;
     }
 }

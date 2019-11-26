@@ -1,4 +1,5 @@
-import com.EPartition.GlobalSyncObject.SyncObject;
+import com.EPartition.EPartitionMessageSchema.msgEPartition;
+import com.EPartition.EPartitionMessageSchema.SyncObject;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -21,11 +22,13 @@ public class LoadBalancerCommThread extends Thread {
     private static ArrayList<LoadStatusObject> sharedLsos = new ArrayList<LoadStatusObject>();
     private ArrayList<LoadStatusObject> lsos;
     private static ArrayList<LoadStatusObject> tempLsos = new ArrayList<LoadStatusObject>();
+    private ArrayList<msgEPartition> subscriptions;
+    private static ArrayList<msgEPartition> tempSubscriptions = new ArrayList<msgEPartition>();
     private ReplicationDegree repDeg;
     private static CurSyncObject cso = new CurSyncObject();
 
 
-    public LoadBalancerCommThread(int LBIdentifier, String LBMaster, int LB_PORT, int BROKER_PORT, HashMap<Integer, String> IPMap, ArrayList<LoadStatusObject> lsos, ReplicationDegree repDeg) {
+    public LoadBalancerCommThread(int LBIdentifier, String LBMaster, int LB_PORT, int BROKER_PORT, HashMap<Integer, String> IPMap, ArrayList<LoadStatusObject> lsos, ReplicationDegree repDeg, ArrayList<msgEPartition> subscriptions) {
 
         this.LBIdentifier = LBIdentifier;
         this.LBMaster = LBMaster;
@@ -35,6 +38,7 @@ public class LoadBalancerCommThread extends Thread {
         this.IPMap = IPMap;
         this.lsos = lsos;
         this.repDeg = repDeg;
+        this.subscriptions = subscriptions;
     }
 
     @Override
@@ -50,7 +54,7 @@ public class LoadBalancerCommThread extends Thread {
 
             System.out.println("master");
 
-            new LoadBalancerMasterNotfThread(wakeThread, BrokerList, IPMap, repDeg, lsos, tempLsos, BROKER_PORT, cso).start();
+            new LoadBalancerMasterNotfThread(wakeThread, BrokerList, IPMap, repDeg, lsos, tempLsos, BROKER_PORT, cso, subscriptions, tempSubscriptions).start();
 
             try {
                 ServerSocket serverSocket = new ServerSocket(LB_PORT);
@@ -62,7 +66,7 @@ public class LoadBalancerCommThread extends Thread {
                         wakeThread.add(0);
                     }
 
-                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, BrokerList, IPMap, repDeg, tempLsos, lsos, cso).start();
+                    new LoadBalancerMasterWorkThread(socket, wakeThread, wakeThread.size() - 1, BrokerList, IPMap, repDeg, tempLsos, lsos, cso, subscriptions, tempSubscriptions).start();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -163,6 +167,11 @@ public class LoadBalancerCommThread extends Thread {
 
                         System.out.println("curSync = " + cso.getCurSync());
 
+                        synchronized (subscriptions){
+                            if(!subscriptions.isEmpty())
+                                System.out.println("the actual number of subscription = " + subscriptions.size());
+                        }
+
                         synchronized (repDeg){
                             System.out.println(repDeg.getRepDegDouble() + " " + repDeg.getRepDegInt());
                         }
@@ -216,6 +225,12 @@ public class LoadBalancerCommThread extends Thread {
                     lsos.add(lso);
                 }
             }
+
+            synchronized (subscriptions){
+                subscriptions.clear();
+                subscriptions.addAll(syncObject.getMessagesList());
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -239,6 +254,9 @@ public class LoadBalancerCommThread extends Thread {
                     lsob.setAccessCount(sharedLsos.get(i).getAccessCount());
                     syncObjectBuilder.addLso(lsob);
                 }
+            }
+            synchronized (subscriptions){
+                syncObjectBuilder.addAllMessages(subscriptions);
             }
 
             syncObject = syncObjectBuilder.build();

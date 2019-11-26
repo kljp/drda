@@ -13,7 +13,7 @@ public class SubscriptionWrapper {
             this.upperbounds[i] = attributeRanges.upperbounds[i];
         }
     }
-    public Subscription buildSubscription(){
+    public Subscription buildSubscription(int count){
 
         Subscription.Builder subscription = Subscription.newBuilder();
 
@@ -22,6 +22,8 @@ public class SubscriptionWrapper {
             subscription.addLowerBound(lowerbounds[i]);
             subscription.addUpperBound(upperbounds[i]);
         }
+
+        subscription.setId(Integer.toString(count));
 
         return subscription.build();
     }

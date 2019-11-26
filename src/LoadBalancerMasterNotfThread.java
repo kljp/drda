@@ -1,3 +1,5 @@
+import com.EPartition.EPartitionMessageSchema.msgEPartition;
+
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,9 +21,12 @@ public class LoadBalancerMasterNotfThread extends Thread {
     private static ArrayList<Double> loadbalanceHistory = new ArrayList<Double>();
     private static ArrayList<Double> repDegHistory = new ArrayList<Double>();
     private CurSyncObject cso;
+    private ArrayList<msgEPartition> subscriptions;
+    private ArrayList<msgEPartition> tempSubscriptions;
 
     public LoadBalancerMasterNotfThread(ArrayList<Integer> wakeThread, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap,
-                                        ReplicationDegree repDeg, ArrayList<LoadStatusObject> lsos, ArrayList<LoadStatusObject> tempLsos, int BROKER_PORT, CurSyncObject cso) {
+                                        ReplicationDegree repDeg, ArrayList<LoadStatusObject> lsos, ArrayList<LoadStatusObject> tempLsos, int BROKER_PORT, CurSyncObject cso,
+                                        ArrayList<msgEPartition> subscriptions, ArrayList<msgEPartition> tempSubscriptions) {
 
         this.wakeThread = wakeThread;
         this.BrokerList = BrokerList;
@@ -31,6 +36,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
         this.tempLsos = tempLsos;
         this.BROKER_PORT = BROKER_PORT;
         this.cso = cso;
+        this.subscriptions = subscriptions;
+        this.tempSubscriptions = tempSubscriptions;
     }
 
     @Override
@@ -79,6 +86,9 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                     synchronized (tempLsos) {
                         tempLsos.clear();
+                    }
+                    synchronized (tempSubscriptions){
+                        tempSubscriptions.clear();
                     }
 
                     if (checkFirst == 0) {
@@ -158,6 +168,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
                         wakeWorkThreads();
                         waitWorkThreads();
 
+                        syncSubscriptionList();
+
                         loadbalance = calculateReplicationDegree();
 
                         synchronized (lsos) {
@@ -174,6 +186,11 @@ public class LoadBalancerMasterNotfThread extends Thread {
                             lsoSyncStart.addAll(tempLsos);
 
                         System.out.println("curSync = " + cso.getCurSync());
+                    }
+
+                    synchronized (subscriptions){
+                        if(!subscriptions.isEmpty())
+                            System.out.println("the actual number of subscription = " + subscriptions.size());
                     }
 
                     synchronized (repDeg){
@@ -394,5 +411,28 @@ public class LoadBalancerMasterNotfThread extends Thread {
         stdDev = Math.sqrt(sum / array.length);
 
         return stdDev;
+    }
+
+    private void syncSubscriptionList(){
+
+        String tempStr;
+
+        synchronized (tempSubscriptions){
+            synchronized (subscriptions){
+
+                for (int i = 0; i < tempSubscriptions.size(); i++) {
+
+                    tempStr = tempSubscriptions.get(i).getSub().getId();
+
+                    for (int j = 0; j < subscriptions.size(); j++) {
+
+                        if(tempStr.equals(subscriptions.get(j).getSub().getId()))
+                            continue;
+                    }
+
+                    subscriptions.add(tempSubscriptions.get(i));
+                }
+            }
+        }
     }
 }

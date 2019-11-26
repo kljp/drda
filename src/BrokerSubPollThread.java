@@ -66,7 +66,7 @@ public class BrokerSubPollThread extends Thread {
                                 eventQueues.get(i).getEventQueue().add(temp);
                             }
 
-                            break;
+//                            break; // It can be used for processing only one event.
                         }
                     }
                 }

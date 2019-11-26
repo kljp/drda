@@ -1,4 +1,4 @@
-import com.EPartition.GlobalSyncObject.SyncObject;
+import com.EPartition.EPartitionMessageSchema.SyncObject;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

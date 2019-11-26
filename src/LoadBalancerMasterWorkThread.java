@@ -1,4 +1,5 @@
-import com.EPartition.GlobalSyncObject.SyncObject;
+import com.EPartition.EPartitionMessageSchema.msgEPartition;
+import com.EPartition.EPartitionMessageSchema.SyncObject;
 
 import java.io.*;
 import java.net.Socket;
@@ -16,9 +17,12 @@ public class LoadBalancerMasterWorkThread extends Thread {
     private ArrayList<LoadStatusObject> tempLsos;
     private ArrayList<LoadStatusObject> lsos;
     private CurSyncObject cso;
+    private ArrayList<msgEPartition> subscriptions;
+    private ArrayList<msgEPartition> tempSubscriptions;
 
     public LoadBalancerMasterWorkThread(Socket socket, ArrayList<Integer> wakeThread, int threadId, ArrayList<ArrayList<String>> BrokerList, HashMap<Integer, String> IPMap,
-                                        ReplicationDegree repDeg, ArrayList<LoadStatusObject> tempLsos, ArrayList<LoadStatusObject> lsos, CurSyncObject cso) {
+                                        ReplicationDegree repDeg, ArrayList<LoadStatusObject> tempLsos, ArrayList<LoadStatusObject> lsos, CurSyncObject cso,
+                                        ArrayList<msgEPartition> subscriptions, ArrayList<msgEPartition> tempSubscriptions) {
 
         this.socket = socket;
         this.wakeThread = wakeThread;
@@ -29,6 +33,8 @@ public class LoadBalancerMasterWorkThread extends Thread {
         this.tempLsos = tempLsos;
         this.lsos = lsos;
         this.cso = cso;
+        this.subscriptions = subscriptions;
+        this.tempSubscriptions = tempSubscriptions;
     }
 
     @Override
@@ -121,6 +127,14 @@ public class LoadBalancerMasterWorkThread extends Thread {
                                 }
                             }
 
+                            synchronized (tempSubscriptions){
+                                synchronized (subscriptions){
+                                    tempSubscriptions.clear();
+                                    tempSubscriptions.addAll(subscriptions);
+                                    syncObjectBuilder.addAllMessages(tempSubscriptions);
+                                }
+                            }
+
                             syncObject = syncObjectBuilder.build();
                             syncObject.writeDelimitedTo(dataOutputStream);
                             dataOutputStream.flush();
@@ -161,6 +175,10 @@ public class LoadBalancerMasterWorkThread extends Thread {
 
             synchronized (tempLsos){
                 tempLsos.addAll(tempLso);
+            }
+
+            synchronized (tempSubscriptions){
+                tempSubscriptions.addAll(syncObject.getMessagesList());
             }
 
         } catch (IOException e) {

@@ -102,41 +102,60 @@ public final class EPartitionMessageSchema {
         getAttributeBytes(int index);
 
     /**
-     * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+     * <code>repeated string brokers = 8;</code>
+     */
+    java.util.List<java.lang.String>
+        getBrokersList();
+    /**
+     * <code>repeated string brokers = 8;</code>
+     */
+    int getBrokersCount();
+    /**
+     * <code>repeated string brokers = 8;</code>
+     */
+    java.lang.String getBrokers(int index);
+    /**
+     * <code>repeated string brokers = 8;</code>
+     */
+    com.google.protobuf.ByteString
+        getBrokersBytes(int index);
+
+    /**
+     * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
      */
     boolean hasSub();
     /**
-     * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+     * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
      */
     com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription getSub();
     /**
-     * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+     * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
      */
     com.EPartition.EPartitionMessageSchema.msgEPartition.SubscriptionOrBuilder getSubOrBuilder();
 
     /**
-     * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+     * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
      */
     boolean hasPub();
     /**
-     * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+     * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
      */
     com.EPartition.EPartitionMessageSchema.msgEPartition.Publication getPub();
     /**
-     * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+     * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
      */
     com.EPartition.EPartitionMessageSchema.msgEPartition.PublicationOrBuilder getPubOrBuilder();
 
     /**
-     * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+     * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
      */
     boolean hasUnsub();
     /**
-     * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+     * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
      */
     com.EPartition.EPartitionMessageSchema.msgEPartition.Unsubscription getUnsub();
     /**
-     * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+     * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
      */
     com.EPartition.EPartitionMessageSchema.msgEPartition.UnsubscriptionOrBuilder getUnsubOrBuilder();
   }
@@ -159,6 +178,7 @@ public final class EPartitionMessageSchema {
       subspaceForward_ = "";
       subspace_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       attribute_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      brokers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -233,6 +253,15 @@ public final class EPartitionMessageSchema {
               break;
             }
             case 66: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000080) != 0)) {
+                brokers_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000080;
+              }
+              brokers_.add(s);
+              break;
+            }
+            case 74: {
               com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription.Builder subBuilder = null;
               if (sub_ != null) {
                 subBuilder = sub_.toBuilder();
@@ -245,7 +274,7 @@ public final class EPartitionMessageSchema {
 
               break;
             }
-            case 74: {
+            case 82: {
               com.EPartition.EPartitionMessageSchema.msgEPartition.Publication.Builder subBuilder = null;
               if (pub_ != null) {
                 subBuilder = pub_.toBuilder();
@@ -258,7 +287,7 @@ public final class EPartitionMessageSchema {
 
               break;
             }
-            case 82: {
+            case 90: {
               com.EPartition.EPartitionMessageSchema.msgEPartition.Unsubscription.Builder subBuilder = null;
               if (unsub_ != null) {
                 subBuilder = unsub_.toBuilder();
@@ -292,6 +321,9 @@ public final class EPartitionMessageSchema {
         if (((mutable_bitField0_ & 0x00000040) != 0)) {
           attribute_ = attribute_.getUnmodifiableView();
         }
+        if (((mutable_bitField0_ & 0x00000080) != 0)) {
+          brokers_ = brokers_.getUnmodifiableView();
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -314,28 +346,38 @@ public final class EPartitionMessageSchema {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>repeated double lowerBound = 1;</code>
+       * <code>string id = 1;</code>
+       */
+      java.lang.String getId();
+      /**
+       * <code>string id = 1;</code>
+       */
+      com.google.protobuf.ByteString
+          getIdBytes();
+
+      /**
+       * <code>repeated double lowerBound = 2;</code>
        */
       java.util.List<java.lang.Double> getLowerBoundList();
       /**
-       * <code>repeated double lowerBound = 1;</code>
+       * <code>repeated double lowerBound = 2;</code>
        */
       int getLowerBoundCount();
       /**
-       * <code>repeated double lowerBound = 1;</code>
+       * <code>repeated double lowerBound = 2;</code>
        */
       double getLowerBound(int index);
 
       /**
-       * <code>repeated double upperBound = 2;</code>
+       * <code>repeated double upperBound = 3;</code>
        */
       java.util.List<java.lang.Double> getUpperBoundList();
       /**
-       * <code>repeated double upperBound = 2;</code>
+       * <code>repeated double upperBound = 3;</code>
        */
       int getUpperBoundCount();
       /**
-       * <code>repeated double upperBound = 2;</code>
+       * <code>repeated double upperBound = 3;</code>
        */
       double getUpperBound(int index);
     }
@@ -352,6 +394,7 @@ public final class EPartitionMessageSchema {
         super(builder);
       }
       private Subscription() {
+        id_ = "";
         lowerBound_ = emptyDoubleList();
         upperBound_ = emptyDoubleList();
       }
@@ -380,20 +423,26 @@ public final class EPartitionMessageSchema {
               case 0:
                 done = true;
                 break;
-              case 9: {
-                if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              case 10: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                id_ = s;
+                break;
+              }
+              case 17: {
+                if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                   lowerBound_ = newDoubleList();
-                  mutable_bitField0_ |= 0x00000001;
+                  mutable_bitField0_ |= 0x00000002;
                 }
                 lowerBound_.addDouble(input.readDouble());
                 break;
               }
-              case 10: {
+              case 18: {
                 int length = input.readRawVarint32();
                 int limit = input.pushLimit(length);
-                if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
+                if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
                   lowerBound_ = newDoubleList();
-                  mutable_bitField0_ |= 0x00000001;
+                  mutable_bitField0_ |= 0x00000002;
                 }
                 while (input.getBytesUntilLimit() > 0) {
                   lowerBound_.addDouble(input.readDouble());
@@ -401,20 +450,20 @@ public final class EPartitionMessageSchema {
                 input.popLimit(limit);
                 break;
               }
-              case 17: {
-                if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+              case 25: {
+                if (!((mutable_bitField0_ & 0x00000004) != 0)) {
                   upperBound_ = newDoubleList();
-                  mutable_bitField0_ |= 0x00000002;
+                  mutable_bitField0_ |= 0x00000004;
                 }
                 upperBound_.addDouble(input.readDouble());
                 break;
               }
-              case 18: {
+              case 26: {
                 int length = input.readRawVarint32();
                 int limit = input.pushLimit(length);
-                if (!((mutable_bitField0_ & 0x00000002) != 0) && input.getBytesUntilLimit() > 0) {
+                if (!((mutable_bitField0_ & 0x00000004) != 0) && input.getBytesUntilLimit() > 0) {
                   upperBound_ = newDoubleList();
-                  mutable_bitField0_ |= 0x00000002;
+                  mutable_bitField0_ |= 0x00000004;
                 }
                 while (input.getBytesUntilLimit() > 0) {
                   upperBound_.addDouble(input.readDouble());
@@ -437,10 +486,10 @@ public final class EPartitionMessageSchema {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e).setUnfinishedMessage(this);
         } finally {
-          if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          if (((mutable_bitField0_ & 0x00000002) != 0)) {
             lowerBound_.makeImmutable(); // C
           }
-          if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          if (((mutable_bitField0_ & 0x00000004) != 0)) {
             upperBound_.makeImmutable(); // C
           }
           this.unknownFields = unknownFields.build();
@@ -460,46 +509,81 @@ public final class EPartitionMessageSchema {
                 com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription.class, com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription.Builder.class);
       }
 
-      public static final int LOWERBOUND_FIELD_NUMBER = 1;
+      private int bitField0_;
+      public static final int ID_FIELD_NUMBER = 1;
+      private volatile java.lang.Object id_;
+      /**
+       * <code>string id = 1;</code>
+       */
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          id_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string id = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIdBytes() {
+        java.lang.Object ref = id_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          id_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int LOWERBOUND_FIELD_NUMBER = 2;
       private com.google.protobuf.Internal.DoubleList lowerBound_;
       /**
-       * <code>repeated double lowerBound = 1;</code>
+       * <code>repeated double lowerBound = 2;</code>
        */
       public java.util.List<java.lang.Double>
           getLowerBoundList() {
         return lowerBound_;
       }
       /**
-       * <code>repeated double lowerBound = 1;</code>
+       * <code>repeated double lowerBound = 2;</code>
        */
       public int getLowerBoundCount() {
         return lowerBound_.size();
       }
       /**
-       * <code>repeated double lowerBound = 1;</code>
+       * <code>repeated double lowerBound = 2;</code>
        */
       public double getLowerBound(int index) {
         return lowerBound_.getDouble(index);
       }
       private int lowerBoundMemoizedSerializedSize = -1;
 
-      public static final int UPPERBOUND_FIELD_NUMBER = 2;
+      public static final int UPPERBOUND_FIELD_NUMBER = 3;
       private com.google.protobuf.Internal.DoubleList upperBound_;
       /**
-       * <code>repeated double upperBound = 2;</code>
+       * <code>repeated double upperBound = 3;</code>
        */
       public java.util.List<java.lang.Double>
           getUpperBoundList() {
         return upperBound_;
       }
       /**
-       * <code>repeated double upperBound = 2;</code>
+       * <code>repeated double upperBound = 3;</code>
        */
       public int getUpperBoundCount() {
         return upperBound_.size();
       }
       /**
-       * <code>repeated double upperBound = 2;</code>
+       * <code>repeated double upperBound = 3;</code>
        */
       public double getUpperBound(int index) {
         return upperBound_.getDouble(index);
@@ -521,15 +605,18 @@ public final class EPartitionMessageSchema {
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         getSerializedSize();
+        if (!getIdBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 1, id_);
+        }
         if (getLowerBoundList().size() > 0) {
-          output.writeUInt32NoTag(10);
+          output.writeUInt32NoTag(18);
           output.writeUInt32NoTag(lowerBoundMemoizedSerializedSize);
         }
         for (int i = 0; i < lowerBound_.size(); i++) {
           output.writeDoubleNoTag(lowerBound_.getDouble(i));
         }
         if (getUpperBoundList().size() > 0) {
-          output.writeUInt32NoTag(18);
+          output.writeUInt32NoTag(26);
           output.writeUInt32NoTag(upperBoundMemoizedSerializedSize);
         }
         for (int i = 0; i < upperBound_.size(); i++) {
@@ -544,6 +631,9 @@ public final class EPartitionMessageSchema {
         if (size != -1) return size;
 
         size = 0;
+        if (!getIdBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, id_);
+        }
         {
           int dataSize = 0;
           dataSize = 8 * getLowerBoundList().size();
@@ -581,6 +671,8 @@ public final class EPartitionMessageSchema {
         }
         com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription other = (com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription) obj;
 
+        if (!getId()
+            .equals(other.getId())) return false;
         if (!getLowerBoundList()
             .equals(other.getLowerBoundList())) return false;
         if (!getUpperBoundList()
@@ -596,6 +688,8 @@ public final class EPartitionMessageSchema {
         }
         int hash = 41;
         hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + ID_FIELD_NUMBER;
+        hash = (53 * hash) + getId().hashCode();
         if (getLowerBoundCount() > 0) {
           hash = (37 * hash) + LOWERBOUND_FIELD_NUMBER;
           hash = (53 * hash) + getLowerBoundList().hashCode();
@@ -737,10 +831,12 @@ public final class EPartitionMessageSchema {
         @java.lang.Override
         public Builder clear() {
           super.clear();
+          id_ = "";
+
           lowerBound_ = emptyDoubleList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          upperBound_ = emptyDoubleList();
           bitField0_ = (bitField0_ & ~0x00000002);
+          upperBound_ = emptyDoubleList();
+          bitField0_ = (bitField0_ & ~0x00000004);
           return this;
         }
 
@@ -768,16 +864,19 @@ public final class EPartitionMessageSchema {
         public com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription buildPartial() {
           com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription result = new com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription(this);
           int from_bitField0_ = bitField0_;
-          if (((bitField0_ & 0x00000001) != 0)) {
-            lowerBound_.makeImmutable();
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.lowerBound_ = lowerBound_;
+          int to_bitField0_ = 0;
+          result.id_ = id_;
           if (((bitField0_ & 0x00000002) != 0)) {
-            upperBound_.makeImmutable();
+            lowerBound_.makeImmutable();
             bitField0_ = (bitField0_ & ~0x00000002);
           }
+          result.lowerBound_ = lowerBound_;
+          if (((bitField0_ & 0x00000004) != 0)) {
+            upperBound_.makeImmutable();
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
           result.upperBound_ = upperBound_;
+          result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
         }
@@ -826,10 +925,14 @@ public final class EPartitionMessageSchema {
 
         public Builder mergeFrom(com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription other) {
           if (other == com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription.getDefaultInstance()) return this;
+          if (!other.getId().isEmpty()) {
+            id_ = other.id_;
+            onChanged();
+          }
           if (!other.lowerBound_.isEmpty()) {
             if (lowerBound_.isEmpty()) {
               lowerBound_ = other.lowerBound_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureLowerBoundIsMutable();
               lowerBound_.addAll(other.lowerBound_);
@@ -839,7 +942,7 @@ public final class EPartitionMessageSchema {
           if (!other.upperBound_.isEmpty()) {
             if (upperBound_.isEmpty()) {
               upperBound_ = other.upperBound_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureUpperBoundIsMutable();
               upperBound_.addAll(other.upperBound_);
@@ -876,35 +979,104 @@ public final class EPartitionMessageSchema {
         }
         private int bitField0_;
 
+        private java.lang.Object id_ = "";
+        /**
+         * <code>string id = 1;</code>
+         */
+        public java.lang.String getId() {
+          java.lang.Object ref = id_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            id_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string id = 1;</code>
+         */
+        public com.google.protobuf.ByteString
+            getIdBytes() {
+          java.lang.Object ref = id_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            id_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string id = 1;</code>
+         */
+        public Builder setId(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          id_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string id = 1;</code>
+         */
+        public Builder clearId() {
+          
+          id_ = getDefaultInstance().getId();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string id = 1;</code>
+         */
+        public Builder setIdBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          id_ = value;
+          onChanged();
+          return this;
+        }
+
         private com.google.protobuf.Internal.DoubleList lowerBound_ = emptyDoubleList();
         private void ensureLowerBoundIsMutable() {
-          if (!((bitField0_ & 0x00000001) != 0)) {
+          if (!((bitField0_ & 0x00000002) != 0)) {
             lowerBound_ = mutableCopy(lowerBound_);
-            bitField0_ |= 0x00000001;
+            bitField0_ |= 0x00000002;
            }
         }
         /**
-         * <code>repeated double lowerBound = 1;</code>
+         * <code>repeated double lowerBound = 2;</code>
          */
         public java.util.List<java.lang.Double>
             getLowerBoundList() {
-          return ((bitField0_ & 0x00000001) != 0) ?
+          return ((bitField0_ & 0x00000002) != 0) ?
                    java.util.Collections.unmodifiableList(lowerBound_) : lowerBound_;
         }
         /**
-         * <code>repeated double lowerBound = 1;</code>
+         * <code>repeated double lowerBound = 2;</code>
          */
         public int getLowerBoundCount() {
           return lowerBound_.size();
         }
         /**
-         * <code>repeated double lowerBound = 1;</code>
+         * <code>repeated double lowerBound = 2;</code>
          */
         public double getLowerBound(int index) {
           return lowerBound_.getDouble(index);
         }
         /**
-         * <code>repeated double lowerBound = 1;</code>
+         * <code>repeated double lowerBound = 2;</code>
          */
         public Builder setLowerBound(
             int index, double value) {
@@ -914,7 +1086,7 @@ public final class EPartitionMessageSchema {
           return this;
         }
         /**
-         * <code>repeated double lowerBound = 1;</code>
+         * <code>repeated double lowerBound = 2;</code>
          */
         public Builder addLowerBound(double value) {
           ensureLowerBoundIsMutable();
@@ -923,7 +1095,7 @@ public final class EPartitionMessageSchema {
           return this;
         }
         /**
-         * <code>repeated double lowerBound = 1;</code>
+         * <code>repeated double lowerBound = 2;</code>
          */
         public Builder addAllLowerBound(
             java.lang.Iterable<? extends java.lang.Double> values) {
@@ -934,44 +1106,44 @@ public final class EPartitionMessageSchema {
           return this;
         }
         /**
-         * <code>repeated double lowerBound = 1;</code>
+         * <code>repeated double lowerBound = 2;</code>
          */
         public Builder clearLowerBound() {
           lowerBound_ = emptyDoubleList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
           return this;
         }
 
         private com.google.protobuf.Internal.DoubleList upperBound_ = emptyDoubleList();
         private void ensureUpperBoundIsMutable() {
-          if (!((bitField0_ & 0x00000002) != 0)) {
+          if (!((bitField0_ & 0x00000004) != 0)) {
             upperBound_ = mutableCopy(upperBound_);
-            bitField0_ |= 0x00000002;
+            bitField0_ |= 0x00000004;
            }
         }
         /**
-         * <code>repeated double upperBound = 2;</code>
+         * <code>repeated double upperBound = 3;</code>
          */
         public java.util.List<java.lang.Double>
             getUpperBoundList() {
-          return ((bitField0_ & 0x00000002) != 0) ?
+          return ((bitField0_ & 0x00000004) != 0) ?
                    java.util.Collections.unmodifiableList(upperBound_) : upperBound_;
         }
         /**
-         * <code>repeated double upperBound = 2;</code>
+         * <code>repeated double upperBound = 3;</code>
          */
         public int getUpperBoundCount() {
           return upperBound_.size();
         }
         /**
-         * <code>repeated double upperBound = 2;</code>
+         * <code>repeated double upperBound = 3;</code>
          */
         public double getUpperBound(int index) {
           return upperBound_.getDouble(index);
         }
         /**
-         * <code>repeated double upperBound = 2;</code>
+         * <code>repeated double upperBound = 3;</code>
          */
         public Builder setUpperBound(
             int index, double value) {
@@ -981,7 +1153,7 @@ public final class EPartitionMessageSchema {
           return this;
         }
         /**
-         * <code>repeated double upperBound = 2;</code>
+         * <code>repeated double upperBound = 3;</code>
          */
         public Builder addUpperBound(double value) {
           ensureUpperBoundIsMutable();
@@ -990,7 +1162,7 @@ public final class EPartitionMessageSchema {
           return this;
         }
         /**
-         * <code>repeated double upperBound = 2;</code>
+         * <code>repeated double upperBound = 3;</code>
          */
         public Builder addAllUpperBound(
             java.lang.Iterable<? extends java.lang.Double> values) {
@@ -1001,11 +1173,11 @@ public final class EPartitionMessageSchema {
           return this;
         }
         /**
-         * <code>repeated double upperBound = 2;</code>
+         * <code>repeated double upperBound = 3;</code>
          */
         public Builder clearUpperBound() {
           upperBound_ = emptyDoubleList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
           return this;
         }
@@ -2603,64 +2775,93 @@ public final class EPartitionMessageSchema {
       return attribute_.getByteString(index);
     }
 
-    public static final int SUB_FIELD_NUMBER = 8;
+    public static final int BROKERS_FIELD_NUMBER = 8;
+    private com.google.protobuf.LazyStringList brokers_;
+    /**
+     * <code>repeated string brokers = 8;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getBrokersList() {
+      return brokers_;
+    }
+    /**
+     * <code>repeated string brokers = 8;</code>
+     */
+    public int getBrokersCount() {
+      return brokers_.size();
+    }
+    /**
+     * <code>repeated string brokers = 8;</code>
+     */
+    public java.lang.String getBrokers(int index) {
+      return brokers_.get(index);
+    }
+    /**
+     * <code>repeated string brokers = 8;</code>
+     */
+    public com.google.protobuf.ByteString
+        getBrokersBytes(int index) {
+      return brokers_.getByteString(index);
+    }
+
+    public static final int SUB_FIELD_NUMBER = 9;
     private com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription sub_;
     /**
-     * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+     * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
      */
     public boolean hasSub() {
       return sub_ != null;
     }
     /**
-     * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+     * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
      */
     public com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription getSub() {
       return sub_ == null ? com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription.getDefaultInstance() : sub_;
     }
     /**
-     * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+     * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
      */
     public com.EPartition.EPartitionMessageSchema.msgEPartition.SubscriptionOrBuilder getSubOrBuilder() {
       return getSub();
     }
 
-    public static final int PUB_FIELD_NUMBER = 9;
+    public static final int PUB_FIELD_NUMBER = 10;
     private com.EPartition.EPartitionMessageSchema.msgEPartition.Publication pub_;
     /**
-     * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+     * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
      */
     public boolean hasPub() {
       return pub_ != null;
     }
     /**
-     * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+     * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
      */
     public com.EPartition.EPartitionMessageSchema.msgEPartition.Publication getPub() {
       return pub_ == null ? com.EPartition.EPartitionMessageSchema.msgEPartition.Publication.getDefaultInstance() : pub_;
     }
     /**
-     * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+     * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
      */
     public com.EPartition.EPartitionMessageSchema.msgEPartition.PublicationOrBuilder getPubOrBuilder() {
       return getPub();
     }
 
-    public static final int UNSUB_FIELD_NUMBER = 10;
+    public static final int UNSUB_FIELD_NUMBER = 11;
     private com.EPartition.EPartitionMessageSchema.msgEPartition.Unsubscription unsub_;
     /**
-     * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+     * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
      */
     public boolean hasUnsub() {
       return unsub_ != null;
     }
     /**
-     * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+     * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
      */
     public com.EPartition.EPartitionMessageSchema.msgEPartition.Unsubscription getUnsub() {
       return unsub_ == null ? com.EPartition.EPartitionMessageSchema.msgEPartition.Unsubscription.getDefaultInstance() : unsub_;
     }
     /**
-     * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+     * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
      */
     public com.EPartition.EPartitionMessageSchema.msgEPartition.UnsubscriptionOrBuilder getUnsubOrBuilder() {
       return getUnsub();
@@ -2701,14 +2902,17 @@ public final class EPartitionMessageSchema {
       for (int i = 0; i < attribute_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 7, attribute_.getRaw(i));
       }
+      for (int i = 0; i < brokers_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 8, brokers_.getRaw(i));
+      }
       if (sub_ != null) {
-        output.writeMessage(8, getSub());
+        output.writeMessage(9, getSub());
       }
       if (pub_ != null) {
-        output.writeMessage(9, getPub());
+        output.writeMessage(10, getPub());
       }
       if (unsub_ != null) {
-        output.writeMessage(10, getUnsub());
+        output.writeMessage(11, getUnsub());
       }
       unknownFields.writeTo(output);
     }
@@ -2751,17 +2955,25 @@ public final class EPartitionMessageSchema {
         size += dataSize;
         size += 1 * getAttributeList().size();
       }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < brokers_.size(); i++) {
+          dataSize += computeStringSizeNoTag(brokers_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getBrokersList().size();
+      }
       if (sub_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(8, getSub());
+          .computeMessageSize(9, getSub());
       }
       if (pub_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(9, getPub());
+          .computeMessageSize(10, getPub());
       }
       if (unsub_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(10, getUnsub());
+          .computeMessageSize(11, getUnsub());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2793,6 +3005,8 @@ public final class EPartitionMessageSchema {
           .equals(other.getSubspaceList())) return false;
       if (!getAttributeList()
           .equals(other.getAttributeList())) return false;
+      if (!getBrokersList()
+          .equals(other.getBrokersList())) return false;
       if (hasSub() != other.hasSub()) return false;
       if (hasSub()) {
         if (!getSub()
@@ -2837,6 +3051,10 @@ public final class EPartitionMessageSchema {
       if (getAttributeCount() > 0) {
         hash = (37 * hash) + ATTRIBUTE_FIELD_NUMBER;
         hash = (53 * hash) + getAttributeList().hashCode();
+      }
+      if (getBrokersCount() > 0) {
+        hash = (37 * hash) + BROKERS_FIELD_NUMBER;
+        hash = (53 * hash) + getBrokersList().hashCode();
       }
       if (hasSub()) {
         hash = (37 * hash) + SUB_FIELD_NUMBER;
@@ -2997,6 +3215,8 @@ public final class EPartitionMessageSchema {
         bitField0_ = (bitField0_ & ~0x00000020);
         attribute_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000040);
+        brokers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000080);
         if (subBuilder_ == null) {
           sub_ = null;
         } else {
@@ -3058,6 +3278,11 @@ public final class EPartitionMessageSchema {
           bitField0_ = (bitField0_ & ~0x00000040);
         }
         result.attribute_ = attribute_;
+        if (((bitField0_ & 0x00000080) != 0)) {
+          brokers_ = brokers_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000080);
+        }
+        result.brokers_ = brokers_;
         if (subBuilder_ == null) {
           result.sub_ = sub_;
         } else {
@@ -3158,6 +3383,16 @@ public final class EPartitionMessageSchema {
           } else {
             ensureAttributeIsMutable();
             attribute_.addAll(other.attribute_);
+          }
+          onChanged();
+        }
+        if (!other.brokers_.isEmpty()) {
+          if (brokers_.isEmpty()) {
+            brokers_ = other.brokers_;
+            bitField0_ = (bitField0_ & ~0x00000080);
+          } else {
+            ensureBrokersIsMutable();
+            brokers_.addAll(other.brokers_);
           }
           onChanged();
         }
@@ -3690,17 +3925,111 @@ public final class EPartitionMessageSchema {
         return this;
       }
 
+      private com.google.protobuf.LazyStringList brokers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureBrokersIsMutable() {
+        if (!((bitField0_ & 0x00000080) != 0)) {
+          brokers_ = new com.google.protobuf.LazyStringArrayList(brokers_);
+          bitField0_ |= 0x00000080;
+         }
+      }
+      /**
+       * <code>repeated string brokers = 8;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getBrokersList() {
+        return brokers_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string brokers = 8;</code>
+       */
+      public int getBrokersCount() {
+        return brokers_.size();
+      }
+      /**
+       * <code>repeated string brokers = 8;</code>
+       */
+      public java.lang.String getBrokers(int index) {
+        return brokers_.get(index);
+      }
+      /**
+       * <code>repeated string brokers = 8;</code>
+       */
+      public com.google.protobuf.ByteString
+          getBrokersBytes(int index) {
+        return brokers_.getByteString(index);
+      }
+      /**
+       * <code>repeated string brokers = 8;</code>
+       */
+      public Builder setBrokers(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureBrokersIsMutable();
+        brokers_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string brokers = 8;</code>
+       */
+      public Builder addBrokers(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureBrokersIsMutable();
+        brokers_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string brokers = 8;</code>
+       */
+      public Builder addAllBrokers(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureBrokersIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, brokers_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string brokers = 8;</code>
+       */
+      public Builder clearBrokers() {
+        brokers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000080);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string brokers = 8;</code>
+       */
+      public Builder addBrokersBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureBrokersIsMutable();
+        brokers_.add(value);
+        onChanged();
+        return this;
+      }
+
       private com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription sub_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription, com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription.Builder, com.EPartition.EPartitionMessageSchema.msgEPartition.SubscriptionOrBuilder> subBuilder_;
       /**
-       * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+       * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
        */
       public boolean hasSub() {
         return subBuilder_ != null || sub_ != null;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+       * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
        */
       public com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription getSub() {
         if (subBuilder_ == null) {
@@ -3710,7 +4039,7 @@ public final class EPartitionMessageSchema {
         }
       }
       /**
-       * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+       * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
        */
       public Builder setSub(com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription value) {
         if (subBuilder_ == null) {
@@ -3726,7 +4055,7 @@ public final class EPartitionMessageSchema {
         return this;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+       * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
        */
       public Builder setSub(
           com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription.Builder builderForValue) {
@@ -3740,7 +4069,7 @@ public final class EPartitionMessageSchema {
         return this;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+       * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
        */
       public Builder mergeSub(com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription value) {
         if (subBuilder_ == null) {
@@ -3758,7 +4087,7 @@ public final class EPartitionMessageSchema {
         return this;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+       * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
        */
       public Builder clearSub() {
         if (subBuilder_ == null) {
@@ -3772,7 +4101,7 @@ public final class EPartitionMessageSchema {
         return this;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+       * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
        */
       public com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription.Builder getSubBuilder() {
         
@@ -3780,7 +4109,7 @@ public final class EPartitionMessageSchema {
         return getSubFieldBuilder().getBuilder();
       }
       /**
-       * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+       * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
        */
       public com.EPartition.EPartitionMessageSchema.msgEPartition.SubscriptionOrBuilder getSubOrBuilder() {
         if (subBuilder_ != null) {
@@ -3791,7 +4120,7 @@ public final class EPartitionMessageSchema {
         }
       }
       /**
-       * <code>.EPartiton.msgEPartition.Subscription sub = 8;</code>
+       * <code>.EPartiton.msgEPartition.Subscription sub = 9;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription, com.EPartition.EPartitionMessageSchema.msgEPartition.Subscription.Builder, com.EPartition.EPartitionMessageSchema.msgEPartition.SubscriptionOrBuilder> 
@@ -3811,13 +4140,13 @@ public final class EPartitionMessageSchema {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.EPartition.EPartitionMessageSchema.msgEPartition.Publication, com.EPartition.EPartitionMessageSchema.msgEPartition.Publication.Builder, com.EPartition.EPartitionMessageSchema.msgEPartition.PublicationOrBuilder> pubBuilder_;
       /**
-       * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+       * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
        */
       public boolean hasPub() {
         return pubBuilder_ != null || pub_ != null;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+       * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
        */
       public com.EPartition.EPartitionMessageSchema.msgEPartition.Publication getPub() {
         if (pubBuilder_ == null) {
@@ -3827,7 +4156,7 @@ public final class EPartitionMessageSchema {
         }
       }
       /**
-       * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+       * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
        */
       public Builder setPub(com.EPartition.EPartitionMessageSchema.msgEPartition.Publication value) {
         if (pubBuilder_ == null) {
@@ -3843,7 +4172,7 @@ public final class EPartitionMessageSchema {
         return this;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+       * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
        */
       public Builder setPub(
           com.EPartition.EPartitionMessageSchema.msgEPartition.Publication.Builder builderForValue) {
@@ -3857,7 +4186,7 @@ public final class EPartitionMessageSchema {
         return this;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+       * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
        */
       public Builder mergePub(com.EPartition.EPartitionMessageSchema.msgEPartition.Publication value) {
         if (pubBuilder_ == null) {
@@ -3875,7 +4204,7 @@ public final class EPartitionMessageSchema {
         return this;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+       * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
        */
       public Builder clearPub() {
         if (pubBuilder_ == null) {
@@ -3889,7 +4218,7 @@ public final class EPartitionMessageSchema {
         return this;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+       * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
        */
       public com.EPartition.EPartitionMessageSchema.msgEPartition.Publication.Builder getPubBuilder() {
         
@@ -3897,7 +4226,7 @@ public final class EPartitionMessageSchema {
         return getPubFieldBuilder().getBuilder();
       }
       /**
-       * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+       * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
        */
       public com.EPartition.EPartitionMessageSchema.msgEPartition.PublicationOrBuilder getPubOrBuilder() {
         if (pubBuilder_ != null) {
@@ -3908,7 +4237,7 @@ public final class EPartitionMessageSchema {
         }
       }
       /**
-       * <code>.EPartiton.msgEPartition.Publication pub = 9;</code>
+       * <code>.EPartiton.msgEPartition.Publication pub = 10;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           com.EPartition.EPartitionMessageSchema.msgEPartition.Publication, com.EPartition.EPartitionMessageSchema.msgEPartition.Publication.Builder, com.EPartition.EPartitionMessageSchema.msgEPartition.PublicationOrBuilder> 
@@ -3928,13 +4257,13 @@ public final class EPartitionMessageSchema {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.EPartition.EPartitionMessageSchema.msgEPartition.Unsubscription, com.EPartition.EPartitionMessageSchema.msgEPartition.Unsubscription.Builder, com.EPartition.EPartitionMessageSchema.msgEPartition.UnsubscriptionOrBuilder> unsubBuilder_;
       /**
-       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
        */
       public boolean hasUnsub() {
         return unsubBuilder_ != null || unsub_ != null;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
        */
       public com.EPartition.EPartitionMessageSchema.msgEPartition.Unsubscription getUnsub() {
         if (unsubBuilder_ == null) {
@@ -3944,7 +4273,7 @@ public final class EPartitionMessageSchema {
         }
       }
       /**
-       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
        */
       public Builder setUnsub(com.EPartition.EPartitionMessageSchema.msgEPartition.Unsubscription value) {
         if (unsubBuilder_ == null) {
@@ -3960,7 +4289,7 @@ public final class EPartitionMessageSchema {
         return this;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
        */
       public Builder setUnsub(
           com.EPartition.EPartitionMessageSchema.msgEPartition.Unsubscription.Builder builderForValue) {
@@ -3974,7 +4303,7 @@ public final class EPartitionMessageSchema {
         return this;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
        */
       public Builder mergeUnsub(com.EPartition.EPartitionMessageSchema.msgEPartition.Unsubscription value) {
         if (unsubBuilder_ == null) {
@@ -3992,7 +4321,7 @@ public final class EPartitionMessageSchema {
         return this;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
        */
       public Builder clearUnsub() {
         if (unsubBuilder_ == null) {
@@ -4006,7 +4335,7 @@ public final class EPartitionMessageSchema {
         return this;
       }
       /**
-       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
        */
       public com.EPartition.EPartitionMessageSchema.msgEPartition.Unsubscription.Builder getUnsubBuilder() {
         
@@ -4014,7 +4343,7 @@ public final class EPartitionMessageSchema {
         return getUnsubFieldBuilder().getBuilder();
       }
       /**
-       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
        */
       public com.EPartition.EPartitionMessageSchema.msgEPartition.UnsubscriptionOrBuilder getUnsubOrBuilder() {
         if (unsubBuilder_ != null) {
@@ -4025,7 +4354,7 @@ public final class EPartitionMessageSchema {
         }
       }
       /**
-       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 10;</code>
+       * <code>.EPartiton.msgEPartition.Unsubscription unsub = 11;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           com.EPartition.EPartitionMessageSchema.msgEPartition.Unsubscription, com.EPartition.EPartitionMessageSchema.msgEPartition.Unsubscription.Builder, com.EPartition.EPartitionMessageSchema.msgEPartition.UnsubscriptionOrBuilder> 
@@ -4093,6 +4422,2736 @@ public final class EPartitionMessageSchema {
 
   }
 
+  public interface SyncObjectOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:EPartiton.SyncObject)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+     */
+    boolean hasRepDeg();
+    /**
+     * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+     */
+    com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree getRepDeg();
+    /**
+     * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+     */
+    com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegreeOrBuilder getRepDegOrBuilder();
+
+    /**
+     * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+     */
+    java.util.List<com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject> 
+        getLsoList();
+    /**
+     * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+     */
+    com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject getLso(int index);
+    /**
+     * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+     */
+    int getLsoCount();
+    /**
+     * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+     */
+    java.util.List<? extends com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObjectOrBuilder> 
+        getLsoOrBuilderList();
+    /**
+     * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+     */
+    com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObjectOrBuilder getLsoOrBuilder(
+        int index);
+
+    /**
+     * <code>int32 curSync = 3;</code>
+     */
+    int getCurSync();
+
+    /**
+     * <pre>
+     *global subscriptions
+     * </pre>
+     *
+     * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+     */
+    java.util.List<com.EPartition.EPartitionMessageSchema.msgEPartition> 
+        getMessagesList();
+    /**
+     * <pre>
+     *global subscriptions
+     * </pre>
+     *
+     * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+     */
+    com.EPartition.EPartitionMessageSchema.msgEPartition getMessages(int index);
+    /**
+     * <pre>
+     *global subscriptions
+     * </pre>
+     *
+     * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+     */
+    int getMessagesCount();
+    /**
+     * <pre>
+     *global subscriptions
+     * </pre>
+     *
+     * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+     */
+    java.util.List<? extends com.EPartition.EPartitionMessageSchema.msgEPartitionOrBuilder> 
+        getMessagesOrBuilderList();
+    /**
+     * <pre>
+     *global subscriptions
+     * </pre>
+     *
+     * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+     */
+    com.EPartition.EPartitionMessageSchema.msgEPartitionOrBuilder getMessagesOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code EPartiton.SyncObject}
+   */
+  public  static final class SyncObject extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:EPartiton.SyncObject)
+      SyncObjectOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SyncObject.newBuilder() to construct.
+    private SyncObject(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SyncObject() {
+      lso_ = java.util.Collections.emptyList();
+      messages_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SyncObject(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.Builder subBuilder = null;
+              if (repDeg_ != null) {
+                subBuilder = repDeg_.toBuilder();
+              }
+              repDeg_ = input.readMessage(com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(repDeg_);
+                repDeg_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                lso_ = new java.util.ArrayList<com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              lso_.add(
+                  input.readMessage(com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.parser(), extensionRegistry));
+              break;
+            }
+            case 24: {
+
+              curSync_ = input.readInt32();
+              break;
+            }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) != 0)) {
+                messages_ = new java.util.ArrayList<com.EPartition.EPartitionMessageSchema.msgEPartition>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              messages_.add(
+                  input.readMessage(com.EPartition.EPartitionMessageSchema.msgEPartition.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
+          lso_ = java.util.Collections.unmodifiableList(lso_);
+        }
+        if (((mutable_bitField0_ & 0x00000008) != 0)) {
+          messages_ = java.util.Collections.unmodifiableList(messages_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.EPartition.EPartitionMessageSchema.SyncObject.class, com.EPartition.EPartitionMessageSchema.SyncObject.Builder.class);
+    }
+
+    public interface ReplicationDegreeOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:EPartiton.SyncObject.ReplicationDegree)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>double repDegDouble = 1;</code>
+       */
+      double getRepDegDouble();
+
+      /**
+       * <code>int32 repDegInt = 2;</code>
+       */
+      int getRepDegInt();
+    }
+    /**
+     * Protobuf type {@code EPartiton.SyncObject.ReplicationDegree}
+     */
+    public  static final class ReplicationDegree extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:EPartiton.SyncObject.ReplicationDegree)
+        ReplicationDegreeOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use ReplicationDegree.newBuilder() to construct.
+      private ReplicationDegree(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private ReplicationDegree() {
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private ReplicationDegree(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 9: {
+
+                repDegDouble_ = input.readDouble();
+                break;
+              }
+              case 16: {
+
+                repDegInt_ = input.readInt32();
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_ReplicationDegree_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_ReplicationDegree_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.class, com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.Builder.class);
+      }
+
+      public static final int REPDEGDOUBLE_FIELD_NUMBER = 1;
+      private double repDegDouble_;
+      /**
+       * <code>double repDegDouble = 1;</code>
+       */
+      public double getRepDegDouble() {
+        return repDegDouble_;
+      }
+
+      public static final int REPDEGINT_FIELD_NUMBER = 2;
+      private int repDegInt_;
+      /**
+       * <code>int32 repDegInt = 2;</code>
+       */
+      public int getRepDegInt() {
+        return repDegInt_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (repDegDouble_ != 0D) {
+          output.writeDouble(1, repDegDouble_);
+        }
+        if (repDegInt_ != 0) {
+          output.writeInt32(2, repDegInt_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (repDegDouble_ != 0D) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeDoubleSize(1, repDegDouble_);
+        }
+        if (repDegInt_ != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(2, repDegInt_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree)) {
+          return super.equals(obj);
+        }
+        com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree other = (com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree) obj;
+
+        if (java.lang.Double.doubleToLongBits(getRepDegDouble())
+            != java.lang.Double.doubleToLongBits(
+                other.getRepDegDouble())) return false;
+        if (getRepDegInt()
+            != other.getRepDegInt()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + REPDEGDOUBLE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            java.lang.Double.doubleToLongBits(getRepDegDouble()));
+        hash = (37 * hash) + REPDEGINT_FIELD_NUMBER;
+        hash = (53 * hash) + getRepDegInt();
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code EPartiton.SyncObject.ReplicationDegree}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:EPartiton.SyncObject.ReplicationDegree)
+          com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegreeOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_ReplicationDegree_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_ReplicationDegree_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.class, com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.Builder.class);
+        }
+
+        // Construct using com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          repDegDouble_ = 0D;
+
+          repDegInt_ = 0;
+
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_ReplicationDegree_descriptor;
+        }
+
+        @java.lang.Override
+        public com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree getDefaultInstanceForType() {
+          return com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree build() {
+          com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree buildPartial() {
+          com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree result = new com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree(this);
+          result.repDegDouble_ = repDegDouble_;
+          result.repDegInt_ = repDegInt_;
+          onBuilt();
+          return result;
+        }
+
+        @java.lang.Override
+        public Builder clone() {
+          return super.clone();
+        }
+        @java.lang.Override
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return super.setField(field, value);
+        }
+        @java.lang.Override
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return super.clearField(field);
+        }
+        @java.lang.Override
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return super.clearOneof(oneof);
+        }
+        @java.lang.Override
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return super.setRepeatedField(field, index, value);
+        }
+        @java.lang.Override
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return super.addRepeatedField(field, value);
+        }
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree) {
+            return mergeFrom((com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree other) {
+          if (other == com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.getDefaultInstance()) return this;
+          if (other.getRepDegDouble() != 0D) {
+            setRepDegDouble(other.getRepDegDouble());
+          }
+          if (other.getRepDegInt() != 0) {
+            setRepDegInt(other.getRepDegInt());
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private double repDegDouble_ ;
+        /**
+         * <code>double repDegDouble = 1;</code>
+         */
+        public double getRepDegDouble() {
+          return repDegDouble_;
+        }
+        /**
+         * <code>double repDegDouble = 1;</code>
+         */
+        public Builder setRepDegDouble(double value) {
+          
+          repDegDouble_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>double repDegDouble = 1;</code>
+         */
+        public Builder clearRepDegDouble() {
+          
+          repDegDouble_ = 0D;
+          onChanged();
+          return this;
+        }
+
+        private int repDegInt_ ;
+        /**
+         * <code>int32 repDegInt = 2;</code>
+         */
+        public int getRepDegInt() {
+          return repDegInt_;
+        }
+        /**
+         * <code>int32 repDegInt = 2;</code>
+         */
+        public Builder setRepDegInt(int value) {
+          
+          repDegInt_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>int32 repDegInt = 2;</code>
+         */
+        public Builder clearRepDegInt() {
+          
+          repDegInt_ = 0;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFields(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:EPartiton.SyncObject.ReplicationDegree)
+      }
+
+      // @@protoc_insertion_point(class_scope:EPartiton.SyncObject.ReplicationDegree)
+      private static final com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree();
+      }
+
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<ReplicationDegree>
+          PARSER = new com.google.protobuf.AbstractParser<ReplicationDegree>() {
+        @java.lang.Override
+        public ReplicationDegree parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new ReplicationDegree(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<ReplicationDegree> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<ReplicationDegree> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public interface LoadStatusObjectOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:EPartiton.SyncObject.LoadStatusObject)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>string BROKER_IP = 1;</code>
+       */
+      java.lang.String getBROKERIP();
+      /**
+       * <code>string BROKER_IP = 1;</code>
+       */
+      com.google.protobuf.ByteString
+          getBROKERIPBytes();
+
+      /**
+       * <code>int32 numSubscriptions = 2;</code>
+       */
+      int getNumSubscriptions();
+
+      /**
+       * <code>int32 accessCount = 3;</code>
+       */
+      int getAccessCount();
+    }
+    /**
+     * Protobuf type {@code EPartiton.SyncObject.LoadStatusObject}
+     */
+    public  static final class LoadStatusObject extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:EPartiton.SyncObject.LoadStatusObject)
+        LoadStatusObjectOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use LoadStatusObject.newBuilder() to construct.
+      private LoadStatusObject(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private LoadStatusObject() {
+        bROKERIP_ = "";
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private LoadStatusObject(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                java.lang.String s = input.readStringRequireUtf8();
+
+                bROKERIP_ = s;
+                break;
+              }
+              case 16: {
+
+                numSubscriptions_ = input.readInt32();
+                break;
+              }
+              case 24: {
+
+                accessCount_ = input.readInt32();
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_LoadStatusObject_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_LoadStatusObject_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.class, com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.Builder.class);
+      }
+
+      public static final int BROKER_IP_FIELD_NUMBER = 1;
+      private volatile java.lang.Object bROKERIP_;
+      /**
+       * <code>string BROKER_IP = 1;</code>
+       */
+      public java.lang.String getBROKERIP() {
+        java.lang.Object ref = bROKERIP_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          bROKERIP_ = s;
+          return s;
+        }
+      }
+      /**
+       * <code>string BROKER_IP = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getBROKERIPBytes() {
+        java.lang.Object ref = bROKERIP_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          bROKERIP_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int NUMSUBSCRIPTIONS_FIELD_NUMBER = 2;
+      private int numSubscriptions_;
+      /**
+       * <code>int32 numSubscriptions = 2;</code>
+       */
+      public int getNumSubscriptions() {
+        return numSubscriptions_;
+      }
+
+      public static final int ACCESSCOUNT_FIELD_NUMBER = 3;
+      private int accessCount_;
+      /**
+       * <code>int32 accessCount = 3;</code>
+       */
+      public int getAccessCount() {
+        return accessCount_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (!getBROKERIPBytes().isEmpty()) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 1, bROKERIP_);
+        }
+        if (numSubscriptions_ != 0) {
+          output.writeInt32(2, numSubscriptions_);
+        }
+        if (accessCount_ != 0) {
+          output.writeInt32(3, accessCount_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (!getBROKERIPBytes().isEmpty()) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, bROKERIP_);
+        }
+        if (numSubscriptions_ != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(2, numSubscriptions_);
+        }
+        if (accessCount_ != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(3, accessCount_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject)) {
+          return super.equals(obj);
+        }
+        com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject other = (com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject) obj;
+
+        if (!getBROKERIP()
+            .equals(other.getBROKERIP())) return false;
+        if (getNumSubscriptions()
+            != other.getNumSubscriptions()) return false;
+        if (getAccessCount()
+            != other.getAccessCount()) return false;
+        if (!unknownFields.equals(other.unknownFields)) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + BROKER_IP_FIELD_NUMBER;
+        hash = (53 * hash) + getBROKERIP().hashCode();
+        hash = (37 * hash) + NUMSUBSCRIPTIONS_FIELD_NUMBER;
+        hash = (53 * hash) + getNumSubscriptions();
+        hash = (37 * hash) + ACCESSCOUNT_FIELD_NUMBER;
+        hash = (53 * hash) + getAccessCount();
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code EPartiton.SyncObject.LoadStatusObject}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:EPartiton.SyncObject.LoadStatusObject)
+          com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObjectOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_LoadStatusObject_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_LoadStatusObject_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.class, com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.Builder.class);
+        }
+
+        // Construct using com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          bROKERIP_ = "";
+
+          numSubscriptions_ = 0;
+
+          accessCount_ = 0;
+
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_LoadStatusObject_descriptor;
+        }
+
+        @java.lang.Override
+        public com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject getDefaultInstanceForType() {
+          return com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject build() {
+          com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject buildPartial() {
+          com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject result = new com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject(this);
+          result.bROKERIP_ = bROKERIP_;
+          result.numSubscriptions_ = numSubscriptions_;
+          result.accessCount_ = accessCount_;
+          onBuilt();
+          return result;
+        }
+
+        @java.lang.Override
+        public Builder clone() {
+          return super.clone();
+        }
+        @java.lang.Override
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return super.setField(field, value);
+        }
+        @java.lang.Override
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return super.clearField(field);
+        }
+        @java.lang.Override
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return super.clearOneof(oneof);
+        }
+        @java.lang.Override
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return super.setRepeatedField(field, index, value);
+        }
+        @java.lang.Override
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return super.addRepeatedField(field, value);
+        }
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject) {
+            return mergeFrom((com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject other) {
+          if (other == com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.getDefaultInstance()) return this;
+          if (!other.getBROKERIP().isEmpty()) {
+            bROKERIP_ = other.bROKERIP_;
+            onChanged();
+          }
+          if (other.getNumSubscriptions() != 0) {
+            setNumSubscriptions(other.getNumSubscriptions());
+          }
+          if (other.getAccessCount() != 0) {
+            setAccessCount(other.getAccessCount());
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+
+        private java.lang.Object bROKERIP_ = "";
+        /**
+         * <code>string BROKER_IP = 1;</code>
+         */
+        public java.lang.String getBROKERIP() {
+          java.lang.Object ref = bROKERIP_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            bROKERIP_ = s;
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>string BROKER_IP = 1;</code>
+         */
+        public com.google.protobuf.ByteString
+            getBROKERIPBytes() {
+          java.lang.Object ref = bROKERIP_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            bROKERIP_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>string BROKER_IP = 1;</code>
+         */
+        public Builder setBROKERIP(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
+          bROKERIP_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string BROKER_IP = 1;</code>
+         */
+        public Builder clearBROKERIP() {
+          
+          bROKERIP_ = getDefaultInstance().getBROKERIP();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>string BROKER_IP = 1;</code>
+         */
+        public Builder setBROKERIPBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
+          bROKERIP_ = value;
+          onChanged();
+          return this;
+        }
+
+        private int numSubscriptions_ ;
+        /**
+         * <code>int32 numSubscriptions = 2;</code>
+         */
+        public int getNumSubscriptions() {
+          return numSubscriptions_;
+        }
+        /**
+         * <code>int32 numSubscriptions = 2;</code>
+         */
+        public Builder setNumSubscriptions(int value) {
+          
+          numSubscriptions_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>int32 numSubscriptions = 2;</code>
+         */
+        public Builder clearNumSubscriptions() {
+          
+          numSubscriptions_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private int accessCount_ ;
+        /**
+         * <code>int32 accessCount = 3;</code>
+         */
+        public int getAccessCount() {
+          return accessCount_;
+        }
+        /**
+         * <code>int32 accessCount = 3;</code>
+         */
+        public Builder setAccessCount(int value) {
+          
+          accessCount_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>int32 accessCount = 3;</code>
+         */
+        public Builder clearAccessCount() {
+          
+          accessCount_ = 0;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFields(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:EPartiton.SyncObject.LoadStatusObject)
+      }
+
+      // @@protoc_insertion_point(class_scope:EPartiton.SyncObject.LoadStatusObject)
+      private static final com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject();
+      }
+
+      public static com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<LoadStatusObject>
+          PARSER = new com.google.protobuf.AbstractParser<LoadStatusObject>() {
+        @java.lang.Override
+        public LoadStatusObject parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new LoadStatusObject(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<LoadStatusObject> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<LoadStatusObject> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    private int bitField0_;
+    public static final int REPDEG_FIELD_NUMBER = 1;
+    private com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree repDeg_;
+    /**
+     * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+     */
+    public boolean hasRepDeg() {
+      return repDeg_ != null;
+    }
+    /**
+     * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+     */
+    public com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree getRepDeg() {
+      return repDeg_ == null ? com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.getDefaultInstance() : repDeg_;
+    }
+    /**
+     * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+     */
+    public com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegreeOrBuilder getRepDegOrBuilder() {
+      return getRepDeg();
+    }
+
+    public static final int LSO_FIELD_NUMBER = 2;
+    private java.util.List<com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject> lso_;
+    /**
+     * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+     */
+    public java.util.List<com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject> getLsoList() {
+      return lso_;
+    }
+    /**
+     * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+     */
+    public java.util.List<? extends com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObjectOrBuilder> 
+        getLsoOrBuilderList() {
+      return lso_;
+    }
+    /**
+     * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+     */
+    public int getLsoCount() {
+      return lso_.size();
+    }
+    /**
+     * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+     */
+    public com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject getLso(int index) {
+      return lso_.get(index);
+    }
+    /**
+     * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+     */
+    public com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObjectOrBuilder getLsoOrBuilder(
+        int index) {
+      return lso_.get(index);
+    }
+
+    public static final int CURSYNC_FIELD_NUMBER = 3;
+    private int curSync_;
+    /**
+     * <code>int32 curSync = 3;</code>
+     */
+    public int getCurSync() {
+      return curSync_;
+    }
+
+    public static final int MESSAGES_FIELD_NUMBER = 4;
+    private java.util.List<com.EPartition.EPartitionMessageSchema.msgEPartition> messages_;
+    /**
+     * <pre>
+     *global subscriptions
+     * </pre>
+     *
+     * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+     */
+    public java.util.List<com.EPartition.EPartitionMessageSchema.msgEPartition> getMessagesList() {
+      return messages_;
+    }
+    /**
+     * <pre>
+     *global subscriptions
+     * </pre>
+     *
+     * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+     */
+    public java.util.List<? extends com.EPartition.EPartitionMessageSchema.msgEPartitionOrBuilder> 
+        getMessagesOrBuilderList() {
+      return messages_;
+    }
+    /**
+     * <pre>
+     *global subscriptions
+     * </pre>
+     *
+     * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+     */
+    public int getMessagesCount() {
+      return messages_.size();
+    }
+    /**
+     * <pre>
+     *global subscriptions
+     * </pre>
+     *
+     * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+     */
+    public com.EPartition.EPartitionMessageSchema.msgEPartition getMessages(int index) {
+      return messages_.get(index);
+    }
+    /**
+     * <pre>
+     *global subscriptions
+     * </pre>
+     *
+     * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+     */
+    public com.EPartition.EPartitionMessageSchema.msgEPartitionOrBuilder getMessagesOrBuilder(
+        int index) {
+      return messages_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (repDeg_ != null) {
+        output.writeMessage(1, getRepDeg());
+      }
+      for (int i = 0; i < lso_.size(); i++) {
+        output.writeMessage(2, lso_.get(i));
+      }
+      if (curSync_ != 0) {
+        output.writeInt32(3, curSync_);
+      }
+      for (int i = 0; i < messages_.size(); i++) {
+        output.writeMessage(4, messages_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (repDeg_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getRepDeg());
+      }
+      for (int i = 0; i < lso_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, lso_.get(i));
+      }
+      if (curSync_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, curSync_);
+      }
+      for (int i = 0; i < messages_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, messages_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.EPartition.EPartitionMessageSchema.SyncObject)) {
+        return super.equals(obj);
+      }
+      com.EPartition.EPartitionMessageSchema.SyncObject other = (com.EPartition.EPartitionMessageSchema.SyncObject) obj;
+
+      if (hasRepDeg() != other.hasRepDeg()) return false;
+      if (hasRepDeg()) {
+        if (!getRepDeg()
+            .equals(other.getRepDeg())) return false;
+      }
+      if (!getLsoList()
+          .equals(other.getLsoList())) return false;
+      if (getCurSync()
+          != other.getCurSync()) return false;
+      if (!getMessagesList()
+          .equals(other.getMessagesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasRepDeg()) {
+        hash = (37 * hash) + REPDEG_FIELD_NUMBER;
+        hash = (53 * hash) + getRepDeg().hashCode();
+      }
+      if (getLsoCount() > 0) {
+        hash = (37 * hash) + LSO_FIELD_NUMBER;
+        hash = (53 * hash) + getLsoList().hashCode();
+      }
+      hash = (37 * hash) + CURSYNC_FIELD_NUMBER;
+      hash = (53 * hash) + getCurSync();
+      if (getMessagesCount() > 0) {
+        hash = (37 * hash) + MESSAGES_FIELD_NUMBER;
+        hash = (53 * hash) + getMessagesList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.EPartition.EPartitionMessageSchema.SyncObject parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.EPartition.EPartitionMessageSchema.SyncObject parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.EPartition.EPartitionMessageSchema.SyncObject parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.EPartition.EPartitionMessageSchema.SyncObject parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.EPartition.EPartitionMessageSchema.SyncObject parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.EPartition.EPartitionMessageSchema.SyncObject parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.EPartition.EPartitionMessageSchema.SyncObject parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.EPartition.EPartitionMessageSchema.SyncObject parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.EPartition.EPartitionMessageSchema.SyncObject parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.EPartition.EPartitionMessageSchema.SyncObject parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.EPartition.EPartitionMessageSchema.SyncObject parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.EPartition.EPartitionMessageSchema.SyncObject parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.EPartition.EPartitionMessageSchema.SyncObject prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code EPartiton.SyncObject}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:EPartiton.SyncObject)
+        com.EPartition.EPartitionMessageSchema.SyncObjectOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.EPartition.EPartitionMessageSchema.SyncObject.class, com.EPartition.EPartitionMessageSchema.SyncObject.Builder.class);
+      }
+
+      // Construct using com.EPartition.EPartitionMessageSchema.SyncObject.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getLsoFieldBuilder();
+          getMessagesFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (repDegBuilder_ == null) {
+          repDeg_ = null;
+        } else {
+          repDeg_ = null;
+          repDegBuilder_ = null;
+        }
+        if (lsoBuilder_ == null) {
+          lso_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          lsoBuilder_.clear();
+        }
+        curSync_ = 0;
+
+        if (messagesBuilder_ == null) {
+          messages_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          messagesBuilder_.clear();
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.EPartition.EPartitionMessageSchema.internal_static_EPartiton_SyncObject_descriptor;
+      }
+
+      @java.lang.Override
+      public com.EPartition.EPartitionMessageSchema.SyncObject getDefaultInstanceForType() {
+        return com.EPartition.EPartitionMessageSchema.SyncObject.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.EPartition.EPartitionMessageSchema.SyncObject build() {
+        com.EPartition.EPartitionMessageSchema.SyncObject result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.EPartition.EPartitionMessageSchema.SyncObject buildPartial() {
+        com.EPartition.EPartitionMessageSchema.SyncObject result = new com.EPartition.EPartitionMessageSchema.SyncObject(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (repDegBuilder_ == null) {
+          result.repDeg_ = repDeg_;
+        } else {
+          result.repDeg_ = repDegBuilder_.build();
+        }
+        if (lsoBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0)) {
+            lso_ = java.util.Collections.unmodifiableList(lso_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.lso_ = lso_;
+        } else {
+          result.lso_ = lsoBuilder_.build();
+        }
+        result.curSync_ = curSync_;
+        if (messagesBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) != 0)) {
+            messages_ = java.util.Collections.unmodifiableList(messages_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.messages_ = messages_;
+        } else {
+          result.messages_ = messagesBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.EPartition.EPartitionMessageSchema.SyncObject) {
+          return mergeFrom((com.EPartition.EPartitionMessageSchema.SyncObject)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.EPartition.EPartitionMessageSchema.SyncObject other) {
+        if (other == com.EPartition.EPartitionMessageSchema.SyncObject.getDefaultInstance()) return this;
+        if (other.hasRepDeg()) {
+          mergeRepDeg(other.getRepDeg());
+        }
+        if (lsoBuilder_ == null) {
+          if (!other.lso_.isEmpty()) {
+            if (lso_.isEmpty()) {
+              lso_ = other.lso_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureLsoIsMutable();
+              lso_.addAll(other.lso_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.lso_.isEmpty()) {
+            if (lsoBuilder_.isEmpty()) {
+              lsoBuilder_.dispose();
+              lsoBuilder_ = null;
+              lso_ = other.lso_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              lsoBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getLsoFieldBuilder() : null;
+            } else {
+              lsoBuilder_.addAllMessages(other.lso_);
+            }
+          }
+        }
+        if (other.getCurSync() != 0) {
+          setCurSync(other.getCurSync());
+        }
+        if (messagesBuilder_ == null) {
+          if (!other.messages_.isEmpty()) {
+            if (messages_.isEmpty()) {
+              messages_ = other.messages_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureMessagesIsMutable();
+              messages_.addAll(other.messages_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.messages_.isEmpty()) {
+            if (messagesBuilder_.isEmpty()) {
+              messagesBuilder_.dispose();
+              messagesBuilder_ = null;
+              messages_ = other.messages_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              messagesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getMessagesFieldBuilder() : null;
+            } else {
+              messagesBuilder_.addAllMessages(other.messages_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.EPartition.EPartitionMessageSchema.SyncObject parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.EPartition.EPartitionMessageSchema.SyncObject) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree repDeg_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree, com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.Builder, com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegreeOrBuilder> repDegBuilder_;
+      /**
+       * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+       */
+      public boolean hasRepDeg() {
+        return repDegBuilder_ != null || repDeg_ != null;
+      }
+      /**
+       * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+       */
+      public com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree getRepDeg() {
+        if (repDegBuilder_ == null) {
+          return repDeg_ == null ? com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.getDefaultInstance() : repDeg_;
+        } else {
+          return repDegBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+       */
+      public Builder setRepDeg(com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree value) {
+        if (repDegBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          repDeg_ = value;
+          onChanged();
+        } else {
+          repDegBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+       */
+      public Builder setRepDeg(
+          com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.Builder builderForValue) {
+        if (repDegBuilder_ == null) {
+          repDeg_ = builderForValue.build();
+          onChanged();
+        } else {
+          repDegBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+       */
+      public Builder mergeRepDeg(com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree value) {
+        if (repDegBuilder_ == null) {
+          if (repDeg_ != null) {
+            repDeg_ =
+              com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.newBuilder(repDeg_).mergeFrom(value).buildPartial();
+          } else {
+            repDeg_ = value;
+          }
+          onChanged();
+        } else {
+          repDegBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+       */
+      public Builder clearRepDeg() {
+        if (repDegBuilder_ == null) {
+          repDeg_ = null;
+          onChanged();
+        } else {
+          repDeg_ = null;
+          repDegBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+       */
+      public com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.Builder getRepDegBuilder() {
+        
+        onChanged();
+        return getRepDegFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+       */
+      public com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegreeOrBuilder getRepDegOrBuilder() {
+        if (repDegBuilder_ != null) {
+          return repDegBuilder_.getMessageOrBuilder();
+        } else {
+          return repDeg_ == null ?
+              com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.getDefaultInstance() : repDeg_;
+        }
+      }
+      /**
+       * <code>.EPartiton.SyncObject.ReplicationDegree repDeg = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree, com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.Builder, com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegreeOrBuilder> 
+          getRepDegFieldBuilder() {
+        if (repDegBuilder_ == null) {
+          repDegBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree, com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegree.Builder, com.EPartition.EPartitionMessageSchema.SyncObject.ReplicationDegreeOrBuilder>(
+                  getRepDeg(),
+                  getParentForChildren(),
+                  isClean());
+          repDeg_ = null;
+        }
+        return repDegBuilder_;
+      }
+
+      private java.util.List<com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject> lso_ =
+        java.util.Collections.emptyList();
+      private void ensureLsoIsMutable() {
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          lso_ = new java.util.ArrayList<com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject>(lso_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject, com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.Builder, com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObjectOrBuilder> lsoBuilder_;
+
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public java.util.List<com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject> getLsoList() {
+        if (lsoBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(lso_);
+        } else {
+          return lsoBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public int getLsoCount() {
+        if (lsoBuilder_ == null) {
+          return lso_.size();
+        } else {
+          return lsoBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject getLso(int index) {
+        if (lsoBuilder_ == null) {
+          return lso_.get(index);
+        } else {
+          return lsoBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public Builder setLso(
+          int index, com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject value) {
+        if (lsoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLsoIsMutable();
+          lso_.set(index, value);
+          onChanged();
+        } else {
+          lsoBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public Builder setLso(
+          int index, com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.Builder builderForValue) {
+        if (lsoBuilder_ == null) {
+          ensureLsoIsMutable();
+          lso_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          lsoBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public Builder addLso(com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject value) {
+        if (lsoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLsoIsMutable();
+          lso_.add(value);
+          onChanged();
+        } else {
+          lsoBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public Builder addLso(
+          int index, com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject value) {
+        if (lsoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLsoIsMutable();
+          lso_.add(index, value);
+          onChanged();
+        } else {
+          lsoBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public Builder addLso(
+          com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.Builder builderForValue) {
+        if (lsoBuilder_ == null) {
+          ensureLsoIsMutable();
+          lso_.add(builderForValue.build());
+          onChanged();
+        } else {
+          lsoBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public Builder addLso(
+          int index, com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.Builder builderForValue) {
+        if (lsoBuilder_ == null) {
+          ensureLsoIsMutable();
+          lso_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          lsoBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public Builder addAllLso(
+          java.lang.Iterable<? extends com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject> values) {
+        if (lsoBuilder_ == null) {
+          ensureLsoIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, lso_);
+          onChanged();
+        } else {
+          lsoBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public Builder clearLso() {
+        if (lsoBuilder_ == null) {
+          lso_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          lsoBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public Builder removeLso(int index) {
+        if (lsoBuilder_ == null) {
+          ensureLsoIsMutable();
+          lso_.remove(index);
+          onChanged();
+        } else {
+          lsoBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.Builder getLsoBuilder(
+          int index) {
+        return getLsoFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObjectOrBuilder getLsoOrBuilder(
+          int index) {
+        if (lsoBuilder_ == null) {
+          return lso_.get(index);  } else {
+          return lsoBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public java.util.List<? extends com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObjectOrBuilder> 
+           getLsoOrBuilderList() {
+        if (lsoBuilder_ != null) {
+          return lsoBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(lso_);
+        }
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.Builder addLsoBuilder() {
+        return getLsoFieldBuilder().addBuilder(
+            com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.Builder addLsoBuilder(
+          int index) {
+        return getLsoFieldBuilder().addBuilder(
+            index, com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .EPartiton.SyncObject.LoadStatusObject lso = 2;</code>
+       */
+      public java.util.List<com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.Builder> 
+           getLsoBuilderList() {
+        return getLsoFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject, com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.Builder, com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObjectOrBuilder> 
+          getLsoFieldBuilder() {
+        if (lsoBuilder_ == null) {
+          lsoBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject, com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObject.Builder, com.EPartition.EPartitionMessageSchema.SyncObject.LoadStatusObjectOrBuilder>(
+                  lso_,
+                  ((bitField0_ & 0x00000002) != 0),
+                  getParentForChildren(),
+                  isClean());
+          lso_ = null;
+        }
+        return lsoBuilder_;
+      }
+
+      private int curSync_ ;
+      /**
+       * <code>int32 curSync = 3;</code>
+       */
+      public int getCurSync() {
+        return curSync_;
+      }
+      /**
+       * <code>int32 curSync = 3;</code>
+       */
+      public Builder setCurSync(int value) {
+        
+        curSync_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 curSync = 3;</code>
+       */
+      public Builder clearCurSync() {
+        
+        curSync_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<com.EPartition.EPartitionMessageSchema.msgEPartition> messages_ =
+        java.util.Collections.emptyList();
+      private void ensureMessagesIsMutable() {
+        if (!((bitField0_ & 0x00000008) != 0)) {
+          messages_ = new java.util.ArrayList<com.EPartition.EPartitionMessageSchema.msgEPartition>(messages_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.EPartition.EPartitionMessageSchema.msgEPartition, com.EPartition.EPartitionMessageSchema.msgEPartition.Builder, com.EPartition.EPartitionMessageSchema.msgEPartitionOrBuilder> messagesBuilder_;
+
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public java.util.List<com.EPartition.EPartitionMessageSchema.msgEPartition> getMessagesList() {
+        if (messagesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(messages_);
+        } else {
+          return messagesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public int getMessagesCount() {
+        if (messagesBuilder_ == null) {
+          return messages_.size();
+        } else {
+          return messagesBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public com.EPartition.EPartitionMessageSchema.msgEPartition getMessages(int index) {
+        if (messagesBuilder_ == null) {
+          return messages_.get(index);
+        } else {
+          return messagesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public Builder setMessages(
+          int index, com.EPartition.EPartitionMessageSchema.msgEPartition value) {
+        if (messagesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMessagesIsMutable();
+          messages_.set(index, value);
+          onChanged();
+        } else {
+          messagesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public Builder setMessages(
+          int index, com.EPartition.EPartitionMessageSchema.msgEPartition.Builder builderForValue) {
+        if (messagesBuilder_ == null) {
+          ensureMessagesIsMutable();
+          messages_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          messagesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public Builder addMessages(com.EPartition.EPartitionMessageSchema.msgEPartition value) {
+        if (messagesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMessagesIsMutable();
+          messages_.add(value);
+          onChanged();
+        } else {
+          messagesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public Builder addMessages(
+          int index, com.EPartition.EPartitionMessageSchema.msgEPartition value) {
+        if (messagesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMessagesIsMutable();
+          messages_.add(index, value);
+          onChanged();
+        } else {
+          messagesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public Builder addMessages(
+          com.EPartition.EPartitionMessageSchema.msgEPartition.Builder builderForValue) {
+        if (messagesBuilder_ == null) {
+          ensureMessagesIsMutable();
+          messages_.add(builderForValue.build());
+          onChanged();
+        } else {
+          messagesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public Builder addMessages(
+          int index, com.EPartition.EPartitionMessageSchema.msgEPartition.Builder builderForValue) {
+        if (messagesBuilder_ == null) {
+          ensureMessagesIsMutable();
+          messages_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          messagesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public Builder addAllMessages(
+          java.lang.Iterable<? extends com.EPartition.EPartitionMessageSchema.msgEPartition> values) {
+        if (messagesBuilder_ == null) {
+          ensureMessagesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, messages_);
+          onChanged();
+        } else {
+          messagesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public Builder clearMessages() {
+        if (messagesBuilder_ == null) {
+          messages_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          messagesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public Builder removeMessages(int index) {
+        if (messagesBuilder_ == null) {
+          ensureMessagesIsMutable();
+          messages_.remove(index);
+          onChanged();
+        } else {
+          messagesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public com.EPartition.EPartitionMessageSchema.msgEPartition.Builder getMessagesBuilder(
+          int index) {
+        return getMessagesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public com.EPartition.EPartitionMessageSchema.msgEPartitionOrBuilder getMessagesOrBuilder(
+          int index) {
+        if (messagesBuilder_ == null) {
+          return messages_.get(index);  } else {
+          return messagesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public java.util.List<? extends com.EPartition.EPartitionMessageSchema.msgEPartitionOrBuilder> 
+           getMessagesOrBuilderList() {
+        if (messagesBuilder_ != null) {
+          return messagesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(messages_);
+        }
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public com.EPartition.EPartitionMessageSchema.msgEPartition.Builder addMessagesBuilder() {
+        return getMessagesFieldBuilder().addBuilder(
+            com.EPartition.EPartitionMessageSchema.msgEPartition.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public com.EPartition.EPartitionMessageSchema.msgEPartition.Builder addMessagesBuilder(
+          int index) {
+        return getMessagesFieldBuilder().addBuilder(
+            index, com.EPartition.EPartitionMessageSchema.msgEPartition.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       *global subscriptions
+       * </pre>
+       *
+       * <code>repeated .EPartiton.msgEPartition messages = 4;</code>
+       */
+      public java.util.List<com.EPartition.EPartitionMessageSchema.msgEPartition.Builder> 
+           getMessagesBuilderList() {
+        return getMessagesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          com.EPartition.EPartitionMessageSchema.msgEPartition, com.EPartition.EPartitionMessageSchema.msgEPartition.Builder, com.EPartition.EPartitionMessageSchema.msgEPartitionOrBuilder> 
+          getMessagesFieldBuilder() {
+        if (messagesBuilder_ == null) {
+          messagesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              com.EPartition.EPartitionMessageSchema.msgEPartition, com.EPartition.EPartitionMessageSchema.msgEPartition.Builder, com.EPartition.EPartitionMessageSchema.msgEPartitionOrBuilder>(
+                  messages_,
+                  ((bitField0_ & 0x00000008) != 0),
+                  getParentForChildren(),
+                  isClean());
+          messages_ = null;
+        }
+        return messagesBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:EPartiton.SyncObject)
+    }
+
+    // @@protoc_insertion_point(class_scope:EPartiton.SyncObject)
+    private static final com.EPartition.EPartitionMessageSchema.SyncObject DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.EPartition.EPartitionMessageSchema.SyncObject();
+    }
+
+    public static com.EPartition.EPartitionMessageSchema.SyncObject getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SyncObject>
+        PARSER = new com.google.protobuf.AbstractParser<SyncObject>() {
+      @java.lang.Override
+      public SyncObject parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SyncObject(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SyncObject> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SyncObject> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.EPartition.EPartitionMessageSchema.SyncObject getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_EPartiton_msgEPartition_descriptor;
   private static final 
@@ -4113,6 +7172,21 @@ public final class EPartitionMessageSchema {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_EPartiton_msgEPartition_Unsubscription_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_EPartiton_SyncObject_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_EPartiton_SyncObject_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_EPartiton_SyncObject_ReplicationDegree_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_EPartiton_SyncObject_ReplicationDegree_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_EPartiton_SyncObject_LoadStatusObject_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_EPartiton_SyncObject_LoadStatusObject_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -4123,19 +7197,28 @@ public final class EPartitionMessageSchema {
   static {
     java.lang.String[] descriptorData = {
       "\n\035EPartitionMessageSchema.proto\022\tEPartit" +
-      "on\"\312\003\n\rmsgEPartition\022\021\n\tIPAddress\030\001 \001(\t\022" +
+      "on\"\347\003\n\rmsgEPartition\022\021\n\tIPAddress\030\001 \001(\t\022" +
       "\017\n\007payload\030\002 \001(\t\022\017\n\007msgType\030\003 \001(\t\022\021\n\ttim" +
       "estamp\030\004 \001(\001\022\027\n\017subspaceForward\030\005 \001(\t\022\020\n" +
-      "\010subspace\030\006 \003(\t\022\021\n\tattribute\030\007 \003(\t\0222\n\003su" +
-      "b\030\010 \001(\0132%.EPartiton.msgEPartition.Subscr" +
-      "iption\0221\n\003pub\030\t \001(\0132$.EPartiton.msgEPart" +
-      "ition.Publication\0226\n\005unsub\030\n \001(\0132\'.EPart" +
-      "iton.msgEPartition.Unsubscription\0326\n\014Sub" +
-      "scription\022\022\n\nlowerBound\030\001 \003(\001\022\022\n\nupperBo" +
-      "und\030\002 \003(\001\032\"\n\013Publication\022\023\n\013singlePoint\030" +
-      "\001 \003(\001\0328\n\016Unsubscription\022\022\n\nlowerBound\030\001 " +
-      "\003(\001\022\022\n\nupperBound\030\002 \003(\001B)\n\016com.EPartitio" +
-      "nB\027EPartitionMessageSchemab\006proto3"
+      "\010subspace\030\006 \003(\t\022\021\n\tattribute\030\007 \003(\t\022\017\n\007br" +
+      "okers\030\010 \003(\t\0222\n\003sub\030\t \001(\0132%.EPartiton.msg" +
+      "EPartition.Subscription\0221\n\003pub\030\n \001(\0132$.E" +
+      "Partiton.msgEPartition.Publication\0226\n\005un" +
+      "sub\030\013 \001(\0132\'.EPartiton.msgEPartition.Unsu" +
+      "bscription\032B\n\014Subscription\022\n\n\002id\030\001 \001(\t\022\022" +
+      "\n\nlowerBound\030\002 \003(\001\022\022\n\nupperBound\030\003 \003(\001\032\"" +
+      "\n\013Publication\022\023\n\013singlePoint\030\001 \003(\001\0328\n\016Un" +
+      "subscription\022\022\n\nlowerBound\030\001 \003(\001\022\022\n\nuppe" +
+      "rBound\030\002 \003(\001\"\313\002\n\nSyncObject\0227\n\006repDeg\030\001 " +
+      "\001(\0132\'.EPartiton.SyncObject.ReplicationDe" +
+      "gree\0223\n\003lso\030\002 \003(\0132&.EPartiton.SyncObject" +
+      ".LoadStatusObject\022\017\n\007curSync\030\003 \001(\005\022*\n\010me" +
+      "ssages\030\004 \003(\0132\030.EPartiton.msgEPartition\032<" +
+      "\n\021ReplicationDegree\022\024\n\014repDegDouble\030\001 \001(" +
+      "\001\022\021\n\trepDegInt\030\002 \001(\005\032T\n\020LoadStatusObject" +
+      "\022\021\n\tBROKER_IP\030\001 \001(\t\022\030\n\020numSubscriptions\030" +
+      "\002 \001(\005\022\023\n\013accessCount\030\003 \001(\005B)\n\016com.EParti" +
+      "tionB\027EPartitionMessageSchemab\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4154,13 +7237,13 @@ public final class EPartitionMessageSchema {
     internal_static_EPartiton_msgEPartition_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EPartiton_msgEPartition_descriptor,
-        new java.lang.String[] { "IPAddress", "Payload", "MsgType", "Timestamp", "SubspaceForward", "Subspace", "Attribute", "Sub", "Pub", "Unsub", });
+        new java.lang.String[] { "IPAddress", "Payload", "MsgType", "Timestamp", "SubspaceForward", "Subspace", "Attribute", "Brokers", "Sub", "Pub", "Unsub", });
     internal_static_EPartiton_msgEPartition_Subscription_descriptor =
       internal_static_EPartiton_msgEPartition_descriptor.getNestedTypes().get(0);
     internal_static_EPartiton_msgEPartition_Subscription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EPartiton_msgEPartition_Subscription_descriptor,
-        new java.lang.String[] { "LowerBound", "UpperBound", });
+        new java.lang.String[] { "Id", "LowerBound", "UpperBound", });
     internal_static_EPartiton_msgEPartition_Publication_descriptor =
       internal_static_EPartiton_msgEPartition_descriptor.getNestedTypes().get(1);
     internal_static_EPartiton_msgEPartition_Publication_fieldAccessorTable = new
@@ -4173,6 +7256,24 @@ public final class EPartitionMessageSchema {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_EPartiton_msgEPartition_Unsubscription_descriptor,
         new java.lang.String[] { "LowerBound", "UpperBound", });
+    internal_static_EPartiton_SyncObject_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_EPartiton_SyncObject_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_EPartiton_SyncObject_descriptor,
+        new java.lang.String[] { "RepDeg", "Lso", "CurSync", "Messages", });
+    internal_static_EPartiton_SyncObject_ReplicationDegree_descriptor =
+      internal_static_EPartiton_SyncObject_descriptor.getNestedTypes().get(0);
+    internal_static_EPartiton_SyncObject_ReplicationDegree_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_EPartiton_SyncObject_ReplicationDegree_descriptor,
+        new java.lang.String[] { "RepDegDouble", "RepDegInt", });
+    internal_static_EPartiton_SyncObject_LoadStatusObject_descriptor =
+      internal_static_EPartiton_SyncObject_descriptor.getNestedTypes().get(1);
+    internal_static_EPartiton_SyncObject_LoadStatusObject_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_EPartiton_SyncObject_LoadStatusObject_descriptor,
+        new java.lang.String[] { "BROKERIP", "NumSubscriptions", "AccessCount", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -18,9 +18,11 @@ public class LoadBalancerSubRecvThread extends Thread {
     private ReplicationGenerator replicationGenerator;
     private ArrayList<LoadStatusObject> lsos;
     private ReplicationDegree repDeg;
+    private ArrayList<msgEPartition> subscriptions;
 
     public LoadBalancerSubRecvThread(Socket socket, HashMap<String, Queue<msgEPartition>> queues, HashMap<Integer, String> IPMap,
-                                     SubspaceAllocator subspaceAllocator, AttributeOrderSorter attributeOrderSorter, ReplicationGenerator replicationGenerator, ArrayList<LoadStatusObject> lsos, ReplicationDegree repDeg) {
+                                     SubspaceAllocator subspaceAllocator, AttributeOrderSorter attributeOrderSorter, ReplicationGenerator replicationGenerator,
+                                     ArrayList<LoadStatusObject> lsos, ReplicationDegree repDeg, ArrayList<msgEPartition> subscriptions) {
 
         this.socket = socket;
         this.queues = queues;
@@ -30,12 +32,14 @@ public class LoadBalancerSubRecvThread extends Thread {
         this.replicationGenerator = replicationGenerator;
         this.lsos = lsos;
         this.repDeg = repDeg;
+        this.subscriptions = subscriptions;
     }
 
     @Override
     public void run() {
 
         msgEPartition temp;
+        msgEPartition tempMsgGlobal;
         String tempStr;
         DataInputStream dataInputStream;
         InetSocketAddress remoteSocketAddress;
@@ -74,13 +78,19 @@ public class LoadBalancerSubRecvThread extends Thread {
                             if(lsos.size() > 0){
                                 synchronized (IPMap){
                                     messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 1);
+                                    tempMsgGlobal = replicationGenerator.setGlobalSub(messages, IPMap);
                                 }
                             }
 
                             else{
                                 synchronized (IPMap){
                                     messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 0);
+                                    tempMsgGlobal = replicationGenerator.setGlobalSub(messages, IPMap);
                                 }
+                            }
+
+                            synchronized (subscriptions){
+                                subscriptions.add(tempMsgGlobal);
                             }
                         }
                     }
@@ -93,13 +103,19 @@ public class LoadBalancerSubRecvThread extends Thread {
                         if(lsos.size() > 0){
                             synchronized (IPMap){
                                 messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, 3, 1);
+                                tempMsgGlobal = replicationGenerator.setGlobalSub(messages, IPMap);
                             }
                         }
 
                         else{
                             synchronized (IPMap){
                                 messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, 3, 0);
+                                tempMsgGlobal = replicationGenerator.setGlobalSub(messages, IPMap);
                             }
+                        }
+
+                        synchronized (subscriptions){
+                            subscriptions.add(tempMsgGlobal);
                         }
                     }
                 }

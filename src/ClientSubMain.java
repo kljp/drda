@@ -33,7 +33,7 @@ public class ClientSubMain {
 
         for (int i = 0; i < count; i++) {
 
-            messageWrapper = new MessageWrapper(msgType, new RangeGenerator().randomRangeGenerator());
+            messageWrapper = new MessageWrapper(msgType, new RangeGenerator().randomRangeGenerator(), count);
             message = messageWrapper.buildMsgEPartition();
 
             synchronized (genQueue){
