@@ -82,6 +82,7 @@ public class AttributeOrderSorter {
                 subscription.addUpperBound(upperBounds[i]);
             }
 
+            subscription.setId(m.getSub().getId());
             message.setSub(subscription.build());
 
             return message.build();

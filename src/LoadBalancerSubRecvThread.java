@@ -59,8 +59,6 @@ public class LoadBalancerSubRecvThread extends Thread {
                 temp = attributeOrderSorter.sortAttributeOrder(temp);
                 temp = subspaceAllocator.allocateSubspace(temp);
                 temp = replicationGenerator.setIPAddress(temp, remoteHostName);
-//            System.out.println(temp);
-                System.out.println(temp.getSub().getId());
                 messages = replicationGenerator.generateReplicates(temp);
 
                 if(messages.length > 1) {
