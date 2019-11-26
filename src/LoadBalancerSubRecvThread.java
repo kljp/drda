@@ -60,14 +60,13 @@ public class LoadBalancerSubRecvThread extends Thread {
                 temp = subspaceAllocator.allocateSubspace(temp);
                 temp = replicationGenerator.setIPAddress(temp, remoteHostName);
                 messages = replicationGenerator.generateReplicates(temp);
-                System.out.println(messages[0].getSub().getId());
 
                 if(messages.length > 1) {
                     synchronized (IPMap) {
                         messages = replicationGenerator.preventDuplicates(messages, IPMap);
                     }
                 }
-
+                System.out.println(messages[0].getSub().getId());
                 if(GlobalState.DRDA_MODE.equals("ON")){
 
                     synchronized (repDeg){
@@ -76,14 +75,14 @@ public class LoadBalancerSubRecvThread extends Thread {
 
                             if(lsos.size() > 0){
                                 synchronized (IPMap){
-                                    messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 1);
+                                    messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 1);System.out.println(messages[0].getSub().getId());
                                     tempMsgGlobal = replicationGenerator.setGlobalSub(messages, IPMap);
                                 }
                             }
 
                             else{
                                 synchronized (IPMap){
-                                    messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 0);
+                                    messages = replicationGenerator.applyReplicationDegree(messages, IPMap, lsos, repDeg.getRepDegInt(), 0);System.out.println(messages[0].getSub().getId());
                                     tempMsgGlobal = replicationGenerator.setGlobalSub(messages, IPMap);
                                 }
                             }
