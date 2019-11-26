@@ -92,6 +92,8 @@ public class LoadBalancerSubRecvThread extends Thread {
                             }
                         }
                     }
+
+                    System.out.println(tempMsgGlobal.getSub().getId());
                 }
 
                 else if(GlobalState.DRDA_MODE.equals("SEMI")){
