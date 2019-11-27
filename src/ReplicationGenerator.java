@@ -237,11 +237,9 @@ public class ReplicationGenerator {
                     }
                 }
             } catch(IndexOutOfBoundsException e){
-                System.out.println("repdeg = " + repDeg);
-                System.out.println("prob = " + prob);
-                System.out.println("loads = " + loads);
-                System.out.println("loadsTotal = " + loadsTotal);
-                System.out.println("probs = " + probs);
+                for (int i = 0; i < prob.length; i++) {
+                    System.out.println(prob[i]);
+                }
             }
 
             for (int i = 0; i < indexes.length; i++) {
