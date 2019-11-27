@@ -320,7 +320,7 @@ public class LoadBalancerPubRecvThread extends Thread {
 
                                         while(true){
 
-                                            index = probs.get((int) (Math.random() % probs.size()));
+                                            index = probs.get((int) ((Math.random() * 100) % probs.size()));
 
                                             for (int j = 0; j < brokers.length; j++) {
                                                 if(lsoArray[index].getBROKER_IP().equals(brokers[j])){
@@ -335,7 +335,6 @@ public class LoadBalancerPubRecvThread extends Thread {
                                         }
 
                                         synchronized (queues.get(broker)){
-                                            System.out.println("1");
                                             queues.get(broker).add(temp);
                                         }
 
