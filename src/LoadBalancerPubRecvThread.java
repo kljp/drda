@@ -65,105 +65,237 @@ public class LoadBalancerPubRecvThread extends Thread {
                     int[] loads;
                     LoadStatusObject tempLso;
 
-                    synchronized (lsos){
-                        lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
-                    }
+                    if(GlobalState.DIST_MODE.equals("LFSUB") || GlobalState.DIST_MODE.equals("LFAC") || GlobalState.DIST_MODE.equals("LFALL")){
 
-                    loads = new int[lsoArray.length];
+                        synchronized (lsos){
+                            lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
+                        }
 
-                    if(GlobalState.LOAD_OPTION.equals("SUB")){
-                        for (int i = 0; i < lsoArray.length; i++)
-                            loads[i] = lsoArray[i].getNumSubscriptions();
-                    }
-                    else if(GlobalState.LOAD_OPTION.equals("AC")){
-                        for (int i = 0; i < lsoArray.length; i++)
-                            loads[i] = lsoArray[i].getAccessCount();
-                    }
-                    else if(GlobalState.LOAD_OPTION.equals("ALL")){
-                        for (int i = 0; i < lsoArray.length; i++)
-                            loads[i] = lsoArray[i].getNumSubscriptions() * lsoArray[i].getAccessCount();
-                    }
+                        loads = new int[lsoArray.length];
 
-                    // currently, it is implemented by the least-loaded broker selection with considering both the number of subscription and the access count.
-                    // In the future, more options should be additionally implemented: 1. random, 2. probabilistic, 3. only considering the number of subscription + every strategy.
-                    for (int i = 0; i < loads.length; i++) {
+                        if(GlobalState.DIST_MODE.equals("LFSUB")){
+                            for (int i = 0; i < lsoArray.length; i++)
+                                loads[i] = lsoArray[i].getNumSubscriptions();
+                        }
+                        else if(GlobalState.DIST_MODE.equals("LFAC")){
+                            for (int i = 0; i < lsoArray.length; i++)
+                                loads[i] = lsoArray[i].getAccessCount();
+                        }
+                        else if(GlobalState.DIST_MODE.equals("LFALL")){
+                            for (int i = 0; i < lsoArray.length; i++)
+                                loads[i] = lsoArray[i].getNumSubscriptions() * lsoArray[i].getAccessCount();
+                        }
 
-                        for (int j = 0; j < loads.length - i - 1; j++) {
+                        // currently, it is implemented by the least-loaded broker selection with considering both the number of subscription and the access count.
+                        // In the future, more options should be additionally implemented: 1. random, 2. probabilistic, 3. only considering the number of subscription + every strategy.
+                        for (int i = 0; i < loads.length; i++) {
 
-                            if(loads[j] > loads[j + 1]){
+                            for (int j = 0; j < loads.length - i - 1; j++) {
 
-                                tempInt = loads[j + 1];
-                                loads[j + 1] = loads[j];
-                                loads[j] = tempInt;
+                                if(loads[j] > loads[j + 1]){
 
-                                tempLso = lsoArray[j + 1];
-                                lsoArray[j + 1] = lsoArray[j];
-                                lsoArray[j] = tempLso;
+                                    tempInt = loads[j + 1];
+                                    loads[j + 1] = loads[j];
+                                    loads[j] = tempInt;
+
+                                    tempLso = lsoArray[j + 1];
+                                    lsoArray[j + 1] = lsoArray[j];
+                                    lsoArray[j] = tempLso;
+                                }
                             }
                         }
-                    }
 
-                    synchronized (subscriptions) {
+                        synchronized (subscriptions) {
 
-                        for (int i = 0; i < subscriptions.size(); i++) {
+                            for (int i = 0; i < subscriptions.size(); i++) {
 
-                            countExit = 0;
+                                countExit = 0;
 
-                            for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
+                                for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
 
-                                if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
-                                        && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSub().getUpperBound(j)) {
+                                    if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
+                                            && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSub().getUpperBound(j)) {
 
-                                    countExit++;
+                                        countExit++;
+                                    }
+
+                                    else
+                                        break;
                                 }
 
-                                else
+                                if (countExit == GlobalState.NumberOfDimensions) {
+
+                                    String[] brokers = subscriptions.get(i).getBrokersList().toArray(new String[subscriptions.get(i).getBrokersList().size()]);
+                                    int[] indexes = new int[brokers.length];
+
+                                    for (int j = 0; j < indexes.length; j++) {
+                                        for (int l = 0; l < lsoArray.length; l++) {
+                                            if(brokers[j].equals(lsoArray[l].getBROKER_IP())){
+                                                indexes[j] = l;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    int tempInt2;
+                                    String tempStr2;
+
+                                    for (int a = 0; a < indexes.length; a++) {
+
+                                        for (int b = 0; b < indexes.length - a - 1; b++) {
+
+                                            if(indexes[b] > indexes[b + 1]){
+
+                                                tempInt2 = indexes[b + 1];
+                                                indexes[b + 1] = indexes[b];
+                                                indexes[b] = tempInt2;
+
+                                                tempStr2 = brokers[b + 1];
+                                                brokers[b + 1] = brokers[b];
+                                                brokers[b] = tempStr2;
+                                            }
+                                        }
+                                    }
+
+                                    synchronized (queues.get(brokers[0])){
+                                        queues.get(brokers[0]).add(temp);
+                                    }
+
                                     break;
+                                }
                             }
 
-                            if (countExit == GlobalState.NumberOfDimensions) {
+                            // retention should be added.
+                        }
+                    }
 
-                                String[] brokers = subscriptions.get(i).getBrokersList().toArray(new String[subscriptions.get(i).getBrokersList().size()]);
-                                int[] indexes = new int[brokers.length];
+                    else if(GlobalState.DIST_MODE.equals("RAND")){
 
-                                for (int j = 0; j < indexes.length; j++) {
-                                    for (int l = 0; l < lsoArray.length; l++) {
-                                        if(brokers[j].equals(lsoArray[l].getBROKER_IP())){
-                                            indexes[j] = l;
-                                            break;
-                                        }
+                        synchronized (subscriptions) {
+
+                            for (int i = 0; i < subscriptions.size(); i++) {
+
+                                countExit = 0;
+
+                                for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
+
+                                    if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
+                                            && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSub().getUpperBound(j)) {
+
+                                        countExit++;
                                     }
+
+                                    else
+                                        break;
                                 }
 
-                                int tempInt2;
-                                String tempStr2;
+                                if (countExit == GlobalState.NumberOfDimensions) {
 
-                                for (int a = 0; a < indexes.length; a++) {
+                                    String[] brokers = subscriptions.get(i).getBrokersList().toArray(new String[subscriptions.get(i).getBrokersList().size()]);
+                                    int index = (int) (Math.random() % brokers.length);
 
-                                    for (int b = 0; b < indexes.length - a - 1; b++) {
-
-                                        if(indexes[b] > indexes[b + 1]){
-
-                                            tempInt2 = indexes[b + 1];
-                                            indexes[b + 1] = indexes[b];
-                                            indexes[b] = tempInt2;
-
-                                            tempStr2 = brokers[b + 1];
-                                            brokers[b + 1] = brokers[b];
-                                            brokers[b] = tempStr2;
-                                        }
+                                    synchronized (queues.get(brokers[index])){
+                                        queues.get(brokers[index]).add(temp);
                                     }
-                                }
 
-                                synchronized (queues.get(brokers[0])){
-                                    queues.get(brokers[0]).add(temp);
+                                    break;
                                 }
+                            }
 
-                                break;
+                            // retention should be added.
+                        }
+                    }
+
+                    else if(GlobalState.DIST_MODE.equals("PBSUB") || GlobalState.DIST_MODE.equals("PBAC") || GlobalState.DIST_MODE.equals("PBALL")){
+
+                        int loadsTotal = 0;
+                        int[] prob;
+
+                        synchronized (lsos){
+                            lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
+                        }
+
+                        loads = new int[lsoArray.length];
+                        prob = new int[loads.length];
+
+                        if(GlobalState.DIST_MODE.equals("PBSUB")){
+                            for (int i = 0; i < lsoArray.length; i++)
+                                loads[i] = lsoArray[i].getNumSubscriptions();
+                        }
+                        else if(GlobalState.DIST_MODE.equals("PBAC")){
+                            for (int i = 0; i < lsoArray.length; i++)
+                                loads[i] = lsoArray[i].getAccessCount();
+                        }
+                        else if(GlobalState.DIST_MODE.equals("PBALL")){
+                            for (int i = 0; i < lsoArray.length; i++)
+                                loads[i] = lsoArray[i].getNumSubscriptions() * lsoArray[i].getAccessCount();
+                        }
+
+                        for (int i = 0; i < loads.length; i++)
+                            loadsTotal += loads[i];
+
+                        for (int i = 0; i < loads.length; i++)
+                            prob[i] = 100 * (int) ((1.0 - ((double) loads[i] / loadsTotal)) * (1.0 / (loads.length - 1)));
+
+                        ArrayList<Integer> probs = new ArrayList<Integer>();
+
+                        for (int i = 0; i < prob.length; i++) {
+                            for (int j = 0; j < prob[i]; j++) {
+                                probs.add(i);
                             }
                         }
 
-                        // retention should be added.
+                        synchronized (subscriptions) {
+
+                            for (int i = 0; i < subscriptions.size(); i++) {
+
+                                countExit = 0;
+
+                                for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
+
+                                    if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
+                                            && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSub().getUpperBound(j)) {
+
+                                        countExit++;
+                                    }
+
+                                    else
+                                        break;
+                                }
+
+                                if (countExit == GlobalState.NumberOfDimensions) {
+
+                                    String[] brokers = subscriptions.get(i).getBrokersList().toArray(new String[subscriptions.get(i).getBrokersList().size()]);
+                                    int index;
+                                    int checkOut = 0;
+                                    String broker = "";
+
+                                    while(true){
+
+                                        index = probs.get((int) (Math.random() * probs.size()));
+
+                                        for (int j = 0; j < brokers.length; j++) {
+                                            if(lsoArray[index].getBROKER_IP().equals(brokers[j])){
+                                                broker = brokers[j];
+                                                checkOut = 1;
+                                                break;
+                                            }
+                                        }
+
+                                        if(checkOut == 1)
+                                            break;
+                                    }
+
+                                    synchronized (queues.get(broker)){
+                                        queues.get(broker).add(temp);
+                                    }
+
+                                    break;
+                                }
+                            }
+
+                            // retention should be added.
+                        }
                     }
                 }
 
