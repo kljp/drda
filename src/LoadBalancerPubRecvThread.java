@@ -293,10 +293,6 @@ public class LoadBalancerPubRecvThread extends Thread {
                                 }
                             }
 
-                            for (int i = 0; i < probs.size(); i++) {
-                                System.out.print(probs.get(i) + " ");
-                            }
-                            System.out.println();
                             synchronized (subscriptions) {
 
                                 for (int i = 0; i < subscriptions.size(); i++) {
@@ -323,7 +319,7 @@ public class LoadBalancerPubRecvThread extends Thread {
                                         String broker = "";
 
                                         while(true){
-
+                                            System.out.println("///////////////");
                                             index = probs.get((int) (Math.random() % probs.size()));
 
                                             for (int j = 0; j < brokers.length; j++) {
