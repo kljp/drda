@@ -235,7 +235,7 @@ public class LoadBalancerPubRecvThread extends Thread {
                             loadsTotal += loads[i];
 
                         for (int i = 0; i < loads.length; i++)
-                            prob[i] = 100 * (int) ((1.0 - ((double) loads[i] / loadsTotal)) * (1.0 / (loads.length - 1)));
+                            prob[i] = (int) (100.0 * ((1.0 - ((double) loads[i] / loadsTotal)) * (1.0 / (loads.length - 1))));
 
                         ArrayList<Integer> probs = new ArrayList<Integer>();
 
