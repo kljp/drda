@@ -211,7 +211,7 @@ public class LoadBalancerPubRecvThread extends Thread {
                         int checkBeforeSync;
 
                         synchronized (lsos){
-                            if(if(lsos.size() > 0))
+                            if(lsos.size() > 0)
                                 checkBeforeSync = 1;
                             else
                                 checkBeforeSync = 0;
