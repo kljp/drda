@@ -278,7 +278,7 @@ public class ReplicationGenerator {
 
     public msgEPartition setGlobalSub(msgEPartition[] ms, HashMap<Integer, String> IPMap){
 
-        String tempStr;
+        String tempStr = "";
         msgEPartition msgGlobal;
         msgEPartition.Builder msgGlobalBuilder = msgEPartition.newBuilder();
 
@@ -286,8 +286,12 @@ public class ReplicationGenerator {
 
         for (int i = 0; i < ms.length; i++) {
 
-            synchronized (IPMap){
-                tempStr = IPMap.get(Math.abs(MurmurHash.hash32(ms[i].getSubspaceForward())) % IPMap.size());
+            try{
+                synchronized (IPMap){
+                    tempStr = IPMap.get(Math.abs(MurmurHash.hash32(ms[i].getSubspaceForward())) % IPMap.size());
+                }
+            } catch(NullPointerException e){
+                System.out.println(ms[i]);
             }
 
             msgGlobalBuilder.addBrokers(tempStr);
