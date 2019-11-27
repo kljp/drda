@@ -349,7 +349,12 @@ public class LoadBalancerMasterNotfThread extends Thread {
         acsMean = calculateMean(acs);
         acsNormStdDev = calculateStdDev(acs, acsMean) / acsMean;
 
-        loadbalance = Math.sqrt(1 / (nssNormStdDev * acsNormStdDev));
+        if(GlobalState.LOAD_OPTION.equals("SUB"))
+            loadbalance = 1 / nssNormStdDev;
+        else if(GlobalState.LOAD_OPTION.equals("AC"))
+            loadbalance = 1 / acsNormStdDev;
+        else
+            loadbalance = Math.sqrt(1 / (nssNormStdDev * acsNormStdDev));
 
         synchronized (IPMap){
             tempRepDeg = 4.0 * ((double) IPMap.size()) * (1 / loadbalance);
