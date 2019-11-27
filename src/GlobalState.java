@@ -22,7 +22,7 @@ public class GlobalState {
     public static int IPS_LB_PORT = 5007;
     public static int IPS_BROKER_PORT = 5008;
     public static int IPS_CLIENT_PORT = 5009;
-    public static int SUB_COUNT = 600;
+    public static int SUB_COUNT = 250;
     public static int PUB_COUNT = 10000;
     public static double PeriodOfSync = 0.5;
     public static double PeriodOfSyncFirst = 10.0;
@@ -30,7 +30,7 @@ public class GlobalState {
     public static int MAX_NUM_BROKER = 1024;
     public static int PERIOD_SYNC_START = 1;
     public static int PERIOD_SYNC_END = 100;
-    public static int SUB_TERM = 110;
+    public static int SUB_TERM = 260;
     public static String EXP_MODE = "ON"; // "ON" or "OFF"
     public static String SKEWED_SUBSCRIPTION_MODE = "OFF"; // "ON" or "OFF"
     public static String SKEWED_PUBLICATION_MODE = "OFF"; // "ON" or "OFF"
