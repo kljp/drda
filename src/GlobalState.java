@@ -29,7 +29,7 @@ public class GlobalState {
     public static double REP_DEG_INIT = 3.0;
     public static int MAX_NUM_BROKER = 1024;
     public static int PERIOD_SYNC_START = 1;
-    public static int PERIOD_SYNC_END = 75;
+    public static int PERIOD_SYNC_END = 60;
     public static int SUB_TERM = 110;
     public static String EXP_MODE = "ON"; // "ON" or "OFF"
     public static String SKEWED_SUBSCRIPTION_MODE = "OFF"; // "ON" or "OFF"
