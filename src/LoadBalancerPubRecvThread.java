@@ -272,7 +272,7 @@ public class LoadBalancerPubRecvThread extends Thread {
 
                                     while(true){
 
-                                        index = probs.get((int) (Math.random() * probs.size()));
+                                        index = probs.get((int) (Math.random() % probs.size()));
 
                                         for (int j = 0; j < brokers.length; j++) {
                                             if(lsoArray[index].getBROKER_IP().equals(brokers[j])){
