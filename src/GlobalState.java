@@ -24,7 +24,7 @@ public class GlobalState {
     public static int IPS_CLIENT_PORT = 5009;
     public static int SUB_COUNT = 600;
     public static int PUB_COUNT = 10000;
-    public static double PeriodOfSync = 7.0;
+    public static double PeriodOfSync = 1.0;
     public static double REP_DEG_INIT = 3.0;
     public static int MAX_NUM_BROKER = 1024;
     public static int PERIOD_SYNC_START = 1;
