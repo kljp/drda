@@ -253,9 +253,9 @@ public class ReplicationGenerator {
                     }
                 }
             }
-            for (int i = 0; i < lsoArray.length; i++) {
+            for (int i = 0; i < indexes.length; i++) {
 
-                if(count == repDeg)
+                if(count == repDeg + 1)
                     break;
 
                 for (int j = 0; j < ms.length; j++) {
