@@ -353,7 +353,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
             loadbalance = 1 / nssNormStdDev;
         else if(GlobalState.LOAD_OPTION.equals("AC"))
             loadbalance = 1 / acsNormStdDev;
-        else
+        else // else if(GlobalState.LOAD_OPTION.equals("ALL"))
             loadbalance = Math.sqrt(1 / (nssNormStdDev * acsNormStdDev));
 
         synchronized (IPMap){
