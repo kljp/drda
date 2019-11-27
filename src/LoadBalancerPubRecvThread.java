@@ -85,7 +85,10 @@ public class LoadBalancerPubRecvThread extends Thread {
                             for (int i = 0; i < lsoArray.length; i++)
                                 loads[i] = lsoArray[i].getNumSubscriptions() * lsoArray[i].getAccessCount();
                         }
-                        System.out.println(loads);
+                        for (int i = 0; i < loads.length; i++) {
+                            System.out.print(loads[i] + " ");
+                        }
+                        System.out.println("");
                         // currently, it is implemented by the least-loaded broker selection with considering both the number of subscription and the access count.
                         // In the future, more options should be additionally implemented: 1. random, 2. probabilistic, 3. only considering the number of subscription + every strategy.
                         for (int i = 0; i < loads.length; i++) {
