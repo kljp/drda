@@ -224,8 +224,12 @@ public class LoadBalancerMasterNotfThread extends Thread {
                     }
                     System.out.println("Actual replication degree = " + actualRepDeg);
 
-                    synchronized (actualDegHistory){
-                        actualDegHistory.add(actualRepDeg);
+                    synchronized (cso) {
+                        if (cso.getCurSync() > 0) {
+                            synchronized (actualDegHistory){
+                                actualDegHistory.add(actualRepDeg);
+                            }
+                        }
                     }
 
                     synchronized (lsos) {
