@@ -20,6 +20,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
     private int BROKER_PORT;
     private static ArrayList<Double> loadbalanceHistory = new ArrayList<Double>();
     private static ArrayList<Double> repDegHistory = new ArrayList<Double>();
+    public static ArrayList<Double> actualDegHistory = new ArrayList<Double>();
     private CurSyncObject cso;
     private ArrayList<msgEPartition> subscriptions;
     private ArrayList<msgEPartition> tempSubscriptions;
@@ -223,6 +224,10 @@ public class LoadBalancerMasterNotfThread extends Thread {
                     }
                     System.out.println("Actual replication degree = " + actualRepDeg);
 
+                    synchronized (actualDegHistory){
+                        actualDegHistory.add(actualRepDeg);
+                    }
+
                     synchronized (lsos) {
                         if (!lsos.isEmpty()) {
                             for (int i = 0; i < lsos.size(); i++){
@@ -277,9 +282,16 @@ public class LoadBalancerMasterNotfThread extends Thread {
                                     }
                                 }
 
-                                fos_ad.write((actualRepDeg + "\n").getBytes());
-                                fos_ad.flush();
-                                fos_ad.close();
+                                synchronized (actualDegHistory){
+                                    if(!actualDegHistory.isEmpty()){
+                                        for (int i = 0; i < actualDegHistory.size(); i++) {
+                                            fos_ad.write((actualDegHistory.get(i) + "\n").getBytes());
+                                            fos_ad.flush();
+                                        }
+
+                                        fos_ad.close();
+                                    }
+                                }
 
                                 fos_result.write((matchingRate + "\n").getBytes());
                                 fos_result.flush();
