@@ -118,6 +118,9 @@ public class LoadBalancerPubRecvThread extends Thread {
                             synchronized (lsos){
                                 lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
                             }
+                            for (int i = 0; i < lsoArray.length; i++) {
+                                System.out.println(lsoArray[i]);
+                            }
 
                             loads = new int[lsoArray.length];
 

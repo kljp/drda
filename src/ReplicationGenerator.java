@@ -88,6 +88,22 @@ public class ReplicationGenerator {
 
         if(checkFirst == 0){
 
+///////////// deprecated ///////////////////////////////////////////////////////////////////////////////////////
+//            ArrayList<Integer> checkDuplicate = new ArrayList<Integer>();
+//
+//            for (int i = 0; i < messages.length; i++) {
+//                while(true){
+//                    temp = ((int) (Math.random() * GlobalState.MAX_NUM_BROKER) % IPMap.size()) % ms.length;
+//
+//                    if(!checkDuplicate.contains(temp)){
+//                        messages[i] = ms[temp];
+//                        checkDuplicate.add(temp);
+//                        break;
+//                    }
+//                }
+//            }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
             int[] indexes = new int[repDeg];
 
             for (int i = 0; i < repDeg; i++) {
