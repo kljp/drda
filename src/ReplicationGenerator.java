@@ -237,8 +237,8 @@ public class ReplicationGenerator {
                     }
                 }
             } catch(IndexOutOfBoundsException e){
-                for (int i = 0; i < prob.length; i++) {
-                    System.out.println(i + " " + prob[i]);
+                for (int i = 0; i < loads.length; i++) {
+                    System.out.println(i + " " + loads[i]);
                 }
             }
 
