@@ -263,11 +263,6 @@ public class LoadBalancerPubRecvThread extends Thread {
                                 lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
                             }
 
-                            for (int i = 0; i < lsoArray.length; i++) {
-                                System.out.print(lsoArray[i].getNumSubscriptions() + " ");
-                            }
-                            System.out.println();
-
                             loads = new int[lsoArray.length];
                             prob = new int[loads.length];
 
