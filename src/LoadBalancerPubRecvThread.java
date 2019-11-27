@@ -208,143 +208,177 @@ public class LoadBalancerPubRecvThread extends Thread {
 
                     else if(GlobalState.DIST_MODE.equals("PBSUB") || GlobalState.DIST_MODE.equals("PBAC") || GlobalState.DIST_MODE.equals("PBALL")){
 
-                        int checkBeforeSync;
+                        synchronized (subscriptions) {
 
-                        synchronized (lsos){
-                            if(!lsos.isEmpty())
-                                checkBeforeSync = 1;
-                            else
-                                checkBeforeSync = 0;
-                        }
+                            for (int i = 0; i < subscriptions.size(); i++) {
 
-                        if(checkBeforeSync == 1){
+                                countExit = 0;
 
-                            int loadsTotal = 0;
-                            int[] prob;
+                                for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
 
-                            synchronized (lsos){
-                                lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
-                            }
+                                    if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
+                                            && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSub().getUpperBound(j)) {
 
-                            loads = new int[lsoArray.length];
-                            prob = new int[loads.length];
-
-                            if(GlobalState.DIST_MODE.equals("PBSUB")){
-                                for (int i = 0; i < lsoArray.length; i++)
-                                    loads[i] = lsoArray[i].getNumSubscriptions();
-                            }
-                            else if(GlobalState.DIST_MODE.equals("PBAC")){
-                                for (int i = 0; i < lsoArray.length; i++)
-                                    loads[i] = lsoArray[i].getAccessCount();
-                            }
-                            else if(GlobalState.DIST_MODE.equals("PBALL")){
-                                for (int i = 0; i < lsoArray.length; i++)
-                                    loads[i] = lsoArray[i].getNumSubscriptions() * lsoArray[i].getAccessCount();
-                            }
-
-                            for (int i = 0; i < loads.length; i++)
-                                loadsTotal += loads[i];
-
-                            for (int i = 0; i < loads.length; i++)
-                                prob[i] = (int) (100.0 * ((1.0 - ((double) loads[i] / loadsTotal)) * (1.0 / (loads.length - 1))));
-
-                            ArrayList<Integer> probs = new ArrayList<Integer>();
-
-                            for (int i = 0; i < prob.length; i++) {
-                                for (int j = 0; j < prob[i]; j++) {
-                                    probs.add(i);
-                                }
-                            }
-
-                            synchronized (subscriptions) {
-
-                                for (int i = 0; i < subscriptions.size(); i++) {
-
-                                    countExit = 0;
-
-                                    for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
-
-                                        if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
-                                                && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSub().getUpperBound(j)) {
-
-                                            countExit++;
-                                        }
-
-                                        else
-                                            break;
+                                        countExit++;
                                     }
 
-                                    if (countExit == GlobalState.NumberOfDimensions) {
-
-                                        String[] brokers = subscriptions.get(i).getBrokersList().toArray(new String[subscriptions.get(i).getBrokersList().size()]);
-                                        int index;
-                                        int checkOut = 0;
-                                        String broker = "";
-
-                                        while(true){
-
-                                            index = probs.get((int) (Math.random() % probs.size()));
-
-                                            for (int j = 0; j < brokers.length; j++) {
-                                                if(lsoArray[index].getBROKER_IP().equals(brokers[j])){
-                                                    broker = brokers[j];
-                                                    checkOut = 1;
-                                                    break;
-                                                }
-                                            }
-
-                                            if(checkOut == 1)
-                                                break;
-                                        }
-
-                                        synchronized (queues.get(broker)){
-                                            queues.get(broker).add(temp);
-                                        }
-
+                                    else
                                         break;
-                                    }
                                 }
 
-                                // retention should be added.
-                            }
-                        }
+                                if (countExit == GlobalState.NumberOfDimensions) {
 
-                        else{
+                                    String[] brokers = subscriptions.get(i).getBrokersList().toArray(new String[subscriptions.get(i).getBrokersList().size()]);
+                                    int index = (int) (Math.random() % brokers.length);
 
-                            synchronized (subscriptions) {
-
-                                for (int i = 0; i < subscriptions.size(); i++) {
-
-                                    countExit = 0;
-
-                                    for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
-
-                                        if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
-                                                && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSub().getUpperBound(j)) {
-
-                                            countExit++;
-                                        }
-
-                                        else
-                                            break;
+                                    synchronized (queues.get(brokers[index])){
+                                        queues.get(brokers[index]).add(temp);
                                     }
 
-                                    if (countExit == GlobalState.NumberOfDimensions) {
-
-                                        String[] brokers = subscriptions.get(i).getBrokersList().toArray(new String[subscriptions.get(i).getBrokersList().size()]);
-                                        int index = (int) (Math.random() % brokers.length);
-
-                                        synchronized (queues.get(brokers[index])){
-                                            queues.get(brokers[index]).add(temp);
-                                        }
-
-                                        break;
-                                    }
+                                    break;
                                 }
-
-                                // retention should be added.
                             }
+
+                            // retention should be added.
                         }
+
+//                        int checkBeforeSync;
+//
+//                        synchronized (lsos){
+//                            if(!lsos.isEmpty())
+//                                checkBeforeSync = 1;
+//                            else
+//                                checkBeforeSync = 0;
+//                        }
+//
+//                        if(checkBeforeSync == 1){
+//
+//                            int loadsTotal = 0;
+//                            int[] prob;
+//
+//                            synchronized (lsos){
+//                                lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
+//                            }
+//
+//                            loads = new int[lsoArray.length];
+//                            prob = new int[loads.length];
+//
+//                            if(GlobalState.DIST_MODE.equals("PBSUB")){
+//                                for (int i = 0; i < lsoArray.length; i++)
+//                                    loads[i] = lsoArray[i].getNumSubscriptions();
+//                            }
+//                            else if(GlobalState.DIST_MODE.equals("PBAC")){
+//                                for (int i = 0; i < lsoArray.length; i++)
+//                                    loads[i] = lsoArray[i].getAccessCount();
+//                            }
+//                            else if(GlobalState.DIST_MODE.equals("PBALL")){
+//                                for (int i = 0; i < lsoArray.length; i++)
+//                                    loads[i] = lsoArray[i].getNumSubscriptions() * lsoArray[i].getAccessCount();
+//                            }
+//
+//                            for (int i = 0; i < loads.length; i++)
+//                                loadsTotal += loads[i];
+//
+//                            for (int i = 0; i < loads.length; i++)
+//                                prob[i] = (int) (100.0 * ((1.0 - ((double) loads[i] / loadsTotal)) * (1.0 / (loads.length - 1))));
+//
+//                            ArrayList<Integer> probs = new ArrayList<Integer>();
+//
+//                            for (int i = 0; i < prob.length; i++) {
+//                                for (int j = 0; j < prob[i]; j++) {
+//                                    probs.add(i);
+//                                }
+//                            }
+//
+//                            synchronized (subscriptions) {
+//
+//                                for (int i = 0; i < subscriptions.size(); i++) {
+//
+//                                    countExit = 0;
+//
+//                                    for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
+//
+//                                        if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
+//                                                && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSub().getUpperBound(j)) {
+//
+//                                            countExit++;
+//                                        }
+//
+//                                        else
+//                                            break;
+//                                    }
+//
+//                                    if (countExit == GlobalState.NumberOfDimensions) {
+//
+//                                        String[] brokers = subscriptions.get(i).getBrokersList().toArray(new String[subscriptions.get(i).getBrokersList().size()]);
+//                                        int index;
+//                                        int checkOut = 0;
+//                                        String broker = "";
+//
+//                                        while(true){
+//
+//                                            index = probs.get((int) (Math.random() % probs.size()));
+//
+//                                            for (int j = 0; j < brokers.length; j++) {
+//                                                if(lsoArray[index].getBROKER_IP().equals(brokers[j])){
+//                                                    broker = brokers[j];
+//                                                    checkOut = 1;
+//                                                    break;
+//                                                }
+//                                            }
+//
+//                                            if(checkOut == 1)
+//                                                break;
+//                                        }
+//
+//                                        synchronized (queues.get(broker)){
+//                                            queues.get(broker).add(temp);
+//                                        }
+//
+//                                        break;
+//                                    }
+//                                }
+//
+//                                // retention should be added.
+//                            }
+//                        }
+//
+//                        else{
+//
+//                            synchronized (subscriptions) {
+//
+//                                for (int i = 0; i < subscriptions.size(); i++) {
+//
+//                                    countExit = 0;
+//
+//                                    for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
+//
+//                                        if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
+//                                                && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSub().getUpperBound(j)) {
+//
+//                                            countExit++;
+//                                        }
+//
+//                                        else
+//                                            break;
+//                                    }
+//
+//                                    if (countExit == GlobalState.NumberOfDimensions) {
+//
+//                                        String[] brokers = subscriptions.get(i).getBrokersList().toArray(new String[subscriptions.get(i).getBrokersList().size()]);
+//                                        int index = (int) (Math.random() % brokers.length);
+//
+//                                        synchronized (queues.get(brokers[index])){
+//                                            queues.get(brokers[index]).add(temp);
+//                                        }
+//
+//                                        break;
+//                                    }
+//                                }
+//
+//                                // retention should be added.
+//                            }
+//                        }
                     }
                 }
 
