@@ -226,7 +226,7 @@ public class ReplicationGenerator {
             int[] indexes = new int[repDeg];
 
             for (int i = 0; i < repDeg; i++) {
-                indexes[i] = probs.get((int) (Math.random() / probs.size()));
+                indexes[i] = probs.get((int) (Math.random() % probs.size()));
 
                 for (int j = 0; j < i; j++) {
                     if(indexes[i] == indexes[j]){
