@@ -208,69 +208,79 @@ public class LoadBalancerPubRecvThread extends Thread {
 
                     else if(GlobalState.DIST_MODE.equals("PBSUB") || GlobalState.DIST_MODE.equals("PBAC") || GlobalState.DIST_MODE.equals("PBALL")){
 
-                        int loadsTotal = 0;
-                        int[] prob;
+                        int checkBeforeSync;
 
                         synchronized (lsos){
-                            lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
+                            if(!lsos.isEmpty())
+                                checkBeforeSync = 1;
+                            else
+                                checkBeforeSync = 0;
                         }
 
-                        loads = new int[lsoArray.length];
-                        prob = new int[loads.length];
+                        if(checkBeforeSync == 1){
 
-                        if(GlobalState.DIST_MODE.equals("PBSUB")){
-                            for (int i = 0; i < lsoArray.length; i++)
-                                loads[i] = lsoArray[i].getNumSubscriptions();
-                        }
-                        else if(GlobalState.DIST_MODE.equals("PBAC")){
-                            for (int i = 0; i < lsoArray.length; i++)
-                                loads[i] = lsoArray[i].getAccessCount();
-                        }
-                        else if(GlobalState.DIST_MODE.equals("PBALL")){
-                            for (int i = 0; i < lsoArray.length; i++)
-                                loads[i] = lsoArray[i].getNumSubscriptions() * lsoArray[i].getAccessCount();
-                        }
+                            int loadsTotal = 0;
+                            int[] prob;
 
-                        for (int i = 0; i < loads.length; i++)
-                            loadsTotal += loads[i];
-
-                        for (int i = 0; i < loads.length; i++)
-                            prob[i] = (int) (100.0 * ((1.0 - ((double) loads[i] / loadsTotal)) * (1.0 / (loads.length - 1))));
-
-                        ArrayList<Integer> probs = new ArrayList<Integer>();
-
-                        for (int i = 0; i < prob.length; i++) {
-                            for (int j = 0; j < prob[i]; j++) {
-                                probs.add(i);
+                            synchronized (lsos){
+                                lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
                             }
-                        }
 
-                        synchronized (subscriptions) {
+                            loads = new int[lsoArray.length];
+                            prob = new int[loads.length];
 
-                            for (int i = 0; i < subscriptions.size(); i++) {
+                            if(GlobalState.DIST_MODE.equals("PBSUB")){
+                                for (int i = 0; i < lsoArray.length; i++)
+                                    loads[i] = lsoArray[i].getNumSubscriptions();
+                            }
+                            else if(GlobalState.DIST_MODE.equals("PBAC")){
+                                for (int i = 0; i < lsoArray.length; i++)
+                                    loads[i] = lsoArray[i].getAccessCount();
+                            }
+                            else if(GlobalState.DIST_MODE.equals("PBALL")){
+                                for (int i = 0; i < lsoArray.length; i++)
+                                    loads[i] = lsoArray[i].getNumSubscriptions() * lsoArray[i].getAccessCount();
+                            }
 
-                                countExit = 0;
+                            for (int i = 0; i < loads.length; i++)
+                                loadsTotal += loads[i];
 
-                                for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
+                            for (int i = 0; i < loads.length; i++)
+                                prob[i] = (int) (100.0 * ((1.0 - ((double) loads[i] / loadsTotal)) * (1.0 / (loads.length - 1))));
 
-                                    if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
-                                            && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSub().getUpperBound(j)) {
+                            ArrayList<Integer> probs = new ArrayList<Integer>();
 
-                                        countExit++;
+                            for (int i = 0; i < prob.length; i++) {
+                                for (int j = 0; j < prob[i]; j++) {
+                                    probs.add(i);
+                                }
+                            }
+
+                            synchronized (subscriptions) {
+
+                                for (int i = 0; i < subscriptions.size(); i++) {
+
+                                    countExit = 0;
+
+                                    for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
+
+                                        if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
+                                                && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSub().getUpperBound(j)) {
+
+                                            countExit++;
+                                        }
+
+                                        else
+                                            break;
                                     }
 
-                                    else
-                                        break;
-                                }
+                                    if (countExit == GlobalState.NumberOfDimensions) {
 
-                                if (countExit == GlobalState.NumberOfDimensions) {
+                                        String[] brokers = subscriptions.get(i).getBrokersList().toArray(new String[subscriptions.get(i).getBrokersList().size()]);
+                                        int index;
+                                        int checkOut = 0;
+                                        String broker = "";
 
-                                    String[] brokers = subscriptions.get(i).getBrokersList().toArray(new String[subscriptions.get(i).getBrokersList().size()]);
-                                    int index;
-                                    int checkOut = 0;
-                                    String broker = "";
-
-                                    try{
                                         while(true){
 
                                             index = probs.get((int) (Math.random() % probs.size()));
@@ -286,21 +296,54 @@ public class LoadBalancerPubRecvThread extends Thread {
                                             if(checkOut == 1)
                                                 break;
                                         }
-                                    } catch(IndexOutOfBoundsException e){
-                                        synchronized (lsos){
-                                            System.out.println(lsos);
+
+                                        synchronized (queues.get(broker)){
+                                            queues.get(broker).add(temp);
                                         }
-                                    }
 
-                                    synchronized (queues.get(broker)){
-                                        queues.get(broker).add(temp);
+                                        break;
                                     }
-
-                                    break;
                                 }
-                            }
 
-                            // retention should be added.
+                                // retention should be added.
+                            }
+                        }
+
+                        else{
+
+                            synchronized (subscriptions) {
+
+                                for (int i = 0; i < subscriptions.size(); i++) {
+
+                                    countExit = 0;
+
+                                    for (int j = 0; j < GlobalState.NumberOfDimensions; j++) {
+
+                                        if (temp.getPub().getSinglePoint(j) >= subscriptions.get(i).getSub().getLowerBound(j)
+                                                && temp.getPub().getSinglePoint(j) <= subscriptions.get(i).getSub().getUpperBound(j)) {
+
+                                            countExit++;
+                                        }
+
+                                        else
+                                            break;
+                                    }
+
+                                    if (countExit == GlobalState.NumberOfDimensions) {
+
+                                        String[] brokers = subscriptions.get(i).getBrokersList().toArray(new String[subscriptions.get(i).getBrokersList().size()]);
+                                        int index = (int) (Math.random() % brokers.length);
+
+                                        synchronized (queues.get(brokers[index])){
+                                            queues.get(brokers[index]).add(temp);
+                                        }
+
+                                        break;
+                                    }
+                                }
+
+                                // retention should be added.
+                            }
                         }
                     }
                 }
