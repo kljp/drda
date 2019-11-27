@@ -225,15 +225,23 @@ public class ReplicationGenerator {
 
             int[] indexes = new int[repDeg];
 
-            for (int i = 0; i < repDeg; i++) {
-                indexes[i] = probs.get((int) (Math.random() % probs.size()));
+            try{
+                for (int i = 0; i < repDeg; i++) {
+                    indexes[i] = probs.get((int) (Math.random() % probs.size()));
 
-                for (int j = 0; j < i; j++) {
-                    if(indexes[i] == indexes[j]){
-                        i--;
-                        break;
+                    for (int j = 0; j < i; j++) {
+                        if(indexes[i] == indexes[j]){
+                            i--;
+                            break;
+                        }
                     }
                 }
+            } catch(IndexOutOfBoundsException e){
+                System.out.println("repdeg = " + repDeg);
+                System.out.println("prob = " + prob);
+                System.out.println("loads = " + loads);
+                System.out.println("loadsTotal = " + loadsTotal);
+                System.out.println("probs = " + probs);
             }
 
             for (int i = 0; i < indexes.length; i++) {
