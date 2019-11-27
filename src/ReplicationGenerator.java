@@ -213,7 +213,7 @@ public class ReplicationGenerator {
                 loadsTotal += loads[i];
 
             for (int i = 0; i < loads.length; i++)
-                prob[i] = 100 * (int) ((1.0 - ((double) loads[i] / loadsTotal)) * (1.0 / (loads.length - 1)));
+                prob[i] = (int) (100.0 * ((1.0 - ((double) loads[i] / loadsTotal)) * (1.0 / (loads.length - 1))));
 
             ArrayList<Integer> probs = new ArrayList<Integer>();
 
@@ -225,23 +225,16 @@ public class ReplicationGenerator {
 
             int[] indexes = new int[repDeg];
 
-            try{
-                for (int i = 0; i < repDeg; i++) {
-                    indexes[i] = probs.get((int) (Math.random() % probs.size()));
+            for (int i = 0; i < repDeg; i++) {
+                indexes[i] = probs.get((int) (Math.random() % probs.size()));
 
-                    for (int j = 0; j < i; j++) {
-                        if(indexes[i] == indexes[j]){
-                            i--;
-                            break;
-                        }
+                for (int j = 0; j < i; j++) {
+                    if(indexes[i] == indexes[j]){
+                        i--;
+                        break;
                     }
                 }
-            } catch(IndexOutOfBoundsException e){
-                for (int i = 0; i < loads.length; i++) {
-                    System.out.println(i + " " + loads[i]);
-                }
             }
-
             for (int i = 0; i < indexes.length; i++) {
 
                 if(count == repDeg)
