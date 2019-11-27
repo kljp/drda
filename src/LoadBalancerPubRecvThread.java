@@ -73,6 +73,7 @@ public class LoadBalancerPubRecvThread extends Thread {
                         else
                             checkBeforeSync = 0;
                     }
+                    System.out.println(checkBeforeSync);
 
                     if(checkBeforeSync == 0){
 
@@ -114,11 +115,10 @@ public class LoadBalancerPubRecvThread extends Thread {
                     else{
 
                         if(GlobalState.DIST_MODE.equals("LFSUB") || GlobalState.DIST_MODE.equals("LFAC") || GlobalState.DIST_MODE.equals("LFALL")){
-                            System.out.println("1");
+
                             synchronized (lsos){
                                 lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
                             }
-                            System.out.println("2");
 
                             loads = new int[lsoArray.length];
 
