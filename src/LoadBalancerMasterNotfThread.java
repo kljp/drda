@@ -51,6 +51,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
         int tempSize; //the number of worker threads
         int tempNum; // the number of connected brokers
         int checkType = 0;
+        int checkTime = 0;
+        double curPeriod;
         double loadbalance;
         double beforeSync = 0.0;
         double afterSync;
@@ -82,7 +84,15 @@ public class LoadBalancerMasterNotfThread extends Thread {
                 after = System.currentTimeMillis();
                 elapsed = (after - before) / 1000.0;
 
-                if (elapsed > GlobalState.PeriodOfSync) {
+                if(checkTime == 0){
+                    curPeriod = GlobalState.PeriodOfSyncFirst;
+                    checkTime = 1;
+                }
+                else
+                    curPeriod = GlobalState.PeriodOfSync;
+
+
+                if (elapsed > curPeriod) {
 
                     synchronized (tempLsos) {
                         tempLsos.clear();
