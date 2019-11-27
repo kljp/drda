@@ -60,6 +60,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
         ArrayList<LoadStatusObject> lsoSyncStart = new ArrayList<LoadStatusObject>();
         FileOutputStream fos_lb = null;
         FileOutputStream fos_rd = null;
+        FileOutputStream fos_ad = null;
         FileOutputStream fos_result = null;
 
         try {
@@ -71,6 +72,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                 fos_lb = new FileOutputStream("./../experiment/loadbalance/loadbalance_" + formattedTime + ".txt");
                 fos_rd = new FileOutputStream("./../experiment/replicationdegree/replicationdegree_" + formattedTime + ".txt");
+                fos_ad = new FileOutputStream("./../experiment/actualdegree/actualdegree" + formattedTime + ".txt");
                 fos_result = new FileOutputStream("./../experiment/result/result_" + formattedTime + ".txt");
             }
 
@@ -207,6 +209,20 @@ public class LoadBalancerMasterNotfThread extends Thread {
                         System.out.println(repDeg.getRepDegDouble() + " " + repDeg.getRepDegInt());
                     }
 
+                    int total = 0;
+                    double actualRepDeg = 0.0;
+                    synchronized (lsos){
+                        if(!lsos.isEmpty()){
+                            for (int i = 0; i < lsos.size(); i++) {
+                                total += lsos.get(i).getNumSubscriptions();
+                            }
+                        }
+                    }
+                    synchronized (subscriptions){
+                        actualRepDeg = (double) total / subscriptions.size();
+                    }
+                    System.out.println("Actual replication degree = " + actualRepDeg);
+
                     synchronized (lsos) {
                         if (!lsos.isEmpty()) {
                             for (int i = 0; i < lsos.size(); i++){
@@ -261,8 +277,13 @@ public class LoadBalancerMasterNotfThread extends Thread {
                                     }
                                 }
 
+                                fos_ad.write((actualRepDeg + "\n").getBytes());
+                                fos_ad.flush();
+                                fos_ad.close();
+
                                 fos_result.write((matchingRate + "\n").getBytes());
                                 fos_result.flush();
+
 
                                 synchronized (subscriptions){
                                     if(!subscriptions.isEmpty()){
@@ -270,6 +291,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
                                         fos_result.flush();
                                     }
                                 }
+
 
                                 synchronized (lsos) {
                                     if (!lsos.isEmpty()) {

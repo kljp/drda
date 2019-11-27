@@ -176,6 +176,20 @@ public class LoadBalancerCommThread extends Thread {
                             System.out.println(repDeg.getRepDegDouble() + " " + repDeg.getRepDegInt());
                         }
 
+                        int total = 0;
+                        double actualRepDeg = 0.0;
+                        synchronized (lsos){
+                            if(!lsos.isEmpty()){
+                                for (int i = 0; i < lsos.size(); i++) {
+                                    total += lsos.get(i).getNumSubscriptions();
+                                }
+                            }
+                        }
+                        synchronized (subscriptions){
+                            actualRepDeg = (double) total / subscriptions.size();
+                        }
+                        System.out.println("Actual replication degree = " + actualRepDeg);
+
                         synchronized (lsos){
                             if (!lsos.isEmpty()) {
                                 for (int i = 0; i < lsos.size(); i++){

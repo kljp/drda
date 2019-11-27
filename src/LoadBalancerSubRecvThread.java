@@ -118,6 +118,12 @@ public class LoadBalancerSubRecvThread extends Thread {
                     }
                 }
 
+                else{
+                    synchronized (subscriptions){
+                        subscriptions.add(messages[0]);
+                    }
+                }
+
                 for (int i = 0; i < messages.length; i++) {
 
                     synchronized (IPMap){
