@@ -253,7 +253,7 @@ public class ReplicationGenerator {
                     }
                 }
             }
-            for (int i = 0; i < indexes.length; i++) {
+            for (int i = 0; i < lsoArray.length; i++) {
 
                 if(count == repDeg)
                     break;
@@ -278,7 +278,7 @@ public class ReplicationGenerator {
 
     public msgEPartition setGlobalSub(msgEPartition[] ms, HashMap<Integer, String> IPMap){
 
-        String tempStr = "";
+        String tempStr;
         msgEPartition msgGlobal;
         msgEPartition.Builder msgGlobalBuilder = msgEPartition.newBuilder();
 
