@@ -188,20 +188,20 @@ public class ReplicationGenerator {
 
             int checkBeforeSync;
 
-//            synchronized (lsos){
-                if(!lsos.isEmpty())
+            synchronized (lsos){
+                if(lsos.size() > 0)
                     checkBeforeSync = 1;
                 else
                     checkBeforeSync = 0;
-//            }
+            }
 
             if(checkBeforeSync == 1){
                 int loadsTotal = 0;
                 int[] prob;
 
-//                synchronized (lsos){
+                synchronized (lsos){
                     lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
-//                }
+                }
 
                 loads = new int[lsoArray.length];
                 prob = new int[loads.length];
