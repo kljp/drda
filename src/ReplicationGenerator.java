@@ -286,12 +286,8 @@ public class ReplicationGenerator {
 
         for (int i = 0; i < ms.length; i++) {
 
-            try{
-                synchronized (IPMap){
-                    tempStr = IPMap.get(Math.abs(MurmurHash.hash32(ms[i].getSubspaceForward())) % IPMap.size());
-                }
-            } catch(NullPointerException e){
-                System.out.println(ms[i] + " " + i);
+            synchronized (IPMap){
+                tempStr = IPMap.get(Math.abs(MurmurHash.hash32(ms[i].getSubspaceForward())) % IPMap.size());
             }
 
             msgGlobalBuilder.addBrokers(tempStr);
