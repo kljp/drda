@@ -264,7 +264,7 @@ public class LoadBalancerPubRecvThread extends Thread {
                             }
 
                             for (int i = 0; i < lsoArray.length; i++) {
-                                System.out.print(lsoArray[i] + " ");
+                                System.out.print(lsoArray[i].getNumSubscriptions() + " ");
                             }
                             System.out.println();
 
