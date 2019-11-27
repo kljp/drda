@@ -24,13 +24,13 @@ public class GlobalState {
     public static int IPS_CLIENT_PORT = 5009;
     public static int SUB_COUNT = 600;
     public static int PUB_COUNT = 10000;
-    public static double PeriodOfSync = 1.0;
+    public static double PeriodOfSync = 0.5;
     public static double PeriodOfSyncFirst = 10.0;
     public static double REP_DEG_INIT = 3.0;
     public static int MAX_NUM_BROKER = 1024;
     public static int PERIOD_SYNC_START = 1;
-    public static int PERIOD_SYNC_END = 30;
-    public static int SUB_TERM = 200;
+    public static int PERIOD_SYNC_END = 50;
+    public static int SUB_TERM = 100;
     public static String EXP_MODE = "ON"; // "ON" or "OFF"
     public static String SKEWED_SUBSCRIPTION_MODE = "OFF"; // "ON" or "OFF"
     public static String SKEWED_PUBLICATION_MODE = "OFF"; // "ON" or "OFF"
