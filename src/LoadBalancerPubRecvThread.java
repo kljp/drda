@@ -287,8 +287,8 @@ public class LoadBalancerPubRecvThread extends Thread {
                                                 break;
                                         }
                                     } catch(IndexOutOfBoundsException e){
-                                        for (int j = 0; j < prob.length; j++) {
-                                            System.out.println(i + " " + prob[i] + " " + loads[i]);
+                                        synchronized (lsos){
+                                            System.out.println(lsos);
                                         }
                                     }
 
