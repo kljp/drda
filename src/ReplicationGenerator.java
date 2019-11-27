@@ -241,30 +241,27 @@ public class ReplicationGenerator {
                 }
             }
 
-            int[] indexes = new int[repDeg];
+            int index;
+            ArrayList<Integer> indexes = new ArrayList<Integer>();
 
-            for (int i = 0; i < repDeg; i++) {
-                indexes[i] = probs.get((int) ((Math.random() * 100) % probs.size()));
+            while(true){
 
-                for (int j = 0; j < i; j++) {
-                    if(indexes[i] == indexes[j]){
-                        i--;
-                        break;
-                    }
-                }
-            }
-            for (int i = 0; i < indexes.length; i++) {
-
-                if(count == repDeg + 1)
+                if(count == repDeg)
                     break;
+
+                index = probs.get((int) ((Math.random() * 100) % probs.size()));
+
+                if(indexes.contains(index))
+                    continue;
 
                 for (int j = 0; j < ms.length; j++) {
 
                     tempStr = IPMap.get(Math.abs(MurmurHash.hash32(ms[j].getSubspaceForward())) % IPMap.size());
 
-                    if(tempStr.equals(lsoArray[indexes[i]].getBROKER_IP())){
+                    if(tempStr.equals(lsoArray[index].getBROKER_IP())){
 
                         messages[count] = ms[j];
+                        indexes.add(index);
                         count++;
 
                         break;
