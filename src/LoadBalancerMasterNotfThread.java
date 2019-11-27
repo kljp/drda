@@ -264,6 +264,13 @@ public class LoadBalancerMasterNotfThread extends Thread {
                                 fos_result.write((matchingRate + "\n").getBytes());
                                 fos_result.flush();
 
+                                synchronized (subscriptions){
+                                    if(!subscriptions.isEmpty()){
+                                        fos_result.write((subscriptions.size() + "\n").getBytes());
+                                        fos_result.flush();
+                                    }
+                                }
+
                                 synchronized (lsos) {
                                     if (!lsos.isEmpty()) {
                                         for (int i = 0; i < lsos.size(); i++){
