@@ -285,6 +285,11 @@ public class LoadBalancerPubRecvThread extends Thread {
                             for (int i = 0; i < loads.length; i++)
                                 prob[i] = (int) (100.0 * ((1.0 - ((double) loads[i] / loadsTotal)) * (1.0 / (loads.length - 1))));
 
+                            for (int i = 0; i < prob.length; i++) {
+                                System.out.print(prob[i] + " ");
+                            }
+                            System.out.println();
+
                             ArrayList<Integer> probs = new ArrayList<Integer>();
 
                             for (int i = 0; i < prob.length; i++) {

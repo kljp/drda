@@ -183,7 +183,7 @@ public class ReplicationGenerator {
             }
         }
 
-        else if(GlobalState.DIST_MODE.equals("PBSUB")){
+        else if(GlobalState.DIST_MODE.equals("RAND")){
 
             int[] indexes = new int[repDeg];
 
@@ -202,76 +202,76 @@ public class ReplicationGenerator {
                 messages[i] = ms[indexes[i]];
         }
 
-//        else if(GlobalState.DIST_MODE.equals("PBSUB") || GlobalState.DIST_MODE.equals("PBAC") || GlobalState.DIST_MODE.equals("PBALL")){
-//
-//            int loadsTotal = 0;
-//            int[] prob;
-//
-//            synchronized (lsos){
-//                lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
-//            }
-//
-//            loads = new int[lsoArray.length];
-//            prob = new int[loads.length];
-//
-//            if(GlobalState.DIST_MODE.equals("PBSUB")){
-//                for (int i = 0; i < lsoArray.length; i++)
-//                    loads[i] = lsoArray[i].getNumSubscriptions();
-//            }
-//            else if(GlobalState.DIST_MODE.equals("PBAC")){
-//                for (int i = 0; i < lsoArray.length; i++)
-//                    loads[i] = lsoArray[i].getAccessCount();
-//            }
-//            else if(GlobalState.DIST_MODE.equals("PBALL")){
-//                for (int i = 0; i < lsoArray.length; i++)
-//                    loads[i] = lsoArray[i].getNumSubscriptions() * lsoArray[i].getAccessCount();
-//            }
-//
-//            for (int i = 0; i < loads.length; i++)
-//                loadsTotal += loads[i];
-//
-//            for (int i = 0; i < loads.length; i++)
-//                prob[i] = (int) (100.0 * ((1.0 - ((double) loads[i] / loadsTotal)) * (1.0 / (loads.length - 1))));
-//
-//            ArrayList<Integer> probs = new ArrayList<Integer>();
-//
-//            for (int i = 0; i < prob.length; i++) {
-//                for (int j = 0; j < prob[i]; j++) {
-//                    probs.add(i);
-//                }
-//            }
-//
-//            int[] indexes = new int[repDeg];
-//
-//            for (int i = 0; i < repDeg; i++) {
-//                indexes[i] = probs.get((int) (Math.random() % probs.size()));
-//
-//                for (int j = 0; j < i; j++) {
-//                    if(indexes[i] == indexes[j]){
-//                        i--;
-//                        break;
-//                    }
-//                }
-//            }
-//            for (int i = 0; i < indexes.length; i++) {
-//
-//                if(count == repDeg)
-//                    break;
-//
-//                for (int j = 0; j < ms.length; j++) {
-//
-//                    tempStr = IPMap.get(Math.abs(MurmurHash.hash32(ms[j].getSubspaceForward())) % IPMap.size());
-//
-//                    if(tempStr.equals(lsoArray[indexes[i]].getBROKER_IP())){
-//
-//                        messages[count] = ms[j];
-//                        count++;
-//
-//                        break;
-//                    }
-//                }
-//            }
-//        }
+        else if(GlobalState.DIST_MODE.equals("PBSUB") || GlobalState.DIST_MODE.equals("PBAC") || GlobalState.DIST_MODE.equals("PBALL")){
+
+            int loadsTotal = 0;
+            int[] prob;
+
+            synchronized (lsos){
+                lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
+            }
+
+            loads = new int[lsoArray.length];
+            prob = new int[loads.length];
+
+            if(GlobalState.DIST_MODE.equals("PBSUB")){
+                for (int i = 0; i < lsoArray.length; i++)
+                    loads[i] = lsoArray[i].getNumSubscriptions();
+            }
+            else if(GlobalState.DIST_MODE.equals("PBAC")){
+                for (int i = 0; i < lsoArray.length; i++)
+                    loads[i] = lsoArray[i].getAccessCount();
+            }
+            else if(GlobalState.DIST_MODE.equals("PBALL")){
+                for (int i = 0; i < lsoArray.length; i++)
+                    loads[i] = lsoArray[i].getNumSubscriptions() * lsoArray[i].getAccessCount();
+            }
+
+            for (int i = 0; i < loads.length; i++)
+                loadsTotal += loads[i];
+
+            for (int i = 0; i < loads.length; i++)
+                prob[i] = (int) (100.0 * ((1.0 - ((double) loads[i] / loadsTotal)) * (1.0 / (loads.length - 1))));
+
+            ArrayList<Integer> probs = new ArrayList<Integer>();
+
+            for (int i = 0; i < prob.length; i++) {
+                for (int j = 0; j < prob[i]; j++) {
+                    probs.add(i);
+                }
+            }
+
+            int[] indexes = new int[repDeg];
+
+            for (int i = 0; i < repDeg; i++) {
+                indexes[i] = probs.get((int) (Math.random() % probs.size()));
+
+                for (int j = 0; j < i; j++) {
+                    if(indexes[i] == indexes[j]){
+                        i--;
+                        break;
+                    }
+                }
+            }
+            for (int i = 0; i < indexes.length; i++) {
+
+                if(count == repDeg)
+                    break;
+
+                for (int j = 0; j < ms.length; j++) {
+
+                    tempStr = IPMap.get(Math.abs(MurmurHash.hash32(ms[j].getSubspaceForward())) % IPMap.size());
+
+                    if(tempStr.equals(lsoArray[indexes[i]].getBROKER_IP())){
+
+                        messages[count] = ms[j];
+                        count++;
+
+                        break;
+                    }
+                }
+            }
+        }
 
         return messages;
     }
