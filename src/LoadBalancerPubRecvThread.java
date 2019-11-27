@@ -270,20 +270,26 @@ public class LoadBalancerPubRecvThread extends Thread {
                                     int checkOut = 0;
                                     String broker = "";
 
-                                    while(true){
+                                    try{
+                                        while(true){
 
-                                        index = probs.get((int) (Math.random() % probs.size()));
+                                            index = probs.get((int) (Math.random() % probs.size()));
 
-                                        for (int j = 0; j < brokers.length; j++) {
-                                            if(lsoArray[index].getBROKER_IP().equals(brokers[j])){
-                                                broker = brokers[j];
-                                                checkOut = 1;
-                                                break;
+                                            for (int j = 0; j < brokers.length; j++) {
+                                                if(lsoArray[index].getBROKER_IP().equals(brokers[j])){
+                                                    broker = brokers[j];
+                                                    checkOut = 1;
+                                                    break;
+                                                }
                                             }
-                                        }
 
-                                        if(checkOut == 1)
-                                            break;
+                                            if(checkOut == 1)
+                                                break;
+                                        }
+                                    } catch(IndexOutOfBoundsException e){
+                                        for (int j = 0; j < prob.length; j++) {
+                                            System.out.println(i + " " + prob[i] + " " + loads[i]);
+                                        }
                                     }
 
                                     synchronized (queues.get(broker)){
