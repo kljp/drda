@@ -84,15 +84,15 @@ public class LoadBalancerMasterNotfThread extends Thread {
                 after = System.currentTimeMillis();
                 elapsed = (after - before) / 1000.0;
 
-                if(checkTime == 0){
+                if(checkTime == 0)
                     curPeriod = GlobalState.PeriodOfSyncFirst;
-                    checkTime = 1;
-                }
                 else
                     curPeriod = GlobalState.PeriodOfSync;
 
 
                 if (elapsed > curPeriod) {
+
+                    checkTime = 1;
 
                     synchronized (tempLsos) {
                         tempLsos.clear();
