@@ -319,7 +319,7 @@ public class LoadBalancerPubRecvThread extends Thread {
                                         String broker = "";
 
                                         while(true){
-                                            System.out.println("///////////////");
+
                                             index = probs.get((int) (Math.random() % probs.size()));
 
                                             for (int j = 0; j < brokers.length; j++) {
@@ -335,6 +335,7 @@ public class LoadBalancerPubRecvThread extends Thread {
                                         }
 
                                         synchronized (queues.get(broker)){
+                                            System.out.println("1");
                                             queues.get(broker).add(temp);
                                         }
 
