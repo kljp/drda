@@ -73,7 +73,6 @@ public class LoadBalancerPubRecvThread extends Thread {
                         else
                             checkBeforeSync = 0;
                     }
-                    System.out.println(checkBeforeSync);
 
                     if(checkBeforeSync == 0){
 
@@ -263,6 +262,11 @@ public class LoadBalancerPubRecvThread extends Thread {
                             synchronized (lsos){
                                 lsoArray = lsos.toArray(new LoadStatusObject[lsos.size()]);
                             }
+
+                            for (int i = 0; i < lsoArray.length; i++) {
+                                System.out.print(lsoArray[i] + " ");
+                            }
+                            System.out.println();
 
                             loads = new int[lsoArray.length];
                             prob = new int[loads.length];
