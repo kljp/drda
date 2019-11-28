@@ -276,7 +276,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
                                 }
 
                                 matchingRate = (double) numEvent / elapsedSync;
-                                double performance = matchingRate * (1 / (memoryOverhead * elapsedSync));
+                                double performance = matchingRate / memoryOverhead;
                                 System.out.println("Evaluated performance = " + performance);
                                 System.out.println("Matching rate between period " + GlobalState.PERIOD_SYNC_START + " and " + GlobalState.PERIOD_SYNC_END + " is " + matchingRate + " (elapsed time = " + elapsedSync +")");
                                 System.out.println("Memory overhead = " + memoryOverhead);
