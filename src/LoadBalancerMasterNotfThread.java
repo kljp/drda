@@ -201,6 +201,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
                         System.out.println("curSync = " + cso.getCurSync());
                     }
 
+                    System.out.println((System.currentTimeMillis() - beforeSync) / 1000.0);
+
                     synchronized (subscriptions){
                         if(!subscriptions.isEmpty())
                             System.out.println("the actual number of subscriptions = " + subscriptions.size());
