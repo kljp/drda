@@ -73,7 +73,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
 
                 fos_lb = new FileOutputStream("./../experiment/loadbalance/loadbalance_" + formattedTime + ".txt");
                 fos_rd = new FileOutputStream("./../experiment/replicationdegree/replicationdegree_" + formattedTime + ".txt");
-                fos_ad = new FileOutputStream("./../experiment/actualdegree/actualdegree" + formattedTime + ".txt");
+                fos_ad = new FileOutputStream("./../experiment/actualdegree/actualdegree_" + formattedTime + ".txt");
                 fos_result = new FileOutputStream("./../experiment/result/result_" + formattedTime + ".txt");
             }
 
@@ -201,8 +201,8 @@ public class LoadBalancerMasterNotfThread extends Thread {
                         System.out.println("curSync = " + cso.getCurSync());
                     }
 
-                    double checkElapsed = (System.currentTimeMillis() - beforeSync) / 1000.0;
-                    System.out.println("elapsed: " + checkElapsed);
+                    double actuallyElapsed = (System.currentTimeMillis() - beforeSync) / 1000.0;
+                    System.out.println("Actually elapsed: " + actuallyElapsed);
 
                     synchronized (subscriptions){
                         if(!subscriptions.isEmpty())
@@ -264,8 +264,22 @@ public class LoadBalancerMasterNotfThread extends Thread {
                                         numEvent = numEvent + (lsos.get(i).getAccessCount() - lsoSyncStart.get(i).getAccessCount());
                                 }
 
+                                double memoryOverhead = 0.0;
+                                synchronized (actualDegHistory){
+                                    if(!actualDegHistory.isEmpty()){
+                                        for (int i = 0; i < actualDegHistory.size(); i++) {
+                                            memoryOverhead += actualDegHistory.get(i);
+                                        }
+
+                                        memoryOverhead /= actualDegHistory.size();
+                                    }
+                                }
+
                                 matchingRate = (double) numEvent / elapsedSync;
+                                double performance = matchingRate * (1 / (memoryOverhead * elapsedSync));
+                                System.out.println("Evaluated performance = " + performance);
                                 System.out.println("Matching rate between period " + GlobalState.PERIOD_SYNC_START + " and " + GlobalState.PERIOD_SYNC_END + " is " + matchingRate + " (elapsed time = " + elapsedSync +")");
+                                System.out.println("Memory overhead = " + memoryOverhead);
 
                                 synchronized (loadbalanceHistory){
                                     if(!loadbalanceHistory.isEmpty()){
@@ -300,7 +314,16 @@ public class LoadBalancerMasterNotfThread extends Thread {
                                     }
                                 }
 
+                                fos_result.write((performance + "\n").getBytes());
+                                fos_result.flush();
+
                                 fos_result.write((matchingRate + "\n").getBytes());
+                                fos_result.flush();
+
+                                fos_result.write((memoryOverhead + "\n").getBytes());
+                                fos_result.flush();
+
+                                fos_result.write((elapsedSync + "\n").getBytes());
                                 fos_result.flush();
 
 
@@ -435,11 +458,11 @@ public class LoadBalancerMasterNotfThread extends Thread {
         }
 
         if(GlobalState.DRDA_MODE.equals("SEMI")){
-            tempRepDeg = 3.0;
+            tempRepDeg = GlobalState.REP_DEG_INIT;
         }
         else{
-            if (tempRepDeg < 3.0 || Double.isNaN(tempRepDeg))
-                tempRepDeg = 3.0;
+            if (tempRepDeg < GlobalState.REP_DEG_INIT || Double.isNaN(tempRepDeg))
+                tempRepDeg = GlobalState.REP_DEG_INIT;
         }
 
         synchronized (repDeg) {
