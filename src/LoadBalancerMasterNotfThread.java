@@ -440,7 +440,7 @@ public class LoadBalancerMasterNotfThread extends Thread {
         loadbalance = Math.sqrt(1 / (nssNormStdDev * acsNormStdDev));
 
         synchronized (IPMap){
-            tempRepDeg = 3.5 * ((double) IPMap.size()) * (1 / loadbalance);
+            tempRepDeg = 2.6 * ((double) IPMap.size()) * (1 / loadbalance);
         }
 
         // for experimental results
